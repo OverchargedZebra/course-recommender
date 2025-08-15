@@ -1,0 +1,5 @@
+# do not commit the values in these files
+.env
+
+# redundant vs code folder not needed for this project
+.vscode

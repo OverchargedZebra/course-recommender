@@ -1,0 +1,38 @@
+# Define the backend service.
+upstream grpc_backend {
+    # This will be replaced by the value of the PORT environment variable.
+    server backend:$BACKEND_PORT;
+}
+
+upstream grpc_web_backend {
+    server envoy:$ENVOY_PORT;
+}
+
+server {
+    listen $NGINX_PORT;
+    http2 on;
+
+    proxy_http_version 1.1;
+
+    server_name localhost;
+    client_max_body_size 64M;
+
+    # Location for serving the Flutter web application.
+    location / {
+        root /usr/share/nginx/html;
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /project_tracker.ProjectTrackerService {
+        if ($content_type !~ 'application\/grpc(?!-web)(.*)') {
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Transfer-Encoding,Custom-Header-1,X-Accept-Content-Transfer-Encoding,X-Accept-Response-Streaming,X-User-Agent,X-Grpc-Web,content-type,snet-current-block-number,snet-free-call-user-id,snet-payment-channel-signature-bin,snet-payment-type,x-grpc-web';
+            add_header 'Access-Control-Max-Age' 1728000;
+            add_header 'Content-Type' 'text/plain charset=UTF-8';
+            add_header 'Content-Length' 0;
+            proxy_pass http://grpc_web_backend;
+        }
+
+        grpc_pass grpc://grpc_backend;
+    }
+}

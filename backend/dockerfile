@@ -1,0 +1,20 @@
+# Use an Alpine Linux base image
+FROM golang:tip-alpine3.22 AS builder
+
+WORKDIR /app
+
+# Copy and download dependencies
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+
+# Build a static binary, free of external dependencies
+RUN CGO_ENABLED=0 GOOS=linux go build -o /server ./cmd/main.go
+
+# Stage 2: The Final Image - starts from a blank slate
+FROM scratch
+
+# Copy only the compiled binary from the builder
+COPY --from=builder /server /server
+
+ENTRYPOINT ["/server"]
