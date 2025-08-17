@@ -1,4 +1,4 @@
-# Use an Alpine Linux base image
+# Stage 1: Build the application so that it can be run in a container without taking up unnecessary space
 FROM golang:tip-alpine3.22 AS builder
 
 WORKDIR /app

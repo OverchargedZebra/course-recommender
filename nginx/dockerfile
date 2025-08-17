@@ -1,4 +1,3 @@
-# Use a specific, minimal base image
 FROM nginx
 
 # Remove the default config

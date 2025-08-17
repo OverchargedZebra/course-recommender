@@ -1,0 +1,407 @@
+id,course_name,difficulty
+1,principles of financial accounting,1
+2,principles of management accounting,1
+3,theory and concepts of accounting - islamic perspective,2
+4,corporate financial reporting i,2
+5,applied financial analysis,4
+6,"governance, risk and compliance",4
+7,introduction to finance and accounting,2
+8,financial management and accounting,5
+9,analytics in accounting and control,6
+10,foundations of ai,5
+11,mathematics for ai,5
+12,introduction to cultural anthropology,1
+13,anthropology of social media,2
+14,modernity as a way of life,3
+15,putting social science to the test: mixed-methods approaches to lahore’s developmental challenges,4
+16,children of abraham,4
+17,caste in south asia and beyond,4
+18,introductory biology,1
+19,molecular biology,2
+20,genetics,2
+21,methods in cell and molecular biology,3
+22,cell biology,3
+23,computational biology ii,3
+24,seminars in biology,4
+25,"critical thinking, scientific writing and ethics",4
+26,introduction to computational neuroscience,4
+27,advanced methods in biology,5
+28,"critical thinking, scientific writing and ethics",5
+29,biophysical techniques,5
+30,advanced molecular and cell biology,5
+31,molecular mechanisms of bacterial pathagenesis,5
+32,rna biology,5
+33,evolution,5
+34,computational biology,5
+35,physical chemistry,2
+36,principles of chemical engineering,2
+37,particle science and engineering,2
+38,chemical engineering lab ii,3
+39,air pollution,3
+40,separation processes,3
+41,math methods in chemical engineering ii,3
+42,heat and mass transfer,3
+43,chemical process design,4
+44,chemical engineering lab - v,4
+45,chemical engineering lab - vi,4
+46,"renewable energy: fundamentals, applications, and economics",4
+47,chemical process safety,4
+48,transport processes in the environment,7
+49,principles of chemistry,1
+50,molecular symmetry i,2
+51,fundamentals of organic chemistry,2
+52,quantum chemistry,3
+53,inorganic chemistry i,3
+54,chemistry of the organic functional groups,3
+55,analytical chemistry i,3
+56,physical chemistry lab,4
+57,organic chemistry lab ii,4
+58,characterization techniques for materials,5
+59,advanced inorganic chemistry i,5
+60,advanced organic chemistry i,5
+61,chemistry of biomolecule,5
+62,selected topics in inorganic chemistry,7
+63,selected topics in organic chemistry,7
+64,engaging with texts and contexts,1
+65,mechanics of fiction,2
+66,urdu afsana,2
+67,fountain of the sun: rumi's masnavi and divan,2
+68,the critical lens: the art of filmmaking,2
+69,introduction to illustrative storytelling,2
+70,aag ka darya: a close reading,3
+71,film and screen studies research seminar,3
+72,the craft of translation,3
+73,life writing and the multilingual self,3
+74,computational problem solving,1
+75,introduction to programming,2
+76,data structures,2
+77,discrete mathematics,2
+78,fundamentals of computer systems,2
+79,algorithms,3
+80,principles and techniques of data science,3
+81,databases,3
+82,e-government,3
+83,operating systems,3
+84,digital system design,4
+85,digital system design lab,4
+86,computer vision fundamentals,4
+87,deep learning,4
+88,machine learning,4
+89,computer graphics,4
+90,coding for careers,4
+91,cloud development,4
+92,applied probability,5
+93,game design and development,5
+94,distributed systems,5
+95,hardware design for iot security,5
+96,computer architecture,6
+97,"topics in large language models: systems, applications and impacts",6
+98,multi-agent systems,6
+99,topics in computer and network security,6
+100,computer and problem solving,1
+101,probability and statistics,2
+102,introduction to management science,2
+103,operations management,2
+104,qualitative and quantitative methods in business,3
+105,decision analysis,3
+106,optimization methods in management science,3
+107,decision behaviour,3
+108,risk management process,3
+109,project management,3
+110,supply chain and logistics management,3
+111,business analytics,4
+112,applied statistics,7
+113,seminar in supply chain analysis,8
+114,seminar in technology and innovation management,8
+115,principles of economics,1
+116,principles of microeconomics,1
+117,principles of macroeconomics,1
+118,intermediate microeconomics,2
+119,intermediate macroeconomics,2
+120,statistics and data analysis,2
+121,introduction to game theory,2
+122,development economics,2
+123,sectors and policy in development,2
+124,principles of finance,2
+125,mathematical applications in economics,2
+126,economic history of south asia,3
+127,econometrics,3
+128,gender economics,3
+129,agriculture and food policy,3
+130,money and monetary policy: applications to pakistan,3
+131,economics of investment and finance,3
+132,economics of education,4
+133,gender and the labor market,4
+134,computational macroeconomics,4
+135,econometrics ii,4
+136,development economics theory,4
+137,issues in economic policy,4
+138,philosophy and economics,4
+139,microeconomic analysis,5
+140,econometrics and research methodology i,5
+141,topics in mathematical method for economists,5
+142,critical debates in education,2
+143,"education and international development - concepts, theories, and issues",2
+144,trauma-informed education systems: creating cultures of support and change,2
+145,"education, schools and violence",2
+146,gender media and education,2
+147,designing immersive learning experiences: student-centered instructional skills training,3
+148,socio emotional learning,3
+149,"inclusive pedagogy: rethinking teaching, learning and assessment",3
+150,the (instructional) core and how to work it,3
+151,education and conflict,3
+152,mobile lives: im/migration and education,3
+153,behavior analysis for effective teaching,4
+154,interdisciplinary theoretical perspectives on education,5
+155,the arts and education,5
+156,education and happiness: combining learning with hope and positivity,5
+157,enhancing inclusion: exploring autism and intellectual disability,5
+158,leadership: the politics of change,5
+159,research methods,5
+160,observing schools,5
+161,practicum proseminar,6
+162,academic writing,6
+163,professional learning in education,5
+164,arts-based research: exploring creative practices in educational inquiry,6
+165,impact evaluation methods in education,6
+166,sophomore design studio,2
+167,engineering models,2
+168,circuits i,2
+169,microcontroller and interfacing,3
+170,microcontroller and interfacing lab,3
+171,electromagnetic fields and waves,3
+172,devices and electronics,3
+173,devices and electronics lab,3
+174,communication systems,3
+175,communication systems lab,3
+176,power electronics,4
+177,power electronics lab,4
+178,power systems protection and stability,4
+179,electrodynamics,5
+180,advanced topics in machine learning,5
+181,vlsi design for artificial intelligence,5
+182,"data analysis, design of experiments and physics informed ml",5
+183,local solutions for energy access,5
+184,renewable energy systems,5
+185,smart grid: technology and applications,5
+186,understanding financial accounting: making more authoritative decisions,5
+187,corporate finance,5
+188,marketing management,5
+189,problem solving and decision making,5
+190,business law,5
+191,venture creation,6
+192,design and measurement lab,1
+193,introduction to literature in english,1
+194,writing south asia,1
+195,introduction to humour writing,1
+196,comics scholarship and graphic narrative,2
+197,"rethinking the politics of harem in literature: women, islam, and gendered spaces",2
+198,text and tech: digital approaches to the humanities,2
+199,'the empire writes back': diaspora fiction in europe,3
+200,african literature: women writing back,3
+201,introduction to environmental studies,1
+202,disasters,1
+203,methods in environmental studies,2
+204,environmentalism and development,3
+205,intermediate finance,2
+206,fintech revolution: market disruption and emerging opportunities,2
+207,actuarial sciences and insurance,3
+208,fundamentals of actuarial mathematics i,3
+209,applied corporate finance,4
+210,financial modelling,4
+211,islamic banking and finance,4
+212,portfolio management,4
+213,mathematical modeling,7
+214,seminar in islamic and corporate finance,8
+215,seminar in financial intermediation and regualatory framework,8
+216,financial statement analysis and value creation,5
+217,chinese language for beginners (hsk level 1),1
+218,writing from the trial,2
+219,introduction to gender and sexuality studies,2
+220,master narratives: minding gender and media gaps,2
+221,feminist theory,3
+222,east asian history,1
+223,the world since 1453,1
+224,making of modern afghanistan,2
+225,a brief history of evil,2
+226,conceptual understanding of borders and borderlands studies,2
+227,19th century sikh wall paintings in punjab,3
+228,civil war in the 20th century,3
+229,the cold war,3
+230,"the atomic age: control, confrontation, disaster",3
+231,islamic historiography: an introduction,3
+232,walking in the city: mapping everyday life in lahore,4
+233,healthcare operations management,6
+234,arabic for quran,1
+235,introduction to balochi language,1
+236,introduction to punjabi language,1
+237,introduction to arabic language,1
+238,introduction to persian language,1
+239,sindhi for non-sindhi speakers,1
+240,pashto for non-native speakers,1
+241,pashto: intermediate proficiency,2
+242,the art of reading and writing punjabi,2
+243,sindhi: intermediate proficiency,2
+244,contemporary persian for social and professional use,2
+245,enhancing urdu reading and writing skills,2
+246,civil procedure,4
+247,introduction to pakistan legal system,1
+248,contracts,2
+249,torts,2
+250,criminal law,2
+251,legal practice i: legal writing and research methods,2
+252,advanced writing from the trial,3
+253,international relations and international law: chinese perspectives,3
+254,public international law,3
+255,human rights,3
+256,marxist theories of law,4
+257,"crime, law and finance: wonders of white color crime in pakistan!",4
+258,parliamentary power play,4
+259,the jurisprudence of extractivism,4
+260,business and human rights: a critical legal perspective from the south,4
+261,criminal procedure,4
+262,legal practice ii: legal instruments,4
+263,prison paralegal clinic,4
+264,pre-calculus,1
+265,calculus i,1
+266,calculus i (honours),1
+267,calculus ii,1
+268,linear algebra with differential equations,1
+269,introduction to formal mathematics,2
+270,introduction to differential equations,2
+271,linear algebra ii,2
+272,probability,2
+273,complex variables,3
+274,introduction to analysis ii,3
+275,operations research i,3
+276,symmetry methods for differential equations,4
+277,numerical linear algebra,4
+278,"symmetry methods, conservation laws and exact solutions for differential equations",5
+279,advanced algebra,5
+280,probability and statistical analysis,5
+281,advanced numerical linear algebra,5
+282,operational research i,5
+283,organizational behaviour,5
+284,managerial communication,5
+285,financial accounting i,5
+286,financial accounting ii,5
+287,finance fundamentals,5
+288,statistical analysis for management,5
+289,experiential learning i,5
+290,islamic banking,6
+291,investments,6
+292,entrepreneurial finance,6
+293,supply chain management,6
+294,blockchain and cryptocurrency,6
+295,data visualization,6
+296,digital marketing,6
+297,retail management,6
+298,consumer analytics,6
+299,channel management,6
+300,brand management,6
+301,sales force management,6
+302,human resource management,6
+303,managing workplace diversity,6
+304,understanding and managing self-identity in contemporary organizations,6
+305,negotiation skills,6
+306,corporate entrepreneurship,6
+307,business development and economy,6
+308,family business,6
+309,managing in the information age,6
+310,financial markets,6
+311,"the fintech revolution: concept, conversation and challenges",6
+312,strategic management of non-profit enterprises,6
+313,introduction to business economics,2
+314,business economics,5
+315,economic theory,7
+316,principles of management,1
+317,business communication,2
+318,business ethics and corporate social responsibility,2
+319,public administration,2
+320,public financial management,2
+321,logic and critical thinking,2
+322,introduction to management,2
+323,introduction to policy analysis,2
+324,governance system of pakistan,2
+325,contemporary social policy issues in pakistan,2
+326,fundamentals of hospitality management,2
+327,internet governance and technology policy,3
+328,"business, government, and society",3
+329,strategic business management,4
+330,entrepreneurship,4
+331,philosophy of administrative sciences,7
+332,seminar in strategic management,8
+333,principles of marketing,2
+334,introduction to marketing,2
+335,using new media technologies in marketing,3
+336,integrated marketing communications,3
+337,consumer behaviour,3
+338,marketing models,3
+339,data analytics for new product development,3
+340,organizations and leadership,5
+341,applications of psychology in management,7
+342,seminar in human resource management,8
+343,introduction to logic,1
+344,introduction to philosophy ii,2
+345,contemporary moral problems,2
+346,mechanics,1
+347,electricity and magnetism,2
+348,quantum mechanics i,2
+349,mathematical methods in physics and engineering i,2
+350,experimental physics lab ii,3
+351,classical mechanics,3
+352,statistical mechanics,3
+353,relativistic electrodynamics,4
+354,graduate physics lab,5
+355,advanced statistical mechanics,5
+356,quantum algorithms,5
+357,advanced quantum mechanics,5
+358,magnetism: theory and experiment,6
+359,comparative politics,3
+360,introduction to political science,1
+361,introduction to politics in developing countries,1
+362,introduction to political theory,2
+363,decolonizing democracy: lessons from the global south,2
+364,women and political theory,2
+365,making modern afghanistan,2
+366,political islam: ideology and politics,3
+367,qualitative research methods in political science,3
+368,marxism and the modern world,3
+369,theories of ir,3
+370,terrorism as political action,3
+371,political leadership,4
+372,diplomacy in international relations,4
+373,introduction to psychology and human behavior,1
+374,theories of learning,2
+375,perception,2
+376,psychopathology,2
+377,social psychology,3
+378,life span development,3
+379,what is religion,2
+380,introduction to quranic and modern standard arabic,2
+381,scientific imagination and the religious mind,2
+382,"religion, conflict, and peace building",2
+383,religion and existentialism,3
+384,"what is ""islamic"" history?",3
+385,experience and interpretation in muslim feminist scriptural discourse,3
+386,stem teaching in the ai era,5
+387,operations and supply chain strategy,6
+388,introduction to sociology,1
+389,classical sociological theory,3
+390,quantitative research methods,3
+391,the informal economy,3
+392,social science and the post-secular age,3
+393,introduction to writing,1
+394,writing and communication,1
+395,islamic studies,1
+396,pakistan studies: culture and heritage,1
+397,"sur, tal aur rag: foundations of south asian music",1
+398,introduction to kathak,1
+399,applied statistics for humanities,1
+400,media writing,2
+401,professional communication skills,3
+402,first year tutorial,1
+403,swimming for beginners,1
+404,strength training and conditioning for beginners,1
+405,basketball for beginners,1
+406,"walk, jog and stretch for fitness",1
