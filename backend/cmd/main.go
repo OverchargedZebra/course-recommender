@@ -7,9 +7,9 @@ import (
 	"net"
 	"os"
 
-	"github.com/OverchargedZebra/course-recommender/backend/cmd/server"
-	"github.com/OverchargedZebra/course-recommender/backend/internal/db"
-	"github.com/OverchargedZebra/course-recommender/backend/internal/server/api"
+	"OverchargedZebra/course-recommender/backend/cmd/server"
+	"OverchargedZebra/course-recommender/backend/internal/db"
+	"OverchargedZebra/course-recommender/backend/internal/server/api"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"google.golang.org/grpc"

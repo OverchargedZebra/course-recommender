@@ -59,7 +59,6 @@ services:
             context: ./nginx
         container_name: course_recommender_nginx
         depends_on:
-            - backend
             - envoy
         environment:
             - BACKEND_PORT=${BACKEND_PORT}

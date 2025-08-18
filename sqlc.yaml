@@ -10,3 +10,12 @@ sql:
         sql_package: "pgx/v5"
         emit_json_tags: true
         emit_interface: true
+        overrides:
+          - column: "degree_type.degree_name_tsv"
+            go_type: "string"
+          - column: "course.course_name_tsv"
+            go_type: "string"
+          - column: "tag.tag_name_tsv"
+            go_type: "string"
+          - db_type: "tsquery"
+            go_type: "string"

@@ -1,8 +1,8 @@
 package server
 
 import (
-	"github.com/OverchargedZebra/course-recommender/backend/internal/db"
-	"github.com/OverchargedZebra/course-recommender/backend/internal/server/api"
+	"OverchargedZebra/course-recommender/backend/internal/db"
+	"OverchargedZebra/course-recommender/backend/internal/server/api"
 )
 
 // Server implements the gRPC service.

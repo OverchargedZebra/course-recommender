@@ -4,7 +4,7 @@ run:
 down:
 	@docker compose down -v
 
-sqlc:
+sqlcgen:
 	@sqlc generate
 
 goproto:
