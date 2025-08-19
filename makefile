@@ -4,6 +4,9 @@ run:
 down:
 	@docker compose down -v
 
+flutterweb:
+	@cd ./frontend && flutter build web --wasm
+
 sqlcgen:
 	@sqlc generate
 
@@ -21,5 +24,4 @@ dartproto:
 	-I="$(PROTO_PATH)/include" \
 	--dart_out=grpc:./frontend/lib/src/generated \
 	./proto/*.proto \
-	"$(PROTO_PATH)/include/google/protobuf/timestamp.proto" \
-	"$(PROTO_PATH)/include/google/protobuf/empty.proto"
+	"$(PROTO_PATH)/include/google/protobuf/wrappers.proto"

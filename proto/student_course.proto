@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package course_recommender;
+
+option go_package = "./api";
+
+import "google/protobuf/wrappers.proto";
+import "student.proto";
+import "course.proto";
+
+// The StudentCourse message, representing the many-to-many relationship
+// between students and courses, including marks and feedback.
+message StudentCourse {
+  int64 student_id = 1;
+  int64 course_id = 2;
+  int32 marks = 3;
+  string feedback = 4;
+}
+
+// Request to create a new student-course association (enrollment).
+message CreateStudentCourseRequest {
+  int64 student_id = 1;
+  int64 course_id = 2;
+}
+
+// Response containing the newly created student-course association.
+message CreateStudentCourseResponse {
+  StudentCourse student_course = 1;
+}
+
+// Request to update a student's marks and feedback for a course.
+message UpdateStudentCourseRequest {
+  int64 student_id = 1;
+  int64 course_id = 2;
+  google.protobuf.Int32Value marks = 3;
+  google.protobuf.StringValue feedback = 4;
+}
+
+// Response containing the updated student-course association.
+message UpdateStudentCourseResponse {
+  StudentCourse student_course = 1;
+}
+
+// Request to get all students enrolled in a specific course.
+message GetStudentsByCourseIdRequest {
+  int64 course_id = 1;
+}
+
+// Response containing a list of students for a specific course.
+message GetStudentsByCourseIdResponse {
+  repeated Student students = 1;
+}
+
+// Request to get all courses a specific student is enrolled in.
+message GetCoursesByStudentIdRequest {
+  int64 student_id = 1;
+}
+
+// Response containing a list of courses for a specific student.
+message GetCoursesByStudentIdResponse {
+  repeated Course courses = 1;
+}
+
+// Request to delete a student-course association.
+message DeleteStudentCourseRequest {
+  int64 student_id = 1;
+  int64 course_id = 2;
+}
+
+// Response indicating whether the deletion was successful.
+message DeleteStudentCourseResponse {
+  bool success = 1;
+}
+
+// The gRPC service definition for student-course associations.
+service StudentCourseService {
+  // Creates a new student-course association.
+  rpc CreateStudentCourse(CreateStudentCourseRequest) returns (CreateStudentCourseResponse);
+  // Updates a student's marks and feedback for a course.
+  rpc UpdateStudentCourse(UpdateStudentCourseRequest) returns (UpdateStudentCourseResponse);
+  // Retrieves all students for a specific course.
+  rpc GetStudentsByCourseId(GetStudentsByCourseIdRequest) returns (GetStudentsByCourseIdResponse);
+  // Retrieves all courses for a specific student.
+  rpc GetCoursesByStudentId(GetCoursesByStudentIdRequest) returns (GetCoursesByStudentIdResponse);
+  // Deletes a student-course association.
+  rpc DeleteStudentCourse(DeleteStudentCourseRequest) returns (DeleteStudentCourseResponse);
+}

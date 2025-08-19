@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package course_recommender;
+
+option go_package = "./api";
+
+import "google/protobuf/wrappers.proto";
+
+// The main CourseQuestion message, representing a question for a course.
+message CourseQuestion {
+  int64 id = 1;
+  int64 course_id = 2;
+  string question = 3;
+  string question_option_a = 4;
+  string question_option_b = 5;
+  string question_option_c = 6;
+  string question_option_d = 7;
+  string correct_option = 8;
+}
+
+// Request to create a new course question.
+message CreateCourseQuestionRequest {
+  int64 course_id = 1;
+  string question = 2;
+  string question_option_a = 3;
+  string question_option_b = 4;
+  string question_option_c = 5;
+  string question_option_d = 6;
+  string correct_option = 7;
+}
+
+// Response containing the newly created course question.
+message CreateCourseQuestionResponse {
+  CourseQuestion course_question = 1;
+}
+
+// Request to get a course question by its ID.
+message GetCourseQuestionRequest {
+  int64 id = 1;
+}
+
+// Response containing the requested course question.
+message GetCourseQuestionResponse {
+  CourseQuestion course_question = 1;
+}
+
+// Request to update an existing course question.
+message UpdateCourseQuestionRequest {
+  int64 id = 1;
+  google.protobuf.StringValue question = 2;
+  google.protobuf.StringValue question_option_a = 3;
+  google.protobuf.StringValue question_option_b = 4;
+  google.protobuf.StringValue question_option_c = 5;
+  google.protobuf.StringValue question_option_d = 6;
+  google.protobuf.StringValue correct_option = 7;
+}
+
+// Response containing the updated course question.
+message UpdateCourseQuestionResponse {
+  CourseQuestion course_question = 1;
+}
+
+// Request to list all course questions.
+message ListCourseQuestionsRequest {}
+
+// Response containing a list of all course questions.
+message ListCourseQuestionsResponse {
+  repeated CourseQuestion course_questions = 1;
+}
+
+// Request to delete a course question by its ID.
+message DeleteCourseQuestionRequest {
+  int64 id = 1;
+}
+
+// Response indicating whether the deletion was successful.
+message DeleteCourseQuestionResponse {
+  bool success = 1;
+}
+
+// Request to get all questions for a specific course.
+message GetCourseQuestionsByCourseIdRequest {
+    int64 course_id = 1;
+}
+
+// Response containing a list of questions for a specific course.
+message GetCourseQuestionsByCourseIdResponse {
+    repeated CourseQuestion course_questions = 1;
+}
+
+// The gRPC service definition for course questions.
+service CourseQuestionService {
+  // Creates a new course question.
+  rpc CreateCourseQuestion(CreateCourseQuestionRequest) returns (CreateCourseQuestionResponse);
+  // Retrieves a course question by its ID.
+  rpc GetCourseQuestion(GetCourseQuestionRequest) returns (GetCourseQuestionResponse);
+  // Updates an existing course question.
+  rpc UpdateCourseQuestion(UpdateCourseQuestionRequest) returns (UpdateCourseQuestionResponse);
+  // Lists all course questions.
+  rpc ListCourseQuestions(ListCourseQuestionsRequest) returns (ListCourseQuestionsResponse);
+  // Deletes a course question by its ID.
+  rpc DeleteCourseQuestion(DeleteCourseQuestionRequest) returns (DeleteCourseQuestionResponse);
+  // Retrieves all questions for a specific course.
+  rpc GetCourseQuestionsByCourseId(GetCourseQuestionsByCourseIdRequest) returns (GetCourseQuestionsByCourseIdResponse);
+}

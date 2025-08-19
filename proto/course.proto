@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package course_recommender;
+
+option go_package = "./api";
+
+import "google/protobuf/wrappers.proto";
+
+// The main Course message, representing a course in the database.
+message Course {
+  int64 id = 1;
+  string course_name = 2;
+  int32 difficulty = 3;
+}
+
+// Request to create a new course.
+message CreateCourseRequest {
+  string course_name = 1;
+  int32 difficulty = 2;
+}
+
+// Response containing the newly created course.
+message CreateCourseResponse {
+  Course course = 1;
+}
+
+// Request to get a course by its ID.
+message GetCourseRequest {
+  int64 id = 1;
+}
+
+// Response containing the requested course.
+message GetCourseResponse {
+  Course course = 1;
+}
+
+// Request to get courses by name.
+message GetCourseByNameRequest {
+  google.protobuf.StringValue course_name = 1;
+}
+
+// Response containing a list of courses that match the name.
+message GetCourseByNameResponse {
+  repeated Course courses = 1;
+}
+
+// Request to update an existing course.
+message UpdateCourseRequest {
+  int64 id = 1;
+  google.protobuf.StringValue course_name = 2;
+  google.protobuf.Int32Value difficulty = 3;
+}
+
+// Response containing the updated course.
+message UpdateCourseResponse {
+  Course course = 1;
+}
+
+// Request to list all courses.
+message ListCoursesRequest {}
+
+// Response containing a list of all courses.
+message ListCoursesResponse {
+  repeated Course courses = 1;
+}
+
+// Request to delete a course by its ID.
+message DeleteCourseRequest {
+  int64 id = 1;
+}
+
+// Response indicating whether the deletion was successful.
+message DeleteCourseResponse {
+  bool success = 1;
+}
+
+// The gRPC service definition.
+service CourseService {
+  // Creates a new course.
+  rpc CreateCourse(CreateCourseRequest) returns (CreateCourseResponse);
+  // Retrieves a course by its ID.
+  rpc GetCourse(GetCourseRequest) returns (GetCourseResponse);
+  // Retrieves courses by name.
+  rpc GetCourseByName(GetCourseByNameRequest) returns (GetCourseByNameResponse);
+  // Updates an existing course.
+  rpc UpdateCourse(UpdateCourseRequest) returns (UpdateCourseResponse);
+  // Lists all courses.
+  rpc ListCourses(ListCoursesRequest) returns (ListCoursesResponse);
+  // Deletes a course by its ID.
+  rpc DeleteCourse(DeleteCourseRequest) returns (DeleteCourseResponse);
+}

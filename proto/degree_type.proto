@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package course_recommender;
+
+option go_package = "./api";
+
+import "google/protobuf/wrappers.proto";
+
+// The main DegreeType message, representing a degree type in the database.
+message DegreeType {
+  int64 id = 1;
+  string degree_name = 2;
+}
+
+// Request to create a new degree type.
+message CreateDegreeTypeRequest {
+  string degree_name = 1;
+}
+
+// Response containing the newly created degree type.
+message CreateDegreeTypeResponse {
+  DegreeType degree_type = 1;
+}
+
+// Request to get a degree type by its ID.
+message GetDegreeTypeRequest {
+  int64 id = 1;
+}
+
+// Response containing the requested degree type.
+message GetDegreeTypeResponse {
+  DegreeType degree_type = 1;
+}
+
+// Request to get degree types by name.
+message GetDegreeTypeByNameRequest {
+  google.protobuf.StringValue degree_name = 1;
+}
+
+// Response containing a list of degree types that match the name.
+message GetDegreeTypeByNameResponse {
+  repeated DegreeType degree_types = 1;
+}
+
+// Request to update an existing degree type.
+message UpdateDegreeTypeRequest {
+  int64 id = 1;
+  google.protobuf.StringValue degree_name = 2;
+}
+
+// Response containing the updated degree type.
+message UpdateDegreeTypeResponse {
+  DegreeType degree_type = 1;
+}
+
+// Request to list all degree types.
+message ListDegreeTypesRequest {}
+
+// Response containing a list of all degree types.
+message ListDegreeTypesResponse {
+  repeated DegreeType degree_types = 1;
+}
+
+// Request to delete a degree type by its ID.
+message DeleteDegreeTypeRequest {
+  int64 id = 1;
+}
+
+// Response indicating whether the deletion was successful.
+message DeleteDegreeTypeResponse {
+  bool success = 1;
+}
+
+// The gRPC service definition for degree types.
+service DegreeTypeService {
+  // Creates a new degree type.
+  rpc CreateDegreeType(CreateDegreeTypeRequest) returns (CreateDegreeTypeResponse);
+  // Retrieves a degree type by its ID.
+  rpc GetDegreeType(GetDegreeTypeRequest) returns (GetDegreeTypeResponse);
+  // Retrieves degree types by name.
+  rpc GetDegreeTypeByName(GetDegreeTypeByNameRequest) returns (GetDegreeTypeByNameResponse);
+  // Updates an existing degree type.
+  rpc UpdateDegreeType(UpdateDegreeTypeRequest) returns (UpdateDegreeTypeResponse);
+  // Lists all degree types.
+  rpc ListDegreeTypes(ListDegreeTypesRequest) returns (ListDegreeTypesResponse);
+  // Deletes a degree type by its ID.
+  rpc DeleteDegreeType(DeleteDegreeTypeRequest) returns (DeleteDegreeTypeResponse);
+}

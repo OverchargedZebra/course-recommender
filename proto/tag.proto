@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package course_recommender;
+
+option go_package = "./api";
+
+import "google/protobuf/wrappers.proto";
+
+// The main Tag message, representing a tag in the database.
+message Tag {
+  int64 id = 1;
+  string tag_name = 2;
+}
+
+// Request to create a new tag.
+message CreateTagRequest {
+  string tag_name = 1;
+}
+
+// Response containing the newly created tag.
+message CreateTagResponse {
+  Tag tag = 1;
+}
+
+// Request to get a tag by its ID.
+message GetTagRequest {
+  int64 id = 1;
+}
+
+// Response containing the requested tag.
+message GetTagResponse {
+  Tag tag = 1;
+}
+
+// Request to get tags by name.
+message GetTagByNameRequest {
+  google.protobuf.StringValue tag_name = 1;
+}
+
+// Response containing a list of tags that match the name.
+message GetTagByNameResponse {
+  repeated Tag tags = 1;
+}
+
+// Request to update an existing tag.
+message UpdateTagRequest {
+  int64 id = 1;
+  google.protobuf.StringValue tag_name = 2;
+}
+
+// Response containing the updated tag.
+message UpdateTagResponse {
+  Tag tag = 1;
+}
+
+// Request to list all tags.
+message ListTagsRequest {}
+
+// Response containing a list of all tags.
+message ListTagsResponse {
+  repeated Tag tags = 1;
+}
+
+// Request to delete a tag by its ID.
+message DeleteTagRequest {
+  int64 id = 1;
+}
+
+// Response indicating whether the deletion was successful.
+message DeleteTagResponse {
+  bool success = 1;
+}
+
+// The gRPC service definition for tags.
+service TagService {
+  // Creates a new tag.
+  rpc CreateTag(CreateTagRequest) returns (CreateTagResponse);
+  // Retrieves a tag by its ID.
+  rpc GetTag(GetTagRequest) returns (GetTagResponse);
+  // Retrieves tags by name.
+  rpc GetTagByName(GetTagByNameRequest) returns (GetTagByNameResponse);
+  // Updates an existing tag.
+  rpc UpdateTag(UpdateTagRequest) returns (UpdateTagResponse);
+  // Lists all tags.
+  rpc ListTags(ListTagsRequest) returns (ListTagsResponse);
+  // Deletes a tag by its ID.
+  rpc DeleteTag(DeleteTagRequest) returns (DeleteTagResponse);
+}

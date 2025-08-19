@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package course_recommender;
+
+option go_package = "./api";
+
+import "google/protobuf/wrappers.proto";
+
+// The main Student message, representing a student in the database.
+// Note: Exposing password fields in APIs should be handled with care.
+message Student {
+  int64 id = 1;
+  string student_email = 2;
+  string student_password = 3; // In a real-world app, this would likely be a hashed password.
+}
+
+// Request to create a new student.
+message CreateStudentRequest {
+  string student_email = 1;
+  string student_password = 2;
+}
+
+// Response containing the newly created student.
+message CreateStudentResponse {
+  Student student = 1;
+}
+
+// Request to get a student by their ID.
+message GetStudentRequest {
+  int64 id = 1;
+}
+
+// Response containing the requested student.
+message GetStudentResponse {
+  Student student = 1;
+}
+
+// Request to get a student by their email.
+message GetStudentByEmailRequest {
+    string student_email = 1;
+}
+
+// Response containing the requested student.
+message GetStudentByEmailResponse {
+    Student student = 1;
+}
+
+// Request to update an existing student's information.
+message UpdateStudentRequest {
+  int64 id = 1;
+  google.protobuf.StringValue student_email = 2;
+  google.protobuf.StringValue student_password = 3;
+}
+
+// Response containing the updated student.
+message UpdateStudentResponse {
+  Student student = 1;
+}
+
+// Request to list all students.
+message ListStudentsRequest {}
+
+// Response containing a list of all students.
+message ListStudentsResponse {
+  repeated Student students = 1;
+}
+
+// Request to delete a student by their ID.
+message DeleteStudentRequest {
+  int64 id = 1;
+}
+
+// Response indicating whether the deletion was successful.
+message DeleteStudentResponse {
+  bool success = 1;
+}
+
+// The gRPC service definition for students.
+service StudentService {
+  // Creates a new student.
+  rpc CreateStudent(CreateStudentRequest) returns (CreateStudentResponse);
+  // Retrieves a student by their ID.
+  rpc GetStudent(GetStudentRequest) returns (GetStudentResponse);
+  // Retrieves a student by their email.
+  rpc GetStudentByEmail(GetStudentByEmailRequest) returns (GetStudentByEmailResponse);
+  // Updates an existing student's information.
+  rpc UpdateStudent(UpdateStudentRequest) returns (UpdateStudentResponse);
+  // Lists all students.
+  rpc ListStudents(ListStudentsRequest) returns (ListStudentsResponse);
+  // Deletes a student by their ID.
+  rpc DeleteStudent(DeleteStudentRequest) returns (DeleteStudentResponse);
+}
