@@ -14,7 +14,7 @@ import (
 const createCourse = `-- name: CreateCourse :one
 INSERT INTO course (course_name, difficulty)
 VALUES ($1, $2)
-RETURNING id, difficulty, course_name, course_name_tsv
+RETURNING id, difficulty, course_name, search_vector
 `
 
 type CreateCourseParams struct {
@@ -29,7 +29,7 @@ func (q *Queries) CreateCourse(ctx context.Context, arg CreateCourseParams) (Cou
 		&i.ID,
 		&i.Difficulty,
 		&i.CourseName,
-		&i.CourseNameTsv,
+		&i.SearchVector,
 	)
 	return i, err
 }
@@ -48,7 +48,7 @@ func (q *Queries) DeleteCourse(ctx context.Context, id int64) (bool, error) {
 }
 
 const getCourse = `-- name: GetCourse :one
-SELECT id, difficulty, course_name, course_name_tsv
+SELECT id, difficulty, course_name, search_vector
 FROM course
 WHERE id = $1
 `
@@ -60,26 +60,23 @@ func (q *Queries) GetCourse(ctx context.Context, id int64) (Course, error) {
 		&i.ID,
 		&i.Difficulty,
 		&i.CourseName,
-		&i.CourseNameTsv,
+		&i.SearchVector,
 	)
 	return i, err
 }
 
 const getCourseByName = `-- name: GetCourseByName :many
-SELECT course.id, course.difficulty, course.course_name, course.course_name_tsv,
-    ts_rank(course_name_tsv, query) AS match_ranking
+SELECT course.id, course.difficulty, course.course_name, course.search_vector,
+    ts_rank(search_vector, query) AS match_ranking
 FROM course,
-    to_tsquery(COALESCE($1::TEXT, '')) AS query
-WHERE course_name_tsv @@ query
+    websearch_to_tsquery(COALESCE($1::TEXT, '')) AS query
+WHERE search_vector @@ query
 ORDER BY match_ranking DESC
 `
 
 type GetCourseByNameRow struct {
-	ID            int64       `json:"id"`
-	Difficulty    pgtype.Int2 `json:"difficulty"`
-	CourseName    pgtype.Text `json:"course_name"`
-	CourseNameTsv string      `json:"course_name_tsv"`
-	MatchRanking  float32     `json:"match_ranking"`
+	Course       Course  `json:"course"`
+	MatchRanking float32 `json:"match_ranking"`
 }
 
 func (q *Queries) GetCourseByName(ctx context.Context, courseName pgtype.Text) ([]GetCourseByNameRow, error) {
@@ -92,10 +89,10 @@ func (q *Queries) GetCourseByName(ctx context.Context, courseName pgtype.Text) (
 	for rows.Next() {
 		var i GetCourseByNameRow
 		if err := rows.Scan(
-			&i.ID,
-			&i.Difficulty,
-			&i.CourseName,
-			&i.CourseNameTsv,
+			&i.Course.ID,
+			&i.Course.Difficulty,
+			&i.Course.CourseName,
+			&i.Course.SearchVector,
 			&i.MatchRanking,
 		); err != nil {
 			return nil, err
@@ -109,7 +106,7 @@ func (q *Queries) GetCourseByName(ctx context.Context, courseName pgtype.Text) (
 }
 
 const listCourses = `-- name: ListCourses :many
-SELECT id, difficulty, course_name, course_name_tsv
+SELECT id, difficulty, course_name, search_vector
 FROM course
 ORDER BY difficulty ASC
 `
@@ -127,7 +124,7 @@ func (q *Queries) ListCourses(ctx context.Context) ([]Course, error) {
 			&i.ID,
 			&i.Difficulty,
 			&i.CourseName,
-			&i.CourseNameTsv,
+			&i.SearchVector,
 		); err != nil {
 			return nil, err
 		}
@@ -144,7 +141,7 @@ UPDATE course
 SET course_name = COALESCE($2, course_name),
     difficulty = COALESCE($3, difficulty)
 WHERE id = $1
-RETURNING id, difficulty, course_name, course_name_tsv
+RETURNING id, difficulty, course_name, search_vector
 `
 
 type UpdateCourseParams struct {
@@ -160,7 +157,7 @@ func (q *Queries) UpdateCourse(ctx context.Context, arg UpdateCourseParams) (Cou
 		&i.ID,
 		&i.Difficulty,
 		&i.CourseName,
-		&i.CourseNameTsv,
+		&i.SearchVector,
 	)
 	return i, err
 }

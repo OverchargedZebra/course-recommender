@@ -11,11 +11,11 @@ sql:
         emit_json_tags: true
         emit_interface: true
         overrides:
-          - column: "degree_type.degree_name_tsv"
+          - column: "degree_type.search_vector"
             go_type: "string"
-          - column: "course.course_name_tsv"
+          - column: "course.search_vector"
             go_type: "string"
-          - column: "tag.tag_name_tsv"
+          - column: "tag.search_vector"
             go_type: "string"
           - db_type: "tsquery"
             go_type: "string"

@@ -7,11 +7,11 @@ SELECT *
 FROM tag
 WHERE id = $1;
 -- name: GetTagByName :many
-SELECT tag.*,
-    ts_rank(tag_name_tsv, query) AS match_ranking
+SELECT sqlc.embed(tag),
+    ts_rank(search_vector, query) AS match_ranking
 FROM tag,
-    to_tsquery(COALESCE(sqlc.narg('tag_name')::TEXT, '')) AS query
-WHERE tag_name_tsv @@ query
+    websearch_to_tsquery(COALESCE(sqlc.narg('tag_name')::TEXT, '')) AS query
+WHERE search_vector @@ query
 ORDER BY match_ranking DESC;
 -- name: UpdateTag :one
 UPDATE tag

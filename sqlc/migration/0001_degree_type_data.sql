@@ -1,7 +1,5 @@
-INSERT INTO
-    degree_type (degree_type)
-VALUES
-    ('accounting and finance'),
+INSERT INTO degree_type(degree_name)
+VALUES ('accounting and finance'),
     ('business administration'),
     ('electrical engineering'),
     ('anthropology and sociology'),

@@ -14,13 +14,13 @@ import (
 const createTag = `-- name: CreateTag :one
 INSERT INTO tag (tag_name)
 VALUES ($1)
-RETURNING id, tag_name, tag_name_tsv
+RETURNING id, tag_name, search_vector
 `
 
 func (q *Queries) CreateTag(ctx context.Context, tagName pgtype.Text) (Tag, error) {
 	row := q.db.QueryRow(ctx, createTag, tagName)
 	var i Tag
-	err := row.Scan(&i.ID, &i.TagName, &i.TagNameTsv)
+	err := row.Scan(&i.ID, &i.TagName, &i.SearchVector)
 	return i, err
 }
 
@@ -38,7 +38,7 @@ func (q *Queries) DeleteTag(ctx context.Context, id int64) (bool, error) {
 }
 
 const getTag = `-- name: GetTag :one
-SELECT id, tag_name, tag_name_tsv
+SELECT id, tag_name, search_vector
 FROM tag
 WHERE id = $1
 `
@@ -46,24 +46,22 @@ WHERE id = $1
 func (q *Queries) GetTag(ctx context.Context, id int64) (Tag, error) {
 	row := q.db.QueryRow(ctx, getTag, id)
 	var i Tag
-	err := row.Scan(&i.ID, &i.TagName, &i.TagNameTsv)
+	err := row.Scan(&i.ID, &i.TagName, &i.SearchVector)
 	return i, err
 }
 
 const getTagByName = `-- name: GetTagByName :many
-SELECT tag.id, tag.tag_name, tag.tag_name_tsv,
-    ts_rank(tag_name_tsv, query) AS match_ranking
+SELECT tag.id, tag.tag_name, tag.search_vector,
+    ts_rank(search_vector, query) AS match_ranking
 FROM tag,
-    to_tsquery(COALESCE($1::TEXT, '')) AS query
-WHERE tag_name_tsv @@ query
+    websearch_to_tsquery(COALESCE($1::TEXT, '')) AS query
+WHERE search_vector @@ query
 ORDER BY match_ranking DESC
 `
 
 type GetTagByNameRow struct {
-	ID           int64       `json:"id"`
-	TagName      pgtype.Text `json:"tag_name"`
-	TagNameTsv   string      `json:"tag_name_tsv"`
-	MatchRanking float32     `json:"match_ranking"`
+	Tag          Tag     `json:"tag"`
+	MatchRanking float32 `json:"match_ranking"`
 }
 
 func (q *Queries) GetTagByName(ctx context.Context, tagName pgtype.Text) ([]GetTagByNameRow, error) {
@@ -76,9 +74,9 @@ func (q *Queries) GetTagByName(ctx context.Context, tagName pgtype.Text) ([]GetT
 	for rows.Next() {
 		var i GetTagByNameRow
 		if err := rows.Scan(
-			&i.ID,
-			&i.TagName,
-			&i.TagNameTsv,
+			&i.Tag.ID,
+			&i.Tag.TagName,
+			&i.Tag.SearchVector,
 			&i.MatchRanking,
 		); err != nil {
 			return nil, err
@@ -92,7 +90,7 @@ func (q *Queries) GetTagByName(ctx context.Context, tagName pgtype.Text) ([]GetT
 }
 
 const listTags = `-- name: ListTags :many
-SELECT id, tag_name, tag_name_tsv
+SELECT id, tag_name, search_vector
 FROM tag
 `
 
@@ -105,7 +103,7 @@ func (q *Queries) ListTags(ctx context.Context) ([]Tag, error) {
 	var items []Tag
 	for rows.Next() {
 		var i Tag
-		if err := rows.Scan(&i.ID, &i.TagName, &i.TagNameTsv); err != nil {
+		if err := rows.Scan(&i.ID, &i.TagName, &i.SearchVector); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -120,7 +118,7 @@ const updateTag = `-- name: UpdateTag :one
 UPDATE tag
 SET tag_name = COALESCE($2, tag_name)
 WHERE id = $1
-RETURNING id, tag_name, tag_name_tsv
+RETURNING id, tag_name, search_vector
 `
 
 type UpdateTagParams struct {
@@ -131,6 +129,6 @@ type UpdateTagParams struct {
 func (q *Queries) UpdateTag(ctx context.Context, arg UpdateTagParams) (Tag, error) {
 	row := q.db.QueryRow(ctx, updateTag, arg.ID, arg.TagName)
 	var i Tag
-	err := row.Scan(&i.ID, &i.TagName, &i.TagNameTsv)
+	err := row.Scan(&i.ID, &i.TagName, &i.SearchVector)
 	return i, err
 }

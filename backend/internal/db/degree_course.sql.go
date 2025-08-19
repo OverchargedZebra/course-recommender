@@ -47,8 +47,7 @@ func (q *Queries) DeleteDegreeCourse(ctx context.Context, arg DeleteDegreeCourse
 }
 
 const getCoursesByDegreeId = `-- name: GetCoursesByDegreeId :many
-SELECT degree_type.id, degree_type.degree_name, degree_type.degree_name_tsv,
-    course.id, course.difficulty, course.course_name, course.course_name_tsv
+SELECT course.id, course.difficulty, course.course_name, course.search_vector
 FROM degree_course
     LEFT JOIN degree_type ON degree_type.id = degree_course.degree_type_id
     LEFT JOIN course ON course.id = degree_course.course_id
@@ -56,8 +55,7 @@ WHERE degree_type.id = $1
 `
 
 type GetCoursesByDegreeIdRow struct {
-	DegreeType DegreeType `json:"degree_type"`
-	Course     Course     `json:"course"`
+	Course Course `json:"course"`
 }
 
 func (q *Queries) GetCoursesByDegreeId(ctx context.Context, id int64) ([]GetCoursesByDegreeIdRow, error) {
@@ -70,13 +68,10 @@ func (q *Queries) GetCoursesByDegreeId(ctx context.Context, id int64) ([]GetCour
 	for rows.Next() {
 		var i GetCoursesByDegreeIdRow
 		if err := rows.Scan(
-			&i.DegreeType.ID,
-			&i.DegreeType.DegreeName,
-			&i.DegreeType.DegreeNameTsv,
 			&i.Course.ID,
 			&i.Course.Difficulty,
 			&i.Course.CourseName,
-			&i.Course.CourseNameTsv,
+			&i.Course.SearchVector,
 		); err != nil {
 			return nil, err
 		}
@@ -89,8 +84,7 @@ func (q *Queries) GetCoursesByDegreeId(ctx context.Context, id int64) ([]GetCour
 }
 
 const getDegreesByCourseId = `-- name: GetDegreesByCourseId :many
-SELECT degree_type.id, degree_type.degree_name, degree_type.degree_name_tsv,
-    course.id, course.difficulty, course.course_name, course.course_name_tsv
+SELECT degree_type.id, degree_type.degree_name, degree_type.search_vector
 FROM degree_course
     LEFT JOIN degree_type ON degree_type.id = degree_course.degree_type_id
     LEFT JOIN course ON course.id = degree_course.course_id
@@ -99,7 +93,6 @@ WHERE course.id = $1
 
 type GetDegreesByCourseIdRow struct {
 	DegreeType DegreeType `json:"degree_type"`
-	Course     Course     `json:"course"`
 }
 
 func (q *Queries) GetDegreesByCourseId(ctx context.Context, id int64) ([]GetDegreesByCourseIdRow, error) {
@@ -111,15 +104,7 @@ func (q *Queries) GetDegreesByCourseId(ctx context.Context, id int64) ([]GetDegr
 	var items []GetDegreesByCourseIdRow
 	for rows.Next() {
 		var i GetDegreesByCourseIdRow
-		if err := rows.Scan(
-			&i.DegreeType.ID,
-			&i.DegreeType.DegreeName,
-			&i.DegreeType.DegreeNameTsv,
-			&i.Course.ID,
-			&i.Course.Difficulty,
-			&i.Course.CourseName,
-			&i.Course.CourseNameTsv,
-		); err != nil {
+		if err := rows.Scan(&i.DegreeType.ID, &i.DegreeType.DegreeName, &i.DegreeType.SearchVector); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

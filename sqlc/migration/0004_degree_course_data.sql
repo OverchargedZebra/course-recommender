@@ -1,7 +1,5 @@
-INSERT INTO
-    degree_course (course_id, degree_type_id)
-VALUES
-    (1, 1),
+INSERT INTO degree_course (course_id, degree_type_id)
+VALUES (1, 1),
     (2, 1),
     (3, 1),
     (4, 1),
@@ -25,7 +23,6 @@ VALUES
     (22, 5),
     (23, 5),
     (24, 5),
-    (25, 5),
     (25, 5),
     (26, 5),
     (27, 5),

@@ -14,13 +14,13 @@ import (
 const createDegreeType = `-- name: CreateDegreeType :one
 INSERT INTO degree_type (degree_name)
 VALUES ($1)
-RETURNING id, degree_name, degree_name_tsv
+RETURNING id, degree_name, search_vector
 `
 
 func (q *Queries) CreateDegreeType(ctx context.Context, degreeName pgtype.Text) (DegreeType, error) {
 	row := q.db.QueryRow(ctx, createDegreeType, degreeName)
 	var i DegreeType
-	err := row.Scan(&i.ID, &i.DegreeName, &i.DegreeNameTsv)
+	err := row.Scan(&i.ID, &i.DegreeName, &i.SearchVector)
 	return i, err
 }
 
@@ -38,7 +38,7 @@ func (q *Queries) DeleteDegreeType(ctx context.Context, id int64) (bool, error) 
 }
 
 const getDegreeType = `-- name: GetDegreeType :one
-SELECT id, degree_name, degree_name_tsv
+SELECT id, degree_name, search_vector
 FROM degree_type
 WHERE id = $1
 `
@@ -46,24 +46,22 @@ WHERE id = $1
 func (q *Queries) GetDegreeType(ctx context.Context, id int64) (DegreeType, error) {
 	row := q.db.QueryRow(ctx, getDegreeType, id)
 	var i DegreeType
-	err := row.Scan(&i.ID, &i.DegreeName, &i.DegreeNameTsv)
+	err := row.Scan(&i.ID, &i.DegreeName, &i.SearchVector)
 	return i, err
 }
 
 const getDegreeTypeByName = `-- name: GetDegreeTypeByName :many
-SELECT degree_type.id, degree_type.degree_name, degree_type.degree_name_tsv,
-    ts_rank(degree_name_tsv, query) AS match_ranking
+SELECT degree_type.id, degree_type.degree_name, degree_type.search_vector,
+    ts_rank(search_vector, query) AS match_ranking
 FROM degree_type,
-    to_tsquery(COALESCE($1::TEXT, '')) AS query
-WHERE degree_name_tsv @@ query
+    websearch_to_tsquery(COALESCE($1::TEXT, '')) AS query
+WHERE search_vector @@ query
 ORDER BY match_ranking DESC
 `
 
 type GetDegreeTypeByNameRow struct {
-	ID            int64       `json:"id"`
-	DegreeName    pgtype.Text `json:"degree_name"`
-	DegreeNameTsv string      `json:"degree_name_tsv"`
-	MatchRanking  float32     `json:"match_ranking"`
+	DegreeType   DegreeType `json:"degree_type"`
+	MatchRanking float32    `json:"match_ranking"`
 }
 
 func (q *Queries) GetDegreeTypeByName(ctx context.Context, degreeName pgtype.Text) ([]GetDegreeTypeByNameRow, error) {
@@ -76,9 +74,9 @@ func (q *Queries) GetDegreeTypeByName(ctx context.Context, degreeName pgtype.Tex
 	for rows.Next() {
 		var i GetDegreeTypeByNameRow
 		if err := rows.Scan(
-			&i.ID,
-			&i.DegreeName,
-			&i.DegreeNameTsv,
+			&i.DegreeType.ID,
+			&i.DegreeType.DegreeName,
+			&i.DegreeType.SearchVector,
 			&i.MatchRanking,
 		); err != nil {
 			return nil, err
@@ -92,7 +90,7 @@ func (q *Queries) GetDegreeTypeByName(ctx context.Context, degreeName pgtype.Tex
 }
 
 const listDegreeTypes = `-- name: ListDegreeTypes :many
-SELECT id, degree_name, degree_name_tsv
+SELECT id, degree_name, search_vector
 FROM degree_type
 `
 
@@ -105,7 +103,7 @@ func (q *Queries) ListDegreeTypes(ctx context.Context) ([]DegreeType, error) {
 	var items []DegreeType
 	for rows.Next() {
 		var i DegreeType
-		if err := rows.Scan(&i.ID, &i.DegreeName, &i.DegreeNameTsv); err != nil {
+		if err := rows.Scan(&i.ID, &i.DegreeName, &i.SearchVector); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -120,7 +118,7 @@ const updateDegreeType = `-- name: UpdateDegreeType :one
 UPDATE degree_type
 SET degree_name = COALESCE($2, degree_name)
 WHERE id = $1
-RETURNING id, degree_name, degree_name_tsv
+RETURNING id, degree_name, search_vector
 `
 
 type UpdateDegreeTypeParams struct {
@@ -131,6 +129,6 @@ type UpdateDegreeTypeParams struct {
 func (q *Queries) UpdateDegreeType(ctx context.Context, arg UpdateDegreeTypeParams) (DegreeType, error) {
 	row := q.db.QueryRow(ctx, updateDegreeType, arg.ID, arg.DegreeName)
 	var i DegreeType
-	err := row.Scan(&i.ID, &i.DegreeName, &i.DegreeNameTsv)
+	err := row.Scan(&i.ID, &i.DegreeName, &i.SearchVector)
 	return i, err
 }

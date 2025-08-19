@@ -33,7 +33,7 @@ type Querier interface {
 	GetCourseQuestionsByCourseId(ctx context.Context, courseID pgtype.Int8) ([]CourseQuestion, error)
 	GetCoursesByDegreeId(ctx context.Context, id int64) ([]GetCoursesByDegreeIdRow, error)
 	GetCoursesByStudentId(ctx context.Context, id int64) ([]GetCoursesByStudentIdRow, error)
-	GetCoursesByTag(ctx context.Context, id int64) ([]GetCoursesByTagRow, error)
+	GetCoursesByTagId(ctx context.Context, id int64) ([]GetCoursesByTagIdRow, error)
 	GetDegreeType(ctx context.Context, id int64) (DegreeType, error)
 	GetDegreeTypeByName(ctx context.Context, degreeName pgtype.Text) ([]GetDegreeTypeByNameRow, error)
 	GetDegreesByCourseId(ctx context.Context, id int64) ([]GetDegreesByCourseIdRow, error)

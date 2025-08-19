@@ -4,20 +4,19 @@ VALUES ($1, $2)
 RETURNING *;
 -- name: UpdateStudentCourse :one
 UPDATE student_course
-SET marks = COALESCE(sqlc.narg('marks'), 0)
+SET marks = sqlc.narg('marks'),
+    feedback = sqlc.narg('feedback')
 WHERE student_id = $1
     AND course_id = $2
 RETURNING *;
 -- name: GetStudentsByCourseId :many
-SELECT sqlc.embed(student),
-    sqlc.embed(course)
+SELECT sqlc.embed(student)
 FROM student_course
     LEFT JOIN course ON course.id = student_course.course_id
     LEFT JOIN student ON student.id = student_course.student_id
 WHERE course.id = $1;
 -- name: GetCoursesByStudentId :many
-SELECT sqlc.embed(student),
-    sqlc.embed(course)
+SELECT sqlc.embed(course)
 FROM student_course
     LEFT JOIN course ON course.id = student_course.course_id
     LEFT JOIN student ON student.id = student_course.student_id

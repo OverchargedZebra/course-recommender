@@ -7,11 +7,11 @@ SELECT *
 FROM degree_type
 WHERE id = $1;
 -- name: GetDegreeTypeByName :many
-SELECT degree_type.*,
-    ts_rank(degree_name_tsv, query) AS match_ranking
+SELECT sqlc.embed(degree_type),
+    ts_rank(search_vector, query) AS match_ranking
 FROM degree_type,
-    to_tsquery(COALESCE(sqlc.narg('degree_name')::TEXT, '')) AS query
-WHERE degree_name_tsv @@ query
+    websearch_to_tsquery(COALESCE(sqlc.narg('degree_name')::TEXT, '')) AS query
+WHERE search_vector @@ query
 ORDER BY match_ranking DESC;
 -- name: UpdateDegreeType :one
 UPDATE degree_type

@@ -46,37 +46,32 @@ func (q *Queries) DeleteCourseTag(ctx context.Context, arg DeleteCourseTagParams
 	return column_1, err
 }
 
-const getCoursesByTag = `-- name: GetCoursesByTag :many
-SELECT course.id, course.difficulty, course.course_name, course.course_name_tsv,
-    tag.id, tag.tag_name, tag.tag_name_tsv
+const getCoursesByTagId = `-- name: GetCoursesByTagId :many
+SELECT course.id, course.difficulty, course.course_name, course.search_vector
 FROM course_tag
     LEFT JOIN course ON course.id = course_tag.course_id
     LEFT JOIN tag on tag.id = course_tag.tag_id
 WHERE tag.id = $1
 `
 
-type GetCoursesByTagRow struct {
+type GetCoursesByTagIdRow struct {
 	Course Course `json:"course"`
-	Tag    Tag    `json:"tag"`
 }
 
-func (q *Queries) GetCoursesByTag(ctx context.Context, id int64) ([]GetCoursesByTagRow, error) {
-	rows, err := q.db.Query(ctx, getCoursesByTag, id)
+func (q *Queries) GetCoursesByTagId(ctx context.Context, id int64) ([]GetCoursesByTagIdRow, error) {
+	rows, err := q.db.Query(ctx, getCoursesByTagId, id)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []GetCoursesByTagRow
+	var items []GetCoursesByTagIdRow
 	for rows.Next() {
-		var i GetCoursesByTagRow
+		var i GetCoursesByTagIdRow
 		if err := rows.Scan(
 			&i.Course.ID,
 			&i.Course.Difficulty,
 			&i.Course.CourseName,
-			&i.Course.CourseNameTsv,
-			&i.Tag.ID,
-			&i.Tag.TagName,
-			&i.Tag.TagNameTsv,
+			&i.Course.SearchVector,
 		); err != nil {
 			return nil, err
 		}
@@ -89,8 +84,7 @@ func (q *Queries) GetCoursesByTag(ctx context.Context, id int64) ([]GetCoursesBy
 }
 
 const getTagsByCourseId = `-- name: GetTagsByCourseId :many
-SELECT course.id, course.difficulty, course.course_name, course.course_name_tsv,
-    tag.id, tag.tag_name, tag.tag_name_tsv
+SELECT tag.id, tag.tag_name, tag.search_vector
 FROM course_tag
     LEFT JOIN course ON course.id = course_tag.course_id
     LEFT JOIN tag on tag.id = course_tag.tag_id
@@ -98,8 +92,7 @@ WHERE course.id = $1
 `
 
 type GetTagsByCourseIdRow struct {
-	Course Course `json:"course"`
-	Tag    Tag    `json:"tag"`
+	Tag Tag `json:"tag"`
 }
 
 func (q *Queries) GetTagsByCourseId(ctx context.Context, id int64) ([]GetTagsByCourseIdRow, error) {
@@ -111,15 +104,7 @@ func (q *Queries) GetTagsByCourseId(ctx context.Context, id int64) ([]GetTagsByC
 	var items []GetTagsByCourseIdRow
 	for rows.Next() {
 		var i GetTagsByCourseIdRow
-		if err := rows.Scan(
-			&i.Course.ID,
-			&i.Course.Difficulty,
-			&i.Course.CourseName,
-			&i.Course.CourseNameTsv,
-			&i.Tag.ID,
-			&i.Tag.TagName,
-			&i.Tag.TagNameTsv,
-		); err != nil {
+		if err := rows.Scan(&i.Tag.ID, &i.Tag.TagName, &i.Tag.SearchVector); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

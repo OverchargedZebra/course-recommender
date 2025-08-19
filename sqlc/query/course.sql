@@ -7,11 +7,11 @@ SELECT *
 FROM course
 WHERE id = $1;
 -- name: GetCourseByName :many
-SELECT course.*,
-    ts_rank(course_name_tsv, query) AS match_ranking
+SELECT sqlc.embed(course),
+    ts_rank(search_vector, query) AS match_ranking
 FROM course,
-    to_tsquery(COALESCE(sqlc.narg('course_name')::TEXT, '')) AS query
-WHERE course_name_tsv @@ query
+    websearch_to_tsquery(COALESCE(sqlc.narg('course_name')::TEXT, '')) AS query
+WHERE search_vector @@ query
 ORDER BY match_ranking DESC;
 -- name: UpdateCourse :one
 UPDATE course

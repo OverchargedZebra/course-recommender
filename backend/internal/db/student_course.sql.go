@@ -14,7 +14,7 @@ import (
 const createStudentCourse = `-- name: CreateStudentCourse :one
 INSERT INTO student_course(student_id, course_id)
 VALUES ($1, $2)
-RETURNING student_id, course_id, marks
+RETURNING student_id, course_id, marks, feedback
 `
 
 type CreateStudentCourseParams struct {
@@ -25,7 +25,12 @@ type CreateStudentCourseParams struct {
 func (q *Queries) CreateStudentCourse(ctx context.Context, arg CreateStudentCourseParams) (StudentCourse, error) {
 	row := q.db.QueryRow(ctx, createStudentCourse, arg.StudentID, arg.CourseID)
 	var i StudentCourse
-	err := row.Scan(&i.StudentID, &i.CourseID, &i.Marks)
+	err := row.Scan(
+		&i.StudentID,
+		&i.CourseID,
+		&i.Marks,
+		&i.Feedback,
+	)
 	return i, err
 }
 
@@ -49,8 +54,7 @@ func (q *Queries) DeleteStudentCourse(ctx context.Context, arg DeleteStudentCour
 }
 
 const getCoursesByStudentId = `-- name: GetCoursesByStudentId :many
-SELECT student.id, student.student_email, student.student_password,
-    course.id, course.difficulty, course.course_name, course.course_name_tsv
+SELECT course.id, course.difficulty, course.course_name, course.search_vector
 FROM student_course
     LEFT JOIN course ON course.id = student_course.course_id
     LEFT JOIN student ON student.id = student_course.student_id
@@ -58,8 +62,7 @@ WHERE student.id = $1
 `
 
 type GetCoursesByStudentIdRow struct {
-	Student Student `json:"student"`
-	Course  Course  `json:"course"`
+	Course Course `json:"course"`
 }
 
 func (q *Queries) GetCoursesByStudentId(ctx context.Context, id int64) ([]GetCoursesByStudentIdRow, error) {
@@ -72,13 +75,10 @@ func (q *Queries) GetCoursesByStudentId(ctx context.Context, id int64) ([]GetCou
 	for rows.Next() {
 		var i GetCoursesByStudentIdRow
 		if err := rows.Scan(
-			&i.Student.ID,
-			&i.Student.StudentEmail,
-			&i.Student.StudentPassword,
 			&i.Course.ID,
 			&i.Course.Difficulty,
 			&i.Course.CourseName,
-			&i.Course.CourseNameTsv,
+			&i.Course.SearchVector,
 		); err != nil {
 			return nil, err
 		}
@@ -91,8 +91,7 @@ func (q *Queries) GetCoursesByStudentId(ctx context.Context, id int64) ([]GetCou
 }
 
 const getStudentsByCourseId = `-- name: GetStudentsByCourseId :many
-SELECT student.id, student.student_email, student.student_password,
-    course.id, course.difficulty, course.course_name, course.course_name_tsv
+SELECT student.id, student.student_email, student.student_password
 FROM student_course
     LEFT JOIN course ON course.id = student_course.course_id
     LEFT JOIN student ON student.id = student_course.student_id
@@ -101,7 +100,6 @@ WHERE course.id = $1
 
 type GetStudentsByCourseIdRow struct {
 	Student Student `json:"student"`
-	Course  Course  `json:"course"`
 }
 
 func (q *Queries) GetStudentsByCourseId(ctx context.Context, id int64) ([]GetStudentsByCourseIdRow, error) {
@@ -113,15 +111,7 @@ func (q *Queries) GetStudentsByCourseId(ctx context.Context, id int64) ([]GetStu
 	var items []GetStudentsByCourseIdRow
 	for rows.Next() {
 		var i GetStudentsByCourseIdRow
-		if err := rows.Scan(
-			&i.Student.ID,
-			&i.Student.StudentEmail,
-			&i.Student.StudentPassword,
-			&i.Course.ID,
-			&i.Course.Difficulty,
-			&i.Course.CourseName,
-			&i.Course.CourseNameTsv,
-		); err != nil {
+		if err := rows.Scan(&i.Student.ID, &i.Student.StudentEmail, &i.Student.StudentPassword); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -134,21 +124,33 @@ func (q *Queries) GetStudentsByCourseId(ctx context.Context, id int64) ([]GetStu
 
 const updateStudentCourse = `-- name: UpdateStudentCourse :one
 UPDATE student_course
-SET marks = COALESCE($3, 0)
+SET marks = $3,
+    feedback = $4
 WHERE student_id = $1
     AND course_id = $2
-RETURNING student_id, course_id, marks
+RETURNING student_id, course_id, marks, feedback
 `
 
 type UpdateStudentCourseParams struct {
 	StudentID int64       `json:"student_id"`
 	CourseID  int64       `json:"course_id"`
 	Marks     pgtype.Int2 `json:"marks"`
+	Feedback  pgtype.Bool `json:"feedback"`
 }
 
 func (q *Queries) UpdateStudentCourse(ctx context.Context, arg UpdateStudentCourseParams) (StudentCourse, error) {
-	row := q.db.QueryRow(ctx, updateStudentCourse, arg.StudentID, arg.CourseID, arg.Marks)
+	row := q.db.QueryRow(ctx, updateStudentCourse,
+		arg.StudentID,
+		arg.CourseID,
+		arg.Marks,
+		arg.Feedback,
+	)
 	var i StudentCourse
-	err := row.Scan(&i.StudentID, &i.CourseID, &i.Marks)
+	err := row.Scan(
+		&i.StudentID,
+		&i.CourseID,
+		&i.Marks,
+		&i.Feedback,
+	)
 	return i, err
 }
