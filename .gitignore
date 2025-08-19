@@ -4,9 +4,9 @@
 # redundant vs code folder not needed for this project
 .vscode
 
-# remove default data that does not add any value
-default\ data/course_tag.csv
-default\ data/course.csv
-default\ data/degree_course.csv
-default\ data/degree_type.csv
-default\ data/tag.csv
+# remove default data that does not need to be stored in github
+"default data/course_tag.csv"
+"default data/course.csv"
+"default data/degree_course.csv"
+"default data/degree_type.csv"
+"default data/tag.csv"
