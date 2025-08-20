@@ -1,3 +1,5 @@
+reset: down run
+
 run:
 	@docker compose up --build
 
