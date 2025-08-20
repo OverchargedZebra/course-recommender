@@ -47,7 +47,7 @@ func (q *Queries) DeleteCourseTag(ctx context.Context, arg DeleteCourseTagParams
 }
 
 const getCoursesByTagId = `-- name: GetCoursesByTagId :many
-SELECT course.id, course.difficulty, course.course_name, course.search_vector
+SELECT course.id, course.difficulty, course.course_name
 FROM course_tag
     LEFT JOIN course ON course.id = course_tag.course_id
     LEFT JOIN tag on tag.id = course_tag.tag_id
@@ -67,12 +67,7 @@ func (q *Queries) GetCoursesByTagId(ctx context.Context, id int64) ([]GetCourses
 	var items []GetCoursesByTagIdRow
 	for rows.Next() {
 		var i GetCoursesByTagIdRow
-		if err := rows.Scan(
-			&i.Course.ID,
-			&i.Course.Difficulty,
-			&i.Course.CourseName,
-			&i.Course.SearchVector,
-		); err != nil {
+		if err := rows.Scan(&i.Course.ID, &i.Course.Difficulty, &i.Course.CourseName); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -84,7 +79,7 @@ func (q *Queries) GetCoursesByTagId(ctx context.Context, id int64) ([]GetCourses
 }
 
 const getTagsByCourseId = `-- name: GetTagsByCourseId :many
-SELECT tag.id, tag.tag_name, tag.search_vector
+SELECT tag.id, tag.tag_name
 FROM course_tag
     LEFT JOIN course ON course.id = course_tag.course_id
     LEFT JOIN tag on tag.id = course_tag.tag_id
@@ -104,7 +99,7 @@ func (q *Queries) GetTagsByCourseId(ctx context.Context, id int64) ([]GetTagsByC
 	var items []GetTagsByCourseIdRow
 	for rows.Next() {
 		var i GetTagsByCourseIdRow
-		if err := rows.Scan(&i.Tag.ID, &i.Tag.TagName, &i.Tag.SearchVector); err != nil {
+		if err := rows.Scan(&i.Tag.ID, &i.Tag.TagName); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

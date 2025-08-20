@@ -1,7 +1,7 @@
 services:
     database:
         build:
-            context: .
+            context: ./database
         container_name: course_recommender_database
         expose:
             - "${DB_PORT}"
@@ -13,6 +13,7 @@ services:
             - PGTZ='UTC+5'
         volumes:
             - CRD:/var/lib/postgresql/data
+            - ./database/enterypoint:/docker-entrypoint-initdb.d:ro
         networks:
             - course-recommender-network
         restart: unless-stopped
@@ -67,8 +68,8 @@ services:
         ports:
             - "${NGINX_PORT}:${NGINX_PORT}"
         volumes:
-            - ./frontend/build/web:/usr/share/nginx/html
-            - ./nginx/nginx.conf.template:/etc/nginx/templates/nginx.conf.template
+            - ./frontend/build/web:/usr/share/nginx/html:ro
+            - ./nginx/nginx.conf.template:/etc/nginx/templates/nginx.conf.template:ro
         networks:
             - course-recommender-network
         restart: unless-stopped

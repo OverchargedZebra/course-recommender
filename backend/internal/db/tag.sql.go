@@ -12,22 +12,27 @@ import (
 )
 
 const createTag = `-- name: CreateTag :one
-INSERT INTO tag (tag_name)
-VALUES ($1)
-RETURNING id, tag_name, search_vector
+INSERT INTO
+    tag (tag_name)
+VALUES
+    ($1)
+RETURNING
+    id, tag_name
 `
 
 func (q *Queries) CreateTag(ctx context.Context, tagName pgtype.Text) (Tag, error) {
 	row := q.db.QueryRow(ctx, createTag, tagName)
 	var i Tag
-	err := row.Scan(&i.ID, &i.TagName, &i.SearchVector)
+	err := row.Scan(&i.ID, &i.TagName)
 	return i, err
 }
 
 const deleteTag = `-- name: DeleteTag :one
 DELETE FROM tag
-WHERE id = $1
-RETURNING true
+WHERE
+    id = $1
+RETURNING
+    TRUE
 `
 
 func (q *Queries) DeleteTag(ctx context.Context, id int64) (bool, error) {
@@ -38,47 +43,45 @@ func (q *Queries) DeleteTag(ctx context.Context, id int64) (bool, error) {
 }
 
 const getTag = `-- name: GetTag :one
-SELECT id, tag_name, search_vector
-FROM tag
-WHERE id = $1
+SELECT
+    id, tag_name
+FROM
+    tag
+WHERE
+    id = $1
 `
 
 func (q *Queries) GetTag(ctx context.Context, id int64) (Tag, error) {
 	row := q.db.QueryRow(ctx, getTag, id)
 	var i Tag
-	err := row.Scan(&i.ID, &i.TagName, &i.SearchVector)
+	err := row.Scan(&i.ID, &i.TagName)
 	return i, err
 }
 
 const getTagByName = `-- name: GetTagByName :many
-SELECT tag.id, tag.tag_name, tag.search_vector,
-    ts_rank(search_vector, query) AS match_ranking
-FROM tag,
-    websearch_to_tsquery(COALESCE($1::TEXT, '')) AS query
-WHERE search_vector @@ query
-ORDER BY match_ranking DESC
+SELECT
+    id, tag_name
+FROM
+    tag
+WHERE
+    id @@@ paradedb.match (
+        'tag_name',
+        COALESCE($1::TEXT, '')
+    )
+ORDER BY
+    paradedb.score (id) DESC
 `
 
-type GetTagByNameRow struct {
-	Tag          Tag     `json:"tag"`
-	MatchRanking float32 `json:"match_ranking"`
-}
-
-func (q *Queries) GetTagByName(ctx context.Context, tagName pgtype.Text) ([]GetTagByNameRow, error) {
+func (q *Queries) GetTagByName(ctx context.Context, tagName pgtype.Text) ([]Tag, error) {
 	rows, err := q.db.Query(ctx, getTagByName, tagName)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []GetTagByNameRow
+	var items []Tag
 	for rows.Next() {
-		var i GetTagByNameRow
-		if err := rows.Scan(
-			&i.Tag.ID,
-			&i.Tag.TagName,
-			&i.Tag.SearchVector,
-			&i.MatchRanking,
-		); err != nil {
+		var i Tag
+		if err := rows.Scan(&i.ID, &i.TagName); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -90,8 +93,10 @@ func (q *Queries) GetTagByName(ctx context.Context, tagName pgtype.Text) ([]GetT
 }
 
 const listTags = `-- name: ListTags :many
-SELECT id, tag_name, search_vector
-FROM tag
+SELECT
+    id, tag_name
+FROM
+    tag
 `
 
 func (q *Queries) ListTags(ctx context.Context) ([]Tag, error) {
@@ -103,7 +108,7 @@ func (q *Queries) ListTags(ctx context.Context) ([]Tag, error) {
 	var items []Tag
 	for rows.Next() {
 		var i Tag
-		if err := rows.Scan(&i.ID, &i.TagName, &i.SearchVector); err != nil {
+		if err := rows.Scan(&i.ID, &i.TagName); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -116,9 +121,12 @@ func (q *Queries) ListTags(ctx context.Context) ([]Tag, error) {
 
 const updateTag = `-- name: UpdateTag :one
 UPDATE tag
-SET tag_name = COALESCE($2, tag_name)
-WHERE id = $1
-RETURNING id, tag_name, search_vector
+SET
+    tag_name = COALESCE($2, tag_name)
+WHERE
+    id = $1
+RETURNING
+    id, tag_name
 `
 
 type UpdateTagParams struct {
@@ -129,6 +137,6 @@ type UpdateTagParams struct {
 func (q *Queries) UpdateTag(ctx context.Context, arg UpdateTagParams) (Tag, error) {
 	row := q.db.QueryRow(ctx, updateTag, arg.ID, arg.TagName)
 	var i Tag
-	err := row.Scan(&i.ID, &i.TagName, &i.SearchVector)
+	err := row.Scan(&i.ID, &i.TagName)
 	return i, err
 }

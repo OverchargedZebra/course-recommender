@@ -12,22 +12,27 @@ import (
 )
 
 const createDegreeType = `-- name: CreateDegreeType :one
-INSERT INTO degree_type (degree_name)
-VALUES ($1)
-RETURNING id, degree_name, search_vector
+INSERT INTO
+    degree_type (degree_name)
+VALUES
+    ($1)
+RETURNING
+    id, degree_name
 `
 
 func (q *Queries) CreateDegreeType(ctx context.Context, degreeName pgtype.Text) (DegreeType, error) {
 	row := q.db.QueryRow(ctx, createDegreeType, degreeName)
 	var i DegreeType
-	err := row.Scan(&i.ID, &i.DegreeName, &i.SearchVector)
+	err := row.Scan(&i.ID, &i.DegreeName)
 	return i, err
 }
 
 const deleteDegreeType = `-- name: DeleteDegreeType :one
-Delete FROM degree_type
-WHERE id = $1
-RETURNING TRUE
+DELETE FROM degree_type
+WHERE
+    id = $1
+RETURNING
+    TRUE
 `
 
 func (q *Queries) DeleteDegreeType(ctx context.Context, id int64) (bool, error) {
@@ -38,47 +43,45 @@ func (q *Queries) DeleteDegreeType(ctx context.Context, id int64) (bool, error) 
 }
 
 const getDegreeType = `-- name: GetDegreeType :one
-SELECT id, degree_name, search_vector
-FROM degree_type
-WHERE id = $1
+SELECT
+    id, degree_name
+FROM
+    degree_type
+WHERE
+    id = $1
 `
 
 func (q *Queries) GetDegreeType(ctx context.Context, id int64) (DegreeType, error) {
 	row := q.db.QueryRow(ctx, getDegreeType, id)
 	var i DegreeType
-	err := row.Scan(&i.ID, &i.DegreeName, &i.SearchVector)
+	err := row.Scan(&i.ID, &i.DegreeName)
 	return i, err
 }
 
 const getDegreeTypeByName = `-- name: GetDegreeTypeByName :many
-SELECT degree_type.id, degree_type.degree_name, degree_type.search_vector,
-    ts_rank(search_vector, query) AS match_ranking
-FROM degree_type,
-    websearch_to_tsquery(COALESCE($1::TEXT, '')) AS query
-WHERE search_vector @@ query
-ORDER BY match_ranking DESC
+SELECT
+    id, degree_name
+FROM
+    degree_type
+WHERE
+    id @@@ paradedb.match (
+        'degree_name',
+        COALESCE($1::TEXT, '')
+    )
+ORDER BY
+    paradedb.score (id) DESC
 `
 
-type GetDegreeTypeByNameRow struct {
-	DegreeType   DegreeType `json:"degree_type"`
-	MatchRanking float32    `json:"match_ranking"`
-}
-
-func (q *Queries) GetDegreeTypeByName(ctx context.Context, degreeName pgtype.Text) ([]GetDegreeTypeByNameRow, error) {
+func (q *Queries) GetDegreeTypeByName(ctx context.Context, degreeName pgtype.Text) ([]DegreeType, error) {
 	rows, err := q.db.Query(ctx, getDegreeTypeByName, degreeName)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []GetDegreeTypeByNameRow
+	var items []DegreeType
 	for rows.Next() {
-		var i GetDegreeTypeByNameRow
-		if err := rows.Scan(
-			&i.DegreeType.ID,
-			&i.DegreeType.DegreeName,
-			&i.DegreeType.SearchVector,
-			&i.MatchRanking,
-		); err != nil {
+		var i DegreeType
+		if err := rows.Scan(&i.ID, &i.DegreeName); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -90,8 +93,10 @@ func (q *Queries) GetDegreeTypeByName(ctx context.Context, degreeName pgtype.Tex
 }
 
 const listDegreeTypes = `-- name: ListDegreeTypes :many
-SELECT id, degree_name, search_vector
-FROM degree_type
+SELECT
+    id, degree_name
+FROM
+    degree_type
 `
 
 func (q *Queries) ListDegreeTypes(ctx context.Context) ([]DegreeType, error) {
@@ -103,7 +108,7 @@ func (q *Queries) ListDegreeTypes(ctx context.Context) ([]DegreeType, error) {
 	var items []DegreeType
 	for rows.Next() {
 		var i DegreeType
-		if err := rows.Scan(&i.ID, &i.DegreeName, &i.SearchVector); err != nil {
+		if err := rows.Scan(&i.ID, &i.DegreeName); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -116,9 +121,12 @@ func (q *Queries) ListDegreeTypes(ctx context.Context) ([]DegreeType, error) {
 
 const updateDegreeType = `-- name: UpdateDegreeType :one
 UPDATE degree_type
-SET degree_name = COALESCE($2, degree_name)
-WHERE id = $1
-RETURNING id, degree_name, search_vector
+SET
+    degree_name = COALESCE($2, degree_name)
+WHERE
+    id = $1
+RETURNING
+    id, degree_name
 `
 
 type UpdateDegreeTypeParams struct {
@@ -129,6 +137,6 @@ type UpdateDegreeTypeParams struct {
 func (q *Queries) UpdateDegreeType(ctx context.Context, arg UpdateDegreeTypeParams) (DegreeType, error) {
 	row := q.db.QueryRow(ctx, updateDegreeType, arg.ID, arg.DegreeName)
 	var i DegreeType
-	err := row.Scan(&i.ID, &i.DegreeName, &i.SearchVector)
+	err := row.Scan(&i.ID, &i.DegreeName)
 	return i, err
 }

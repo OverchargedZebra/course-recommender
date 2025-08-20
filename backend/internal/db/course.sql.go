@@ -12,9 +12,12 @@ import (
 )
 
 const createCourse = `-- name: CreateCourse :one
-INSERT INTO course (course_name, difficulty)
-VALUES ($1, $2)
-RETURNING id, difficulty, course_name, search_vector
+INSERT INTO
+    course (course_name, difficulty)
+VALUES
+    ($1, $2)
+RETURNING
+    id, difficulty, course_name
 `
 
 type CreateCourseParams struct {
@@ -25,19 +28,16 @@ type CreateCourseParams struct {
 func (q *Queries) CreateCourse(ctx context.Context, arg CreateCourseParams) (Course, error) {
 	row := q.db.QueryRow(ctx, createCourse, arg.CourseName, arg.Difficulty)
 	var i Course
-	err := row.Scan(
-		&i.ID,
-		&i.Difficulty,
-		&i.CourseName,
-		&i.SearchVector,
-	)
+	err := row.Scan(&i.ID, &i.Difficulty, &i.CourseName)
 	return i, err
 }
 
 const deleteCourse = `-- name: DeleteCourse :one
 DELETE FROM course
-WHERE id = $1
-RETURNING TRUE
+WHERE
+    id = $1
+RETURNING
+    TRUE
 `
 
 func (q *Queries) DeleteCourse(ctx context.Context, id int64) (bool, error) {
@@ -48,53 +48,45 @@ func (q *Queries) DeleteCourse(ctx context.Context, id int64) (bool, error) {
 }
 
 const getCourse = `-- name: GetCourse :one
-SELECT id, difficulty, course_name, search_vector
-FROM course
-WHERE id = $1
+SELECT
+    id, difficulty, course_name
+FROM
+    course
+WHERE
+    id = $1
 `
 
 func (q *Queries) GetCourse(ctx context.Context, id int64) (Course, error) {
 	row := q.db.QueryRow(ctx, getCourse, id)
 	var i Course
-	err := row.Scan(
-		&i.ID,
-		&i.Difficulty,
-		&i.CourseName,
-		&i.SearchVector,
-	)
+	err := row.Scan(&i.ID, &i.Difficulty, &i.CourseName)
 	return i, err
 }
 
 const getCourseByName = `-- name: GetCourseByName :many
-SELECT course.id, course.difficulty, course.course_name, course.search_vector,
-    ts_rank(search_vector, query) AS match_ranking
-FROM course,
-    websearch_to_tsquery(COALESCE($1::TEXT, '')) AS query
-WHERE search_vector @@ query
-ORDER BY match_ranking DESC
+SELECT
+    id, difficulty, course_name
+FROM
+    course
+WHERE
+    id @@@ paradedb.match (
+        'course_name',
+        COALESCE($1::TEXT, '')
+    )
+ORDER BY
+    paradedb.score (id) DESC
 `
 
-type GetCourseByNameRow struct {
-	Course       Course  `json:"course"`
-	MatchRanking float32 `json:"match_ranking"`
-}
-
-func (q *Queries) GetCourseByName(ctx context.Context, courseName pgtype.Text) ([]GetCourseByNameRow, error) {
+func (q *Queries) GetCourseByName(ctx context.Context, courseName pgtype.Text) ([]Course, error) {
 	rows, err := q.db.Query(ctx, getCourseByName, courseName)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []GetCourseByNameRow
+	var items []Course
 	for rows.Next() {
-		var i GetCourseByNameRow
-		if err := rows.Scan(
-			&i.Course.ID,
-			&i.Course.Difficulty,
-			&i.Course.CourseName,
-			&i.Course.SearchVector,
-			&i.MatchRanking,
-		); err != nil {
+		var i Course
+		if err := rows.Scan(&i.ID, &i.Difficulty, &i.CourseName); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -106,9 +98,12 @@ func (q *Queries) GetCourseByName(ctx context.Context, courseName pgtype.Text) (
 }
 
 const listCourses = `-- name: ListCourses :many
-SELECT id, difficulty, course_name, search_vector
-FROM course
-ORDER BY difficulty ASC
+SELECT
+    id, difficulty, course_name
+FROM
+    course
+ORDER BY
+    difficulty ASC
 `
 
 func (q *Queries) ListCourses(ctx context.Context) ([]Course, error) {
@@ -120,12 +115,7 @@ func (q *Queries) ListCourses(ctx context.Context) ([]Course, error) {
 	var items []Course
 	for rows.Next() {
 		var i Course
-		if err := rows.Scan(
-			&i.ID,
-			&i.Difficulty,
-			&i.CourseName,
-			&i.SearchVector,
-		); err != nil {
+		if err := rows.Scan(&i.ID, &i.Difficulty, &i.CourseName); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -138,10 +128,13 @@ func (q *Queries) ListCourses(ctx context.Context) ([]Course, error) {
 
 const updateCourse = `-- name: UpdateCourse :one
 UPDATE course
-SET course_name = COALESCE($2, course_name),
+SET
+    course_name = COALESCE($2, course_name),
     difficulty = COALESCE($3, difficulty)
-WHERE id = $1
-RETURNING id, difficulty, course_name, search_vector
+WHERE
+    id = $1
+RETURNING
+    id, difficulty, course_name
 `
 
 type UpdateCourseParams struct {
@@ -153,11 +146,6 @@ type UpdateCourseParams struct {
 func (q *Queries) UpdateCourse(ctx context.Context, arg UpdateCourseParams) (Course, error) {
 	row := q.db.QueryRow(ctx, updateCourse, arg.ID, arg.CourseName, arg.Difficulty)
 	var i Course
-	err := row.Scan(
-		&i.ID,
-		&i.Difficulty,
-		&i.CourseName,
-		&i.SearchVector,
-	)
+	err := row.Scan(&i.ID, &i.Difficulty, &i.CourseName)
 	return i, err
 }
