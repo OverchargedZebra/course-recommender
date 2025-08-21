@@ -29,7 +29,7 @@ type StudentCourse struct {
 	StudentId     int64                  `protobuf:"varint,1,opt,name=student_id,json=studentId,proto3" json:"student_id,omitempty"`
 	CourseId      int64                  `protobuf:"varint,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	Marks         int32                  `protobuf:"varint,3,opt,name=marks,proto3" json:"marks,omitempty"`
-	Feedback      string                 `protobuf:"bytes,4,opt,name=feedback,proto3" json:"feedback,omitempty"`
+	Feedback      bool                   `protobuf:"varint,4,opt,name=feedback,proto3" json:"feedback,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -85,11 +85,11 @@ func (x *StudentCourse) GetMarks() int32 {
 	return 0
 }
 
-func (x *StudentCourse) GetFeedback() string {
+func (x *StudentCourse) GetFeedback() bool {
 	if x != nil {
 		return x.Feedback
 	}
-	return ""
+	return false
 }
 
 // Request to create a new student-course association (enrollment).
@@ -192,11 +192,11 @@ func (x *CreateStudentCourseResponse) GetStudentCourse() *StudentCourse {
 
 // Request to update a student's marks and feedback for a course.
 type UpdateStudentCourseRequest struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	StudentId     int64                   `protobuf:"varint,1,opt,name=student_id,json=studentId,proto3" json:"student_id,omitempty"`
-	CourseId      int64                   `protobuf:"varint,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
-	Marks         *wrapperspb.Int32Value  `protobuf:"bytes,3,opt,name=marks,proto3" json:"marks,omitempty"`
-	Feedback      *wrapperspb.StringValue `protobuf:"bytes,4,opt,name=feedback,proto3" json:"feedback,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	StudentId     int64                  `protobuf:"varint,1,opt,name=student_id,json=studentId,proto3" json:"student_id,omitempty"`
+	CourseId      int64                  `protobuf:"varint,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	Marks         *wrapperspb.Int32Value `protobuf:"bytes,3,opt,name=marks,proto3" json:"marks,omitempty"`
+	Feedback      *wrapperspb.BoolValue  `protobuf:"bytes,4,opt,name=feedback,proto3" json:"feedback,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -252,7 +252,7 @@ func (x *UpdateStudentCourseRequest) GetMarks() *wrapperspb.Int32Value {
 	return nil
 }
 
-func (x *UpdateStudentCourseRequest) GetFeedback() *wrapperspb.StringValue {
+func (x *UpdateStudentCourseRequest) GetFeedback() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.Feedback
 	}
@@ -592,19 +592,19 @@ const file_student_course_proto_rawDesc = "" +
 	"student_id\x18\x01 \x01(\x03R\tstudentId\x12\x1b\n" +
 	"\tcourse_id\x18\x02 \x01(\x03R\bcourseId\x12\x14\n" +
 	"\x05marks\x18\x03 \x01(\x05R\x05marks\x12\x1a\n" +
-	"\bfeedback\x18\x04 \x01(\tR\bfeedback\"X\n" +
+	"\bfeedback\x18\x04 \x01(\bR\bfeedback\"X\n" +
 	"\x1aCreateStudentCourseRequest\x12\x1d\n" +
 	"\n" +
 	"student_id\x18\x01 \x01(\x03R\tstudentId\x12\x1b\n" +
 	"\tcourse_id\x18\x02 \x01(\x03R\bcourseId\"g\n" +
 	"\x1bCreateStudentCourseResponse\x12H\n" +
-	"\x0estudent_course\x18\x01 \x01(\v2!.course_recommender.StudentCourseR\rstudentCourse\"\xc5\x01\n" +
+	"\x0estudent_course\x18\x01 \x01(\v2!.course_recommender.StudentCourseR\rstudentCourse\"\xc3\x01\n" +
 	"\x1aUpdateStudentCourseRequest\x12\x1d\n" +
 	"\n" +
 	"student_id\x18\x01 \x01(\x03R\tstudentId\x12\x1b\n" +
 	"\tcourse_id\x18\x02 \x01(\x03R\bcourseId\x121\n" +
-	"\x05marks\x18\x03 \x01(\v2\x1b.google.protobuf.Int32ValueR\x05marks\x128\n" +
-	"\bfeedback\x18\x04 \x01(\v2\x1c.google.protobuf.StringValueR\bfeedback\"g\n" +
+	"\x05marks\x18\x03 \x01(\v2\x1b.google.protobuf.Int32ValueR\x05marks\x126\n" +
+	"\bfeedback\x18\x04 \x01(\v2\x1a.google.protobuf.BoolValueR\bfeedback\"g\n" +
 	"\x1bUpdateStudentCourseResponse\x12H\n" +
 	"\x0estudent_course\x18\x01 \x01(\v2!.course_recommender.StudentCourseR\rstudentCourse\";\n" +
 	"\x1cGetStudentsByCourseIdRequest\x12\x1b\n" +
@@ -655,14 +655,14 @@ var file_student_course_proto_goTypes = []any{
 	(*DeleteStudentCourseRequest)(nil),    // 9: course_recommender.DeleteStudentCourseRequest
 	(*DeleteStudentCourseResponse)(nil),   // 10: course_recommender.DeleteStudentCourseResponse
 	(*wrapperspb.Int32Value)(nil),         // 11: google.protobuf.Int32Value
-	(*wrapperspb.StringValue)(nil),        // 12: google.protobuf.StringValue
+	(*wrapperspb.BoolValue)(nil),          // 12: google.protobuf.BoolValue
 	(*Student)(nil),                       // 13: course_recommender.Student
 	(*Course)(nil),                        // 14: course_recommender.Course
 }
 var file_student_course_proto_depIdxs = []int32{
 	0,  // 0: course_recommender.CreateStudentCourseResponse.student_course:type_name -> course_recommender.StudentCourse
 	11, // 1: course_recommender.UpdateStudentCourseRequest.marks:type_name -> google.protobuf.Int32Value
-	12, // 2: course_recommender.UpdateStudentCourseRequest.feedback:type_name -> google.protobuf.StringValue
+	12, // 2: course_recommender.UpdateStudentCourseRequest.feedback:type_name -> google.protobuf.BoolValue
 	0,  // 3: course_recommender.UpdateStudentCourseResponse.student_course:type_name -> course_recommender.StudentCourse
 	13, // 4: course_recommender.GetStudentsByCourseIdResponse.students:type_name -> course_recommender.Student
 	14, // 5: course_recommender.GetCoursesByStudentIdResponse.courses:type_name -> course_recommender.Course

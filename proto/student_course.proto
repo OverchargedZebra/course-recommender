@@ -14,7 +14,7 @@ message StudentCourse {
   int64 student_id = 1;
   int64 course_id = 2;
   int32 marks = 3;
-  string feedback = 4;
+  bool feedback = 4;
 }
 
 // Request to create a new student-course association (enrollment).
@@ -33,7 +33,7 @@ message UpdateStudentCourseRequest {
   int64 student_id = 1;
   int64 course_id = 2;
   google.protobuf.Int32Value marks = 3;
-  google.protobuf.StringValue feedback = 4;
+  google.protobuf.BoolValue feedback = 4;
 }
 
 // Response containing the updated student-course association.

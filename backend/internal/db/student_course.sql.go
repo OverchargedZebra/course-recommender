@@ -12,9 +12,12 @@ import (
 )
 
 const createStudentCourse = `-- name: CreateStudentCourse :one
-INSERT INTO student_course(student_id, course_id)
-VALUES ($1, $2)
-RETURNING student_id, course_id, marks, feedback
+INSERT INTO
+    student_course (student_id, course_id)
+VALUES
+    ($1, $2)
+RETURNING
+    student_id, course_id, marks, feedback
 `
 
 type CreateStudentCourseParams struct {
@@ -36,9 +39,11 @@ func (q *Queries) CreateStudentCourse(ctx context.Context, arg CreateStudentCour
 
 const deleteStudentCourse = `-- name: DeleteStudentCourse :one
 DELETE FROM student_course
-WHERE course_id = $1
+WHERE
+    course_id = $1
     AND student_id = $2
-RETURNING TRUE
+RETURNING
+    TRUE
 `
 
 type DeleteStudentCourseParams struct {
@@ -54,11 +59,14 @@ func (q *Queries) DeleteStudentCourse(ctx context.Context, arg DeleteStudentCour
 }
 
 const getCoursesByStudentId = `-- name: GetCoursesByStudentId :many
-SELECT course.id, course.difficulty, course.course_name
-FROM student_course
+SELECT
+    course.id, course.difficulty, course.course_name
+FROM
+    student_course
     LEFT JOIN course ON course.id = student_course.course_id
     LEFT JOIN student ON student.id = student_course.student_id
-WHERE student.id = $1
+WHERE
+    student.id = $1
 `
 
 type GetCoursesByStudentIdRow struct {
@@ -86,11 +94,14 @@ func (q *Queries) GetCoursesByStudentId(ctx context.Context, id int64) ([]GetCou
 }
 
 const getStudentsByCourseId = `-- name: GetStudentsByCourseId :many
-SELECT student.id, student.student_email, student.student_password
-FROM student_course
+SELECT
+    student.id, student.student_email, student.student_password
+FROM
+    student_course
     LEFT JOIN course ON course.id = student_course.course_id
     LEFT JOIN student ON student.id = student_course.student_id
-WHERE course.id = $1
+WHERE
+    course.id = $1
 `
 
 type GetStudentsByCourseIdRow struct {
@@ -119,11 +130,14 @@ func (q *Queries) GetStudentsByCourseId(ctx context.Context, id int64) ([]GetStu
 
 const updateStudentCourse = `-- name: UpdateStudentCourse :one
 UPDATE student_course
-SET marks = $3,
+SET
+    marks = $3,
     feedback = $4
-WHERE student_id = $1
+WHERE
+    student_id = $1
     AND course_id = $2
-RETURNING student_id, course_id, marks, feedback
+RETURNING
+    student_id, course_id, marks, feedback
 `
 
 type UpdateStudentCourseParams struct {

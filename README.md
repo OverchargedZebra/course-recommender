@@ -27,3 +27,45 @@ frontend and every step in between.
 7. nginx used to serve the pages and the connection in a secure method
 8. docker to glue all the pieces together
 9. git for version control
+
+## endpoints available through the backend
+
+- course_recommender.CourseService
+  - /GetCourse
+  - /GetCourseByName
+  - /ListCourse
+
+- course_recommender.CourseQuestionService
+  - /GetCourseQuestion
+  - /ListCourseQuestions
+  - /GetCourseQuestionsByCourseId
+
+- course_recommender.DegreeTypeService
+  - /GetDegreeType
+  - /GetDegreeTypeByName
+  - /ListDegreeTypes
+
+- course_recommender.DegreeCourseService
+  - /GetCoursesByDegreeId
+  - /GetDegreesByCourseId
+
+- course_recommender.TagService
+  - /GetTag
+  - /GetTagByName
+  - /ListTags
+
+- course_recommender.CourseTagService
+  - /GetTagsByCourseId
+  - /GetCoursesByTagId
+
+- course_recommender.StudentService
+  - /CreateStudent
+  - /GetStudentByEmail
+  - /UpdateStudent
+  - /DeleteStudent
+
+- course_recommender.StudentCourseService
+  - /CreateStudentCourse
+  - /UpdateStudentCourse
+  - /GetCoursesByStudentId
+  - /DeleteStudentCourse

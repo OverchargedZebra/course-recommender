@@ -32,7 +32,7 @@ type CourseQuestion struct {
 	QuestionOptionB string                 `protobuf:"bytes,5,opt,name=question_option_b,json=questionOptionB,proto3" json:"question_option_b,omitempty"`
 	QuestionOptionC string                 `protobuf:"bytes,6,opt,name=question_option_c,json=questionOptionC,proto3" json:"question_option_c,omitempty"`
 	QuestionOptionD string                 `protobuf:"bytes,7,opt,name=question_option_d,json=questionOptionD,proto3" json:"question_option_d,omitempty"`
-	CorrectOption   string                 `protobuf:"bytes,8,opt,name=correct_option,json=correctOption,proto3" json:"correct_option,omitempty"`
+	CorrectOption   int32                  `protobuf:"varint,8,opt,name=correct_option,json=correctOption,proto3" json:"correct_option,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -116,11 +116,11 @@ func (x *CourseQuestion) GetQuestionOptionD() string {
 	return ""
 }
 
-func (x *CourseQuestion) GetCorrectOption() string {
+func (x *CourseQuestion) GetCorrectOption() int32 {
 	if x != nil {
 		return x.CorrectOption
 	}
-	return ""
+	return 0
 }
 
 // Request to create a new course question.
@@ -132,7 +132,7 @@ type CreateCourseQuestionRequest struct {
 	QuestionOptionB string                 `protobuf:"bytes,4,opt,name=question_option_b,json=questionOptionB,proto3" json:"question_option_b,omitempty"`
 	QuestionOptionC string                 `protobuf:"bytes,5,opt,name=question_option_c,json=questionOptionC,proto3" json:"question_option_c,omitempty"`
 	QuestionOptionD string                 `protobuf:"bytes,6,opt,name=question_option_d,json=questionOptionD,proto3" json:"question_option_d,omitempty"`
-	CorrectOption   string                 `protobuf:"bytes,7,opt,name=correct_option,json=correctOption,proto3" json:"correct_option,omitempty"`
+	CorrectOption   int32                  `protobuf:"varint,7,opt,name=correct_option,json=correctOption,proto3" json:"correct_option,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -209,11 +209,11 @@ func (x *CreateCourseQuestionRequest) GetQuestionOptionD() string {
 	return ""
 }
 
-func (x *CreateCourseQuestionRequest) GetCorrectOption() string {
+func (x *CreateCourseQuestionRequest) GetCorrectOption() int32 {
 	if x != nil {
 		return x.CorrectOption
 	}
-	return ""
+	return 0
 }
 
 // Response containing the newly created course question.
@@ -764,7 +764,7 @@ const file_course_question_proto_rawDesc = "" +
 	"\x11question_option_b\x18\x05 \x01(\tR\x0fquestionOptionB\x12*\n" +
 	"\x11question_option_c\x18\x06 \x01(\tR\x0fquestionOptionC\x12*\n" +
 	"\x11question_option_d\x18\a \x01(\tR\x0fquestionOptionD\x12%\n" +
-	"\x0ecorrect_option\x18\b \x01(\tR\rcorrectOption\"\xad\x02\n" +
+	"\x0ecorrect_option\x18\b \x01(\x05R\rcorrectOption\"\xad\x02\n" +
 	"\x1bCreateCourseQuestionRequest\x12\x1b\n" +
 	"\tcourse_id\x18\x01 \x01(\x03R\bcourseId\x12\x1a\n" +
 	"\bquestion\x18\x02 \x01(\tR\bquestion\x12*\n" +
@@ -772,7 +772,7 @@ const file_course_question_proto_rawDesc = "" +
 	"\x11question_option_b\x18\x04 \x01(\tR\x0fquestionOptionB\x12*\n" +
 	"\x11question_option_c\x18\x05 \x01(\tR\x0fquestionOptionC\x12*\n" +
 	"\x11question_option_d\x18\x06 \x01(\tR\x0fquestionOptionD\x12%\n" +
-	"\x0ecorrect_option\x18\a \x01(\tR\rcorrectOption\"k\n" +
+	"\x0ecorrect_option\x18\a \x01(\x05R\rcorrectOption\"k\n" +
 	"\x1cCreateCourseQuestionResponse\x12K\n" +
 	"\x0fcourse_question\x18\x01 \x01(\v2\".course_recommender.CourseQuestionR\x0ecourseQuestion\"*\n" +
 	"\x18GetCourseQuestionRequest\x12\x0e\n" +

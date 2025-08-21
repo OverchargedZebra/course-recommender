@@ -24,17 +24,32 @@ func (s *Server) GetCourseByName(ctx context.Context, req *api.GetCourseByNameRe
 	queryName, valid := handlePbStringWrapper(req.CourseName)
 	result, err := s.q.GetCourseByName(ctx, pgtype.Text{String: queryName, Valid: valid})
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "GetCourseNameRequest aborted because of: %v", err)
+		return nil, status.Errorf(codes.Aborted, "GetCourseByName Request aborted because of: %v", err)
 	}
 
-	courses := make([]*api.Course, len(result))
-	for index, course := range result {
-		courses[index] = apiCourse(&db.Course{
-			ID:         course.ID,
-			CourseName: course.CourseName,
-			Difficulty: course.Difficulty,
-		})
-	}
+	courses := convertDataTypeList(result, apiCourse)
 
 	return &api.GetCourseByNameResponse{Courses: courses}, nil
+}
+
+// Retrieves a course by its ID.
+func (s *Server) GetCourse(ctx context.Context, req *api.GetCourseRequest) (*api.GetCourseResponse, error) {
+	result, err := s.q.GetCourse(ctx, req.Id)
+	if err != nil {
+		return nil, status.Errorf(codes.Aborted, "GetCourse request aborted because of: %v", err)
+	}
+
+	return &api.GetCourseResponse{Course: apiCourse(&result)}, nil
+}
+
+// Lists all courses.
+func (s *Server) ListCourses(ctx context.Context, req *api.ListCoursesRequest) (*api.ListCoursesResponse, error) {
+	result, err := s.q.ListCourses(ctx)
+	if err != nil {
+		return nil, status.Errorf(codes.Aborted, "ListCourses request aborted because of: %v", err)
+	}
+
+	courses := convertDataTypeList(result, apiCourse)
+
+	return &api.ListCoursesResponse{Courses: courses}, nil
 }

@@ -40,3 +40,29 @@ func handlePbInt32Wrapper(wrap *wrapperspb.Int32Value) (int32, bool) {
 
 	return 0, false
 }
+
+func handlePbBoolWrapper(wrap *wrapperspb.BoolValue) (bool, bool) {
+	if wrap != nil {
+		return wrap.Value, true
+	}
+
+	return false, false
+}
+
+func convertDataTypeList[T, U any](list []T, fn func(*T) *U) []*U {
+	result := make([]*U, len(list))
+	for index, val := range list {
+		result[index] = fn(&val)
+	}
+
+	return result
+}
+
+func fixDataTypeList[T, U any](list []T, fn func(*T) U) []U {
+	result := make([]U, len(list))
+	for index, val := range list {
+		result[index] = fn(&val)
+	}
+
+	return result
+}

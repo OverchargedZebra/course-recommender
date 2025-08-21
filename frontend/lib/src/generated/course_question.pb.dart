@@ -29,7 +29,7 @@ class CourseQuestion extends $pb.GeneratedMessage {
     $core.String? questionOptionB,
     $core.String? questionOptionC,
     $core.String? questionOptionD,
-    $core.String? correctOption,
+    $core.int? correctOption,
   }) {
     final result = create();
     if (id != null) result.id = id;
@@ -64,7 +64,8 @@ class CourseQuestion extends $pb.GeneratedMessage {
     ..aOS(5, _omitFieldNames ? '' : 'questionOptionB')
     ..aOS(6, _omitFieldNames ? '' : 'questionOptionC')
     ..aOS(7, _omitFieldNames ? '' : 'questionOptionD')
-    ..aOS(8, _omitFieldNames ? '' : 'correctOption')
+    ..a<$core.int>(
+        8, _omitFieldNames ? '' : 'correctOption', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -152,9 +153,9 @@ class CourseQuestion extends $pb.GeneratedMessage {
   void clearQuestionOptionD() => $_clearField(7);
 
   @$pb.TagNumber(8)
-  $core.String get correctOption => $_getSZ(7);
+  $core.int get correctOption => $_getIZ(7);
   @$pb.TagNumber(8)
-  set correctOption($core.String value) => $_setString(7, value);
+  set correctOption($core.int value) => $_setSignedInt32(7, value);
   @$pb.TagNumber(8)
   $core.bool hasCorrectOption() => $_has(7);
   @$pb.TagNumber(8)
@@ -170,7 +171,7 @@ class CreateCourseQuestionRequest extends $pb.GeneratedMessage {
     $core.String? questionOptionB,
     $core.String? questionOptionC,
     $core.String? questionOptionD,
-    $core.String? correctOption,
+    $core.int? correctOption,
   }) {
     final result = create();
     if (courseId != null) result.courseId = courseId;
@@ -203,7 +204,8 @@ class CreateCourseQuestionRequest extends $pb.GeneratedMessage {
     ..aOS(4, _omitFieldNames ? '' : 'questionOptionB')
     ..aOS(5, _omitFieldNames ? '' : 'questionOptionC')
     ..aOS(6, _omitFieldNames ? '' : 'questionOptionD')
-    ..aOS(7, _omitFieldNames ? '' : 'correctOption')
+    ..a<$core.int>(
+        7, _omitFieldNames ? '' : 'correctOption', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -286,9 +288,9 @@ class CreateCourseQuestionRequest extends $pb.GeneratedMessage {
   void clearQuestionOptionD() => $_clearField(6);
 
   @$pb.TagNumber(7)
-  $core.String get correctOption => $_getSZ(6);
+  $core.int get correctOption => $_getIZ(6);
   @$pb.TagNumber(7)
-  set correctOption($core.String value) => $_setString(6, value);
+  set correctOption($core.int value) => $_setSignedInt32(6, value);
   @$pb.TagNumber(7)
   $core.bool hasCorrectOption() => $_has(6);
   @$pb.TagNumber(7)

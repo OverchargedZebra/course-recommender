@@ -28,7 +28,7 @@ class StudentCourse extends $pb.GeneratedMessage {
     $fixnum.Int64? studentId,
     $fixnum.Int64? courseId,
     $core.int? marks,
-    $core.String? feedback,
+    $core.bool? feedback,
   }) {
     final result = create();
     if (studentId != null) result.studentId = studentId;
@@ -55,7 +55,7 @@ class StudentCourse extends $pb.GeneratedMessage {
     ..aInt64(1, _omitFieldNames ? '' : 'studentId')
     ..aInt64(2, _omitFieldNames ? '' : 'courseId')
     ..a<$core.int>(3, _omitFieldNames ? '' : 'marks', $pb.PbFieldType.O3)
-    ..aOS(4, _omitFieldNames ? '' : 'feedback')
+    ..aOB(4, _omitFieldNames ? '' : 'feedback')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -107,9 +107,9 @@ class StudentCourse extends $pb.GeneratedMessage {
   void clearMarks() => $_clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get feedback => $_getSZ(3);
+  $core.bool get feedback => $_getBF(3);
   @$pb.TagNumber(4)
-  set feedback($core.String value) => $_setString(3, value);
+  set feedback($core.bool value) => $_setBool(3, value);
   @$pb.TagNumber(4)
   $core.bool hasFeedback() => $_has(3);
   @$pb.TagNumber(4)
@@ -260,7 +260,7 @@ class UpdateStudentCourseRequest extends $pb.GeneratedMessage {
     $fixnum.Int64? studentId,
     $fixnum.Int64? courseId,
     $1.Int32Value? marks,
-    $1.StringValue? feedback,
+    $1.BoolValue? feedback,
   }) {
     final result = create();
     if (studentId != null) result.studentId = studentId;
@@ -288,8 +288,8 @@ class UpdateStudentCourseRequest extends $pb.GeneratedMessage {
     ..aInt64(2, _omitFieldNames ? '' : 'courseId')
     ..aOM<$1.Int32Value>(3, _omitFieldNames ? '' : 'marks',
         subBuilder: $1.Int32Value.create)
-    ..aOM<$1.StringValue>(4, _omitFieldNames ? '' : 'feedback',
-        subBuilder: $1.StringValue.create)
+    ..aOM<$1.BoolValue>(4, _omitFieldNames ? '' : 'feedback',
+        subBuilder: $1.BoolValue.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -346,15 +346,15 @@ class UpdateStudentCourseRequest extends $pb.GeneratedMessage {
   $1.Int32Value ensureMarks() => $_ensure(2);
 
   @$pb.TagNumber(4)
-  $1.StringValue get feedback => $_getN(3);
+  $1.BoolValue get feedback => $_getN(3);
   @$pb.TagNumber(4)
-  set feedback($1.StringValue value) => $_setField(4, value);
+  set feedback($1.BoolValue value) => $_setField(4, value);
   @$pb.TagNumber(4)
   $core.bool hasFeedback() => $_has(3);
   @$pb.TagNumber(4)
   void clearFeedback() => $_clearField(4);
   @$pb.TagNumber(4)
-  $1.StringValue ensureFeedback() => $_ensure(3);
+  $1.BoolValue ensureFeedback() => $_ensure(3);
 }
 
 /// Response containing the updated student-course association.

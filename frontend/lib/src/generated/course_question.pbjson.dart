@@ -25,7 +25,7 @@ const CourseQuestion$json = {
     {'1': 'question_option_b', '3': 5, '4': 1, '5': 9, '10': 'questionOptionB'},
     {'1': 'question_option_c', '3': 6, '4': 1, '5': 9, '10': 'questionOptionC'},
     {'1': 'question_option_d', '3': 7, '4': 1, '5': 9, '10': 'questionOptionD'},
-    {'1': 'correct_option', '3': 8, '4': 1, '5': 9, '10': 'correctOption'},
+    {'1': 'correct_option', '3': 8, '4': 1, '5': 5, '10': 'correctOption'},
   ],
 };
 
@@ -36,7 +36,7 @@ final $typed_data.Uint8List courseQuestionDescriptor = $convert.base64Decode(
     'BCABKAlSD3F1ZXN0aW9uT3B0aW9uQRIqChFxdWVzdGlvbl9vcHRpb25fYhgFIAEoCVIPcXVlc3'
     'Rpb25PcHRpb25CEioKEXF1ZXN0aW9uX29wdGlvbl9jGAYgASgJUg9xdWVzdGlvbk9wdGlvbkMS'
     'KgoRcXVlc3Rpb25fb3B0aW9uX2QYByABKAlSD3F1ZXN0aW9uT3B0aW9uRBIlCg5jb3JyZWN0X2'
-    '9wdGlvbhgIIAEoCVINY29ycmVjdE9wdGlvbg==');
+    '9wdGlvbhgIIAEoBVINY29ycmVjdE9wdGlvbg==');
 
 @$core.Deprecated('Use createCourseQuestionRequestDescriptor instead')
 const CreateCourseQuestionRequest$json = {
@@ -48,7 +48,7 @@ const CreateCourseQuestionRequest$json = {
     {'1': 'question_option_b', '3': 4, '4': 1, '5': 9, '10': 'questionOptionB'},
     {'1': 'question_option_c', '3': 5, '4': 1, '5': 9, '10': 'questionOptionC'},
     {'1': 'question_option_d', '3': 6, '4': 1, '5': 9, '10': 'questionOptionD'},
-    {'1': 'correct_option', '3': 7, '4': 1, '5': 9, '10': 'correctOption'},
+    {'1': 'correct_option', '3': 7, '4': 1, '5': 5, '10': 'correctOption'},
   ],
 };
 
@@ -59,7 +59,7 @@ final $typed_data.Uint8List createCourseQuestionRequestDescriptor = $convert.bas
     'KAlSD3F1ZXN0aW9uT3B0aW9uQRIqChFxdWVzdGlvbl9vcHRpb25fYhgEIAEoCVIPcXVlc3Rpb2'
     '5PcHRpb25CEioKEXF1ZXN0aW9uX29wdGlvbl9jGAUgASgJUg9xdWVzdGlvbk9wdGlvbkMSKgoR'
     'cXVlc3Rpb25fb3B0aW9uX2QYBiABKAlSD3F1ZXN0aW9uT3B0aW9uRBIlCg5jb3JyZWN0X29wdG'
-    'lvbhgHIAEoCVINY29ycmVjdE9wdGlvbg==');
+    'lvbhgHIAEoBVINY29ycmVjdE9wdGlvbg==');
 
 @$core.Deprecated('Use createCourseQuestionResponseDescriptor instead')
 const CreateCourseQuestionResponse$json = {

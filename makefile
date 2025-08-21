@@ -12,6 +12,8 @@ flutterweb:
 sqlcgen:
 	@sqlc generate
 
+protogen: goproto dartproto
+
 goproto:
 	@protoc -I=proto \
 	-I="$(PROTO_PATH)/include" \

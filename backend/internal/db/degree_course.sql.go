@@ -10,9 +10,12 @@ import (
 )
 
 const createDegreeCourse = `-- name: CreateDegreeCourse :one
-INSERT INTO degree_course(degree_type_id, course_id)
-VALUES ($1, $2)
-RETURNING degree_type_id, course_id
+INSERT INTO
+    degree_course (degree_type_id, course_id)
+VALUES
+    ($1, $2)
+RETURNING
+    degree_type_id, course_id
 `
 
 type CreateDegreeCourseParams struct {
@@ -29,9 +32,11 @@ func (q *Queries) CreateDegreeCourse(ctx context.Context, arg CreateDegreeCourse
 
 const deleteDegreeCourse = `-- name: DeleteDegreeCourse :one
 DELETE FROM degree_course
-WHERE degree_type_id = $1
+WHERE
+    degree_type_id = $1
     AND course_id = $2
-RETURNING TRUE
+RETURNING
+    TRUE
 `
 
 type DeleteDegreeCourseParams struct {
@@ -47,11 +52,14 @@ func (q *Queries) DeleteDegreeCourse(ctx context.Context, arg DeleteDegreeCourse
 }
 
 const getCoursesByDegreeId = `-- name: GetCoursesByDegreeId :many
-SELECT course.id, course.difficulty, course.course_name
-FROM degree_course
+SELECT
+    course.id, course.difficulty, course.course_name
+FROM
+    degree_course
     LEFT JOIN degree_type ON degree_type.id = degree_course.degree_type_id
     LEFT JOIN course ON course.id = degree_course.course_id
-WHERE degree_type.id = $1
+WHERE
+    degree_type.id = $1
 `
 
 type GetCoursesByDegreeIdRow struct {
@@ -79,11 +87,14 @@ func (q *Queries) GetCoursesByDegreeId(ctx context.Context, id int64) ([]GetCour
 }
 
 const getDegreesByCourseId = `-- name: GetDegreesByCourseId :many
-SELECT degree_type.id, degree_type.degree_name
-FROM degree_course
+SELECT
+    degree_type.id, degree_type.degree_name
+FROM
+    degree_course
     LEFT JOIN degree_type ON degree_type.id = degree_course.degree_type_id
     LEFT JOIN course ON course.id = degree_course.course_id
-WHERE course.id = $1
+WHERE
+    course.id = $1
 `
 
 type GetDegreesByCourseIdRow struct {

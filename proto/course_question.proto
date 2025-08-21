@@ -15,7 +15,7 @@ message CourseQuestion {
   string question_option_b = 5;
   string question_option_c = 6;
   string question_option_d = 7;
-  string correct_option = 8;
+  int32 correct_option = 8;
 }
 
 // Request to create a new course question.
@@ -26,7 +26,7 @@ message CreateCourseQuestionRequest {
   string question_option_b = 4;
   string question_option_c = 5;
   string question_option_d = 6;
-  string correct_option = 7;
+  int32 correct_option = 7;
 }
 
 // Response containing the newly created course question.

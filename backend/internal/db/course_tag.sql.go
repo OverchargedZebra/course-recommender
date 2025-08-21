@@ -10,9 +10,12 @@ import (
 )
 
 const createCourseTag = `-- name: CreateCourseTag :one
-INSERT INTO course_tag(course_id, tag_id)
-VALUES ($1, $2)
-RETURNING course_id, tag_id
+INSERT INTO
+    course_tag (course_id, tag_id)
+VALUES
+    ($1, $2)
+RETURNING
+    course_id, tag_id
 `
 
 type CreateCourseTagParams struct {
@@ -29,9 +32,11 @@ func (q *Queries) CreateCourseTag(ctx context.Context, arg CreateCourseTagParams
 
 const deleteCourseTag = `-- name: DeleteCourseTag :one
 DELETE FROM course_tag
-WHERE course_id = $1
+WHERE
+    course_id = $1
     AND tag_id = $2
-RETURNING TRUE
+RETURNING
+    TRUE
 `
 
 type DeleteCourseTagParams struct {
@@ -47,11 +52,14 @@ func (q *Queries) DeleteCourseTag(ctx context.Context, arg DeleteCourseTagParams
 }
 
 const getCoursesByTagId = `-- name: GetCoursesByTagId :many
-SELECT course.id, course.difficulty, course.course_name
-FROM course_tag
+SELECT
+    course.id, course.difficulty, course.course_name
+FROM
+    course_tag
     LEFT JOIN course ON course.id = course_tag.course_id
-    LEFT JOIN tag on tag.id = course_tag.tag_id
-WHERE tag.id = $1
+    LEFT JOIN tag ON tag.id = course_tag.tag_id
+WHERE
+    tag.id = $1
 `
 
 type GetCoursesByTagIdRow struct {
@@ -79,11 +87,14 @@ func (q *Queries) GetCoursesByTagId(ctx context.Context, id int64) ([]GetCourses
 }
 
 const getTagsByCourseId = `-- name: GetTagsByCourseId :many
-SELECT tag.id, tag.tag_name
-FROM course_tag
+SELECT
+    tag.id, tag.tag_name
+FROM
+    course_tag
     LEFT JOIN course ON course.id = course_tag.course_id
-    LEFT JOIN tag on tag.id = course_tag.tag_id
-WHERE course.id = $1
+    LEFT JOIN tag ON tag.id = course_tag.tag_id
+WHERE
+    course.id = $1
 `
 
 type GetTagsByCourseIdRow struct {

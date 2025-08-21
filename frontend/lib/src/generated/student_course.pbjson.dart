@@ -21,7 +21,7 @@ const StudentCourse$json = {
     {'1': 'student_id', '3': 1, '4': 1, '5': 3, '10': 'studentId'},
     {'1': 'course_id', '3': 2, '4': 1, '5': 3, '10': 'courseId'},
     {'1': 'marks', '3': 3, '4': 1, '5': 5, '10': 'marks'},
-    {'1': 'feedback', '3': 4, '4': 1, '5': 9, '10': 'feedback'},
+    {'1': 'feedback', '3': 4, '4': 1, '5': 8, '10': 'feedback'},
   ],
 };
 
@@ -29,7 +29,7 @@ const StudentCourse$json = {
 final $typed_data.Uint8List studentCourseDescriptor = $convert.base64Decode(
     'Cg1TdHVkZW50Q291cnNlEh0KCnN0dWRlbnRfaWQYASABKANSCXN0dWRlbnRJZBIbCgljb3Vyc2'
     'VfaWQYAiABKANSCGNvdXJzZUlkEhQKBW1hcmtzGAMgASgFUgVtYXJrcxIaCghmZWVkYmFjaxgE'
-    'IAEoCVIIZmVlZGJhY2s=');
+    'IAEoCFIIZmVlZGJhY2s=');
 
 @$core.Deprecated('Use createStudentCourseRequestDescriptor instead')
 const CreateStudentCourseRequest$json = {
@@ -86,7 +86,7 @@ const UpdateStudentCourseRequest$json = {
       '3': 4,
       '4': 1,
       '5': 11,
-      '6': '.google.protobuf.StringValue',
+      '6': '.google.protobuf.BoolValue',
       '10': 'feedback'
     },
   ],
@@ -96,8 +96,8 @@ const UpdateStudentCourseRequest$json = {
 final $typed_data.Uint8List updateStudentCourseRequestDescriptor = $convert.base64Decode(
     'ChpVcGRhdGVTdHVkZW50Q291cnNlUmVxdWVzdBIdCgpzdHVkZW50X2lkGAEgASgDUglzdHVkZW'
     '50SWQSGwoJY291cnNlX2lkGAIgASgDUghjb3Vyc2VJZBIxCgVtYXJrcxgDIAEoCzIbLmdvb2ds'
-    'ZS5wcm90b2J1Zi5JbnQzMlZhbHVlUgVtYXJrcxI4CghmZWVkYmFjaxgEIAEoCzIcLmdvb2dsZS'
-    '5wcm90b2J1Zi5TdHJpbmdWYWx1ZVIIZmVlZGJhY2s=');
+    'ZS5wcm90b2J1Zi5JbnQzMlZhbHVlUgVtYXJrcxI2CghmZWVkYmFjaxgEIAEoCzIaLmdvb2dsZS'
+    '5wcm90b2J1Zi5Cb29sVmFsdWVSCGZlZWRiYWNr');
 
 @$core.Deprecated('Use updateStudentCourseResponseDescriptor instead')
 const UpdateStudentCourseResponse$json = {
