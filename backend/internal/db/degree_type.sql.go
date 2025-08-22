@@ -66,13 +66,14 @@ FROM
 WHERE
     id @@@ paradedb.match (
         'degree_name',
-        COALESCE($1::TEXT, '')
+        $1::TEXT,
+        distance => 1
     )
 ORDER BY
     paradedb.score (id) DESC
 `
 
-func (q *Queries) GetDegreeTypeByName(ctx context.Context, degreeName pgtype.Text) ([]DegreeType, error) {
+func (q *Queries) GetDegreeTypeByName(ctx context.Context, degreeName string) ([]DegreeType, error) {
 	rows, err := q.db.Query(ctx, getDegreeTypeByName, degreeName)
 	if err != nil {
 		return nil, err

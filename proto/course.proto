@@ -36,7 +36,7 @@ message GetCourseResponse {
 
 // Request to get courses by name.
 message GetCourseByNameRequest {
-  google.protobuf.StringValue course_name = 1;
+  string course_name = 1;
 }
 
 // Response containing a list of courses that match the name.

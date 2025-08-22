@@ -257,8 +257,8 @@ func (x *GetDegreeTypeResponse) GetDegreeType() *DegreeType {
 
 // Request to get degree types by name.
 type GetDegreeTypeByNameRequest struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	DegreeName    *wrapperspb.StringValue `protobuf:"bytes,1,opt,name=degree_name,json=degreeName,proto3" json:"degree_name,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	DegreeName    string                 `protobuf:"bytes,1,opt,name=degree_name,json=degreeName,proto3" json:"degree_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -293,11 +293,11 @@ func (*GetDegreeTypeByNameRequest) Descriptor() ([]byte, []int) {
 	return file_degree_type_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *GetDegreeTypeByNameRequest) GetDegreeName() *wrapperspb.StringValue {
+func (x *GetDegreeTypeByNameRequest) GetDegreeName() string {
 	if x != nil {
 		return x.DegreeName
 	}
-	return nil
+	return ""
 }
 
 // Response containing a list of degree types that match the name.
@@ -635,9 +635,9 @@ const file_degree_type_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"X\n" +
 	"\x15GetDegreeTypeResponse\x12?\n" +
 	"\vdegree_type\x18\x01 \x01(\v2\x1e.course_recommender.DegreeTypeR\n" +
-	"degreeType\"[\n" +
-	"\x1aGetDegreeTypeByNameRequest\x12=\n" +
-	"\vdegree_name\x18\x01 \x01(\v2\x1c.google.protobuf.StringValueR\n" +
+	"degreeType\"=\n" +
+	"\x1aGetDegreeTypeByNameRequest\x12\x1f\n" +
+	"\vdegree_name\x18\x01 \x01(\tR\n" +
 	"degreeName\"`\n" +
 	"\x1bGetDegreeTypeByNameResponse\x12A\n" +
 	"\fdegree_types\x18\x01 \x03(\v2\x1e.course_recommender.DegreeTypeR\vdegreeTypes\"h\n" +
@@ -695,28 +695,27 @@ var file_degree_type_proto_goTypes = []any{
 var file_degree_type_proto_depIdxs = []int32{
 	0,  // 0: course_recommender.CreateDegreeTypeResponse.degree_type:type_name -> course_recommender.DegreeType
 	0,  // 1: course_recommender.GetDegreeTypeResponse.degree_type:type_name -> course_recommender.DegreeType
-	13, // 2: course_recommender.GetDegreeTypeByNameRequest.degree_name:type_name -> google.protobuf.StringValue
-	0,  // 3: course_recommender.GetDegreeTypeByNameResponse.degree_types:type_name -> course_recommender.DegreeType
-	13, // 4: course_recommender.UpdateDegreeTypeRequest.degree_name:type_name -> google.protobuf.StringValue
-	0,  // 5: course_recommender.UpdateDegreeTypeResponse.degree_type:type_name -> course_recommender.DegreeType
-	0,  // 6: course_recommender.ListDegreeTypesResponse.degree_types:type_name -> course_recommender.DegreeType
-	1,  // 7: course_recommender.DegreeTypeService.CreateDegreeType:input_type -> course_recommender.CreateDegreeTypeRequest
-	3,  // 8: course_recommender.DegreeTypeService.GetDegreeType:input_type -> course_recommender.GetDegreeTypeRequest
-	5,  // 9: course_recommender.DegreeTypeService.GetDegreeTypeByName:input_type -> course_recommender.GetDegreeTypeByNameRequest
-	7,  // 10: course_recommender.DegreeTypeService.UpdateDegreeType:input_type -> course_recommender.UpdateDegreeTypeRequest
-	9,  // 11: course_recommender.DegreeTypeService.ListDegreeTypes:input_type -> course_recommender.ListDegreeTypesRequest
-	11, // 12: course_recommender.DegreeTypeService.DeleteDegreeType:input_type -> course_recommender.DeleteDegreeTypeRequest
-	2,  // 13: course_recommender.DegreeTypeService.CreateDegreeType:output_type -> course_recommender.CreateDegreeTypeResponse
-	4,  // 14: course_recommender.DegreeTypeService.GetDegreeType:output_type -> course_recommender.GetDegreeTypeResponse
-	6,  // 15: course_recommender.DegreeTypeService.GetDegreeTypeByName:output_type -> course_recommender.GetDegreeTypeByNameResponse
-	8,  // 16: course_recommender.DegreeTypeService.UpdateDegreeType:output_type -> course_recommender.UpdateDegreeTypeResponse
-	10, // 17: course_recommender.DegreeTypeService.ListDegreeTypes:output_type -> course_recommender.ListDegreeTypesResponse
-	12, // 18: course_recommender.DegreeTypeService.DeleteDegreeType:output_type -> course_recommender.DeleteDegreeTypeResponse
-	13, // [13:19] is the sub-list for method output_type
-	7,  // [7:13] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	0,  // 2: course_recommender.GetDegreeTypeByNameResponse.degree_types:type_name -> course_recommender.DegreeType
+	13, // 3: course_recommender.UpdateDegreeTypeRequest.degree_name:type_name -> google.protobuf.StringValue
+	0,  // 4: course_recommender.UpdateDegreeTypeResponse.degree_type:type_name -> course_recommender.DegreeType
+	0,  // 5: course_recommender.ListDegreeTypesResponse.degree_types:type_name -> course_recommender.DegreeType
+	1,  // 6: course_recommender.DegreeTypeService.CreateDegreeType:input_type -> course_recommender.CreateDegreeTypeRequest
+	3,  // 7: course_recommender.DegreeTypeService.GetDegreeType:input_type -> course_recommender.GetDegreeTypeRequest
+	5,  // 8: course_recommender.DegreeTypeService.GetDegreeTypeByName:input_type -> course_recommender.GetDegreeTypeByNameRequest
+	7,  // 9: course_recommender.DegreeTypeService.UpdateDegreeType:input_type -> course_recommender.UpdateDegreeTypeRequest
+	9,  // 10: course_recommender.DegreeTypeService.ListDegreeTypes:input_type -> course_recommender.ListDegreeTypesRequest
+	11, // 11: course_recommender.DegreeTypeService.DeleteDegreeType:input_type -> course_recommender.DeleteDegreeTypeRequest
+	2,  // 12: course_recommender.DegreeTypeService.CreateDegreeType:output_type -> course_recommender.CreateDegreeTypeResponse
+	4,  // 13: course_recommender.DegreeTypeService.GetDegreeType:output_type -> course_recommender.GetDegreeTypeResponse
+	6,  // 14: course_recommender.DegreeTypeService.GetDegreeTypeByName:output_type -> course_recommender.GetDegreeTypeByNameResponse
+	8,  // 15: course_recommender.DegreeTypeService.UpdateDegreeType:output_type -> course_recommender.UpdateDegreeTypeResponse
+	10, // 16: course_recommender.DegreeTypeService.ListDegreeTypes:output_type -> course_recommender.ListDegreeTypesResponse
+	12, // 17: course_recommender.DegreeTypeService.DeleteDegreeType:output_type -> course_recommender.DeleteDegreeTypeResponse
+	12, // [12:18] is the sub-list for method output_type
+	6,  // [6:12] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_degree_type_proto_init() }

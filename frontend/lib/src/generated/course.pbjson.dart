@@ -99,22 +99,15 @@ final $typed_data.Uint8List getCourseResponseDescriptor = $convert.base64Decode(
 const GetCourseByNameRequest$json = {
   '1': 'GetCourseByNameRequest',
   '2': [
-    {
-      '1': 'course_name',
-      '3': 1,
-      '4': 1,
-      '5': 11,
-      '6': '.google.protobuf.StringValue',
-      '10': 'courseName'
-    },
+    {'1': 'course_name', '3': 1, '4': 1, '5': 9, '10': 'courseName'},
   ],
 };
 
 /// Descriptor for `GetCourseByNameRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getCourseByNameRequestDescriptor =
     $convert.base64Decode(
-        'ChZHZXRDb3Vyc2VCeU5hbWVSZXF1ZXN0Ej0KC2NvdXJzZV9uYW1lGAEgASgLMhwuZ29vZ2xlLn'
-        'Byb3RvYnVmLlN0cmluZ1ZhbHVlUgpjb3Vyc2VOYW1l');
+        'ChZHZXRDb3Vyc2VCeU5hbWVSZXF1ZXN0Eh8KC2NvdXJzZV9uYW1lGAEgASgJUgpjb3Vyc2VOYW'
+        '1l');
 
 @$core.Deprecated('Use getCourseByNameResponseDescriptor instead')
 const GetCourseByNameResponse$json = {

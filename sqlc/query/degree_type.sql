@@ -22,7 +22,8 @@ FROM
 WHERE
     id @@@ paradedb.match (
         'degree_name',
-        COALESCE(sqlc.narg('degree_name')::TEXT, '')
+        sqlc.arg ('degree_name')::TEXT,
+        distance => 1
     )
 ORDER BY
     paradedb.score (id) DESC;
@@ -30,7 +31,7 @@ ORDER BY
 -- name: UpdateDegreeType :one
 UPDATE degree_type
 SET
-    degree_name = COALESCE(sqlc.narg('degree_name'), degree_name)
+    degree_name = COALESCE(sqlc.narg ('degree_name'), degree_name)
 WHERE
     id = $1
 RETURNING

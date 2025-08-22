@@ -67,17 +67,50 @@ CREATE TABLE IF NOT EXISTS
 -- create index for degree_type table
 CREATE INDEX degree_type_search_idx ON degree_type USING bm25 (id, degree_name)
 WITH
-    (key_field = 'id');
+    (
+        key_field = 'id',
+        text_fields = '{
+            "degree_name": {
+                "tokenizer": {
+                    "type": "default",
+                    "stemmer": "English",
+                    "stopwords_language": "English"
+                }
+            }
+        }'
+    );
 
 -- create index for course table
 CREATE INDEX course_search_idx ON course USING bm25 (id, course_name)
 WITH
-    (key_field = 'id');
+    (
+        key_field = 'id',
+        text_fields = '{
+            "course_name": {
+                "tokenizer": {
+                    "type": "default",
+                    "stemmer": "English",
+                    "stopwords_language": "English"
+                }
+            }
+        }'
+    );
 
 -- Create index for tag table
 CREATE INDEX tag_search_idx ON tag USING bm25 (id, tag_name)
 WITH
-    (key_field = 'id');
+    (
+        key_field = 'id',
+        text_fields = '{
+            "tag_name": {
+                "tokenizer": {
+                    "type": "default",
+                    "stemmer": "English",
+                    "stopwords_language": "English"
+                }
+            }
+        }'
+    );
 
 -- Create index for student table
 -- Index on student email for faster verification

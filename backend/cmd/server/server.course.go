@@ -3,8 +3,6 @@ package server
 import (
 	"context"
 
-	"github.com/jackc/pgx/v5/pgtype"
-
 	"OverchargedZebra/course-recommender/backend/internal/db"
 	"OverchargedZebra/course-recommender/backend/internal/server/api"
 
@@ -21,8 +19,7 @@ func apiCourse(course *db.Course) *api.Course {
 }
 
 func (s *Server) GetCourseByName(ctx context.Context, req *api.GetCourseByNameRequest) (*api.GetCourseByNameResponse, error) {
-	queryName, valid := handlePbStringWrapper(req.CourseName)
-	result, err := s.q.GetCourseByName(ctx, pgtype.Text{String: queryName, Valid: valid})
+	result, err := s.q.GetCourseByName(ctx, req.CourseName)
 	if err != nil {
 		return nil, status.Errorf(codes.Aborted, "GetCourseByName Request aborted because of: %v", err)
 	}

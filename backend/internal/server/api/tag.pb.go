@@ -257,8 +257,8 @@ func (x *GetTagResponse) GetTag() *Tag {
 
 // Request to get tags by name.
 type GetTagByNameRequest struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	TagName       *wrapperspb.StringValue `protobuf:"bytes,1,opt,name=tag_name,json=tagName,proto3" json:"tag_name,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TagName       string                 `protobuf:"bytes,1,opt,name=tag_name,json=tagName,proto3" json:"tag_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -293,11 +293,11 @@ func (*GetTagByNameRequest) Descriptor() ([]byte, []int) {
 	return file_tag_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *GetTagByNameRequest) GetTagName() *wrapperspb.StringValue {
+func (x *GetTagByNameRequest) GetTagName() string {
 	if x != nil {
 		return x.TagName
 	}
-	return nil
+	return ""
 }
 
 // Response containing a list of tags that match the name.
@@ -630,9 +630,9 @@ const file_tag_proto_rawDesc = "" +
 	"\rGetTagRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\";\n" +
 	"\x0eGetTagResponse\x12)\n" +
-	"\x03tag\x18\x01 \x01(\v2\x17.course_recommender.TagR\x03tag\"N\n" +
-	"\x13GetTagByNameRequest\x127\n" +
-	"\btag_name\x18\x01 \x01(\v2\x1c.google.protobuf.StringValueR\atagName\"C\n" +
+	"\x03tag\x18\x01 \x01(\v2\x17.course_recommender.TagR\x03tag\"0\n" +
+	"\x13GetTagByNameRequest\x12\x19\n" +
+	"\btag_name\x18\x01 \x01(\tR\atagName\"C\n" +
 	"\x14GetTagByNameResponse\x12+\n" +
 	"\x04tags\x18\x01 \x03(\v2\x17.course_recommender.TagR\x04tags\"[\n" +
 	"\x10UpdateTagRequest\x12\x0e\n" +
@@ -688,28 +688,27 @@ var file_tag_proto_goTypes = []any{
 var file_tag_proto_depIdxs = []int32{
 	0,  // 0: course_recommender.CreateTagResponse.tag:type_name -> course_recommender.Tag
 	0,  // 1: course_recommender.GetTagResponse.tag:type_name -> course_recommender.Tag
-	13, // 2: course_recommender.GetTagByNameRequest.tag_name:type_name -> google.protobuf.StringValue
-	0,  // 3: course_recommender.GetTagByNameResponse.tags:type_name -> course_recommender.Tag
-	13, // 4: course_recommender.UpdateTagRequest.tag_name:type_name -> google.protobuf.StringValue
-	0,  // 5: course_recommender.UpdateTagResponse.tag:type_name -> course_recommender.Tag
-	0,  // 6: course_recommender.ListTagsResponse.tags:type_name -> course_recommender.Tag
-	1,  // 7: course_recommender.TagService.CreateTag:input_type -> course_recommender.CreateTagRequest
-	3,  // 8: course_recommender.TagService.GetTag:input_type -> course_recommender.GetTagRequest
-	5,  // 9: course_recommender.TagService.GetTagByName:input_type -> course_recommender.GetTagByNameRequest
-	7,  // 10: course_recommender.TagService.UpdateTag:input_type -> course_recommender.UpdateTagRequest
-	9,  // 11: course_recommender.TagService.ListTags:input_type -> course_recommender.ListTagsRequest
-	11, // 12: course_recommender.TagService.DeleteTag:input_type -> course_recommender.DeleteTagRequest
-	2,  // 13: course_recommender.TagService.CreateTag:output_type -> course_recommender.CreateTagResponse
-	4,  // 14: course_recommender.TagService.GetTag:output_type -> course_recommender.GetTagResponse
-	6,  // 15: course_recommender.TagService.GetTagByName:output_type -> course_recommender.GetTagByNameResponse
-	8,  // 16: course_recommender.TagService.UpdateTag:output_type -> course_recommender.UpdateTagResponse
-	10, // 17: course_recommender.TagService.ListTags:output_type -> course_recommender.ListTagsResponse
-	12, // 18: course_recommender.TagService.DeleteTag:output_type -> course_recommender.DeleteTagResponse
-	13, // [13:19] is the sub-list for method output_type
-	7,  // [7:13] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	0,  // 2: course_recommender.GetTagByNameResponse.tags:type_name -> course_recommender.Tag
+	13, // 3: course_recommender.UpdateTagRequest.tag_name:type_name -> google.protobuf.StringValue
+	0,  // 4: course_recommender.UpdateTagResponse.tag:type_name -> course_recommender.Tag
+	0,  // 5: course_recommender.ListTagsResponse.tags:type_name -> course_recommender.Tag
+	1,  // 6: course_recommender.TagService.CreateTag:input_type -> course_recommender.CreateTagRequest
+	3,  // 7: course_recommender.TagService.GetTag:input_type -> course_recommender.GetTagRequest
+	5,  // 8: course_recommender.TagService.GetTagByName:input_type -> course_recommender.GetTagByNameRequest
+	7,  // 9: course_recommender.TagService.UpdateTag:input_type -> course_recommender.UpdateTagRequest
+	9,  // 10: course_recommender.TagService.ListTags:input_type -> course_recommender.ListTagsRequest
+	11, // 11: course_recommender.TagService.DeleteTag:input_type -> course_recommender.DeleteTagRequest
+	2,  // 12: course_recommender.TagService.CreateTag:output_type -> course_recommender.CreateTagResponse
+	4,  // 13: course_recommender.TagService.GetTag:output_type -> course_recommender.GetTagResponse
+	6,  // 14: course_recommender.TagService.GetTagByName:output_type -> course_recommender.GetTagByNameResponse
+	8,  // 15: course_recommender.TagService.UpdateTag:output_type -> course_recommender.UpdateTagResponse
+	10, // 16: course_recommender.TagService.ListTags:output_type -> course_recommender.ListTagsResponse
+	12, // 17: course_recommender.TagService.DeleteTag:output_type -> course_recommender.DeleteTagResponse
+	12, // [12:18] is the sub-list for method output_type
+	6,  // [6:12] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_tag_proto_init() }

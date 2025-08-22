@@ -335,7 +335,7 @@ class GetDegreeTypeResponse extends $pb.GeneratedMessage {
 /// Request to get degree types by name.
 class GetDegreeTypeByNameRequest extends $pb.GeneratedMessage {
   factory GetDegreeTypeByNameRequest({
-    $1.StringValue? degreeName,
+    $core.String? degreeName,
   }) {
     final result = create();
     if (degreeName != null) result.degreeName = degreeName;
@@ -356,8 +356,7 @@ class GetDegreeTypeByNameRequest extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
-    ..aOM<$1.StringValue>(1, _omitFieldNames ? '' : 'degreeName',
-        subBuilder: $1.StringValue.create)
+    ..aOS(1, _omitFieldNames ? '' : 'degreeName')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -385,15 +384,13 @@ class GetDegreeTypeByNameRequest extends $pb.GeneratedMessage {
   static GetDegreeTypeByNameRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $1.StringValue get degreeName => $_getN(0);
+  $core.String get degreeName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set degreeName($1.StringValue value) => $_setField(1, value);
+  set degreeName($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasDegreeName() => $_has(0);
   @$pb.TagNumber(1)
   void clearDegreeName() => $_clearField(1);
-  @$pb.TagNumber(1)
-  $1.StringValue ensureDegreeName() => $_ensure(0);
 }
 
 /// Response containing a list of degree types that match the name.

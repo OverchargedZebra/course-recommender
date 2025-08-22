@@ -34,7 +34,7 @@ message GetDegreeTypeResponse {
 
 // Request to get degree types by name.
 message GetDegreeTypeByNameRequest {
-  google.protobuf.StringValue degree_name = 1;
+  string degree_name = 1;
 }
 
 // Response containing a list of degree types that match the name.

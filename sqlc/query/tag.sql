@@ -22,7 +22,8 @@ FROM
 WHERE
     id @@@ paradedb.match (
         'tag_name',
-        COALESCE(sqlc.narg('tag_name')::TEXT, '')
+        sqlc.arg ('tag_name')::TEXT,
+        distance => 1
     )
 ORDER BY
     paradedb.score (id) DESC;
@@ -30,7 +31,7 @@ ORDER BY
 -- name: UpdateTag :one
 UPDATE tag
 SET
-    tag_name = COALESCE(sqlc.narg('tag_name'), tag_name)
+    tag_name = COALESCE(sqlc.narg ('tag_name'), tag_name)
 WHERE
     id = $1
 RETURNING

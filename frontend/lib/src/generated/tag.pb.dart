@@ -326,7 +326,7 @@ class GetTagResponse extends $pb.GeneratedMessage {
 /// Request to get tags by name.
 class GetTagByNameRequest extends $pb.GeneratedMessage {
   factory GetTagByNameRequest({
-    $1.StringValue? tagName,
+    $core.String? tagName,
   }) {
     final result = create();
     if (tagName != null) result.tagName = tagName;
@@ -347,8 +347,7 @@ class GetTagByNameRequest extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
-    ..aOM<$1.StringValue>(1, _omitFieldNames ? '' : 'tagName',
-        subBuilder: $1.StringValue.create)
+    ..aOS(1, _omitFieldNames ? '' : 'tagName')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -373,15 +372,13 @@ class GetTagByNameRequest extends $pb.GeneratedMessage {
   static GetTagByNameRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $1.StringValue get tagName => $_getN(0);
+  $core.String get tagName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set tagName($1.StringValue value) => $_setField(1, value);
+  set tagName($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasTagName() => $_has(0);
   @$pb.TagNumber(1)
   void clearTagName() => $_clearField(1);
-  @$pb.TagNumber(1)
-  $1.StringValue ensureTagName() => $_ensure(0);
 }
 
 /// Response containing a list of tags that match the name.

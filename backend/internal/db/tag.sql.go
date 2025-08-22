@@ -66,13 +66,14 @@ FROM
 WHERE
     id @@@ paradedb.match (
         'tag_name',
-        COALESCE($1::TEXT, '')
+        $1::TEXT,
+        distance => 1
     )
 ORDER BY
     paradedb.score (id) DESC
 `
 
-func (q *Queries) GetTagByName(ctx context.Context, tagName pgtype.Text) ([]Tag, error) {
+func (q *Queries) GetTagByName(ctx context.Context, tagName string) ([]Tag, error) {
 	rows, err := q.db.Query(ctx, getTagByName, tagName)
 	if err != nil {
 		return nil, err

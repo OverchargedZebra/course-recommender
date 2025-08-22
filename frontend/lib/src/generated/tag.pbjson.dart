@@ -95,21 +95,14 @@ final $typed_data.Uint8List getTagResponseDescriptor = $convert.base64Decode(
 const GetTagByNameRequest$json = {
   '1': 'GetTagByNameRequest',
   '2': [
-    {
-      '1': 'tag_name',
-      '3': 1,
-      '4': 1,
-      '5': 11,
-      '6': '.google.protobuf.StringValue',
-      '10': 'tagName'
-    },
+    {'1': 'tag_name', '3': 1, '4': 1, '5': 9, '10': 'tagName'},
   ],
 };
 
 /// Descriptor for `GetTagByNameRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getTagByNameRequestDescriptor = $convert.base64Decode(
-    'ChNHZXRUYWdCeU5hbWVSZXF1ZXN0EjcKCHRhZ19uYW1lGAEgASgLMhwuZ29vZ2xlLnByb3RvYn'
-    'VmLlN0cmluZ1ZhbHVlUgd0YWdOYW1l');
+final $typed_data.Uint8List getTagByNameRequestDescriptor =
+    $convert.base64Decode(
+        'ChNHZXRUYWdCeU5hbWVSZXF1ZXN0EhkKCHRhZ19uYW1lGAEgASgJUgd0YWdOYW1l');
 
 @$core.Deprecated('Use getTagByNameResponseDescriptor instead')
 const GetTagByNameResponse$json = {

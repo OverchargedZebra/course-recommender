@@ -351,7 +351,7 @@ class GetCourseResponse extends $pb.GeneratedMessage {
 /// Request to get courses by name.
 class GetCourseByNameRequest extends $pb.GeneratedMessage {
   factory GetCourseByNameRequest({
-    $1.StringValue? courseName,
+    $core.String? courseName,
   }) {
     final result = create();
     if (courseName != null) result.courseName = courseName;
@@ -372,8 +372,7 @@ class GetCourseByNameRequest extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
-    ..aOM<$1.StringValue>(1, _omitFieldNames ? '' : 'courseName',
-        subBuilder: $1.StringValue.create)
+    ..aOS(1, _omitFieldNames ? '' : 'courseName')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -400,15 +399,13 @@ class GetCourseByNameRequest extends $pb.GeneratedMessage {
   static GetCourseByNameRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $1.StringValue get courseName => $_getN(0);
+  $core.String get courseName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set courseName($1.StringValue value) => $_setField(1, value);
+  set courseName($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasCourseName() => $_has(0);
   @$pb.TagNumber(1)
   void clearCourseName() => $_clearField(1);
-  @$pb.TagNumber(1)
-  $1.StringValue ensureCourseName() => $_ensure(0);
 }
 
 /// Response containing a list of courses that match the name.

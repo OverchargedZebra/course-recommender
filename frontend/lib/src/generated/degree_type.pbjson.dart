@@ -99,22 +99,15 @@ final $typed_data.Uint8List getDegreeTypeResponseDescriptor = $convert.base64Dec
 const GetDegreeTypeByNameRequest$json = {
   '1': 'GetDegreeTypeByNameRequest',
   '2': [
-    {
-      '1': 'degree_name',
-      '3': 1,
-      '4': 1,
-      '5': 11,
-      '6': '.google.protobuf.StringValue',
-      '10': 'degreeName'
-    },
+    {'1': 'degree_name', '3': 1, '4': 1, '5': 9, '10': 'degreeName'},
   ],
 };
 
 /// Descriptor for `GetDegreeTypeByNameRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getDegreeTypeByNameRequestDescriptor =
     $convert.base64Decode(
-        'ChpHZXREZWdyZWVUeXBlQnlOYW1lUmVxdWVzdBI9CgtkZWdyZWVfbmFtZRgBIAEoCzIcLmdvb2'
-        'dsZS5wcm90b2J1Zi5TdHJpbmdWYWx1ZVIKZGVncmVlTmFtZQ==');
+        'ChpHZXREZWdyZWVUeXBlQnlOYW1lUmVxdWVzdBIfCgtkZWdyZWVfbmFtZRgBIAEoCVIKZGVncm'
+        'VlTmFtZQ==');
 
 @$core.Deprecated('Use getDegreeTypeByNameResponseDescriptor instead')
 const GetDegreeTypeByNameResponse$json = {

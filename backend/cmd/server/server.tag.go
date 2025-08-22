@@ -3,8 +3,6 @@ package server
 import (
 	"context"
 
-	"github.com/jackc/pgx/v5/pgtype"
-
 	"OverchargedZebra/course-recommender/backend/internal/db"
 	"OverchargedZebra/course-recommender/backend/internal/server/api"
 
@@ -33,8 +31,7 @@ func (s *Server) GetTag(ctx context.Context, req *api.GetTagRequest) (*api.GetTa
 
 // Retrieves tags by name.
 func (s *Server) GetTagByName(ctx context.Context, req *api.GetTagByNameRequest) (*api.GetTagByNameResponse, error) {
-	tagName, valid := handlePbStringWrapper(req.TagName)
-	result, err := s.q.GetTagByName(ctx, pgtype.Text{String: tagName, Valid: valid})
+	result, err := s.q.GetTagByName(ctx, req.TagName)
 	if err != nil {
 		return nil, status.Errorf(codes.Aborted, "GetTagByName request aborted because of: %v", err)
 	}

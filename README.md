@@ -30,42 +30,43 @@ frontend and every step in between.
 
 ## endpoints available through the backend
 
-- course_recommender.CourseService
-  - /GetCourse
-  - /GetCourseByName
-  - /ListCourse
+- course_recommender.CourseRecommenderService/
+  - for courses
+    /GetCourse
+    - /GetCourseByName
+    - /ListCourse
 
-- course_recommender.CourseQuestionService
-  - /GetCourseQuestion
-  - /ListCourseQuestions
-  - /GetCourseQuestionsByCourseId
+  - for course questions
+    - /GetCourseQuestion
+    - /ListCourseQuestions
+    - /GetCourseQuestionsByCourseId
 
-- course_recommender.DegreeTypeService
-  - /GetDegreeType
-  - /GetDegreeTypeByName
-  - /ListDegreeTypes
+  - for degree types
+    - /GetDegreeType
+    - /GetDegreeTypeByName
+    - /ListDegreeTypes
 
-- course_recommender.DegreeCourseService
-  - /GetCoursesByDegreeId
-  - /GetDegreesByCourseId
+  - for degree courses
+    - /GetCoursesByDegreeId
+    - /GetDegreesByCourseId
 
-- course_recommender.TagService
-  - /GetTag
-  - /GetTagByName
-  - /ListTags
+  - for tags
+    - /GetTag
+    - /GetTagByName
+    - /ListTags
 
-- course_recommender.CourseTagService
-  - /GetTagsByCourseId
-  - /GetCoursesByTagId
+  - for course tags
+    - /GetTagsByCourseId
+    - /GetCoursesByTagId
 
-- course_recommender.StudentService
-  - /CreateStudent
-  - /GetStudentByEmail
-  - /UpdateStudent
-  - /DeleteStudent
+  - for students
+    - /CreateStudent
+    - /GetStudentByEmail
+    - /UpdateStudent
+    - /DeleteStudent
 
-- course_recommender.StudentCourseService
-  - /CreateStudentCourse
-  - /UpdateStudentCourse
-  - /GetCoursesByStudentId
-  - /DeleteStudentCourse
+  - for student courses
+    - /CreateStudentCourse
+    - /UpdateStudentCourse
+    - /GetCoursesByStudentId
+    - /DeleteStudentCourse

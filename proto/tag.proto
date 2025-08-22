@@ -34,7 +34,7 @@ message GetTagResponse {
 
 // Request to get tags by name.
 message GetTagByNameRequest {
-  google.protobuf.StringValue tag_name = 1;
+  string tag_name = 1;
 }
 
 // Response containing a list of tags that match the name.

@@ -273,8 +273,8 @@ func (x *GetCourseResponse) GetCourse() *Course {
 
 // Request to get courses by name.
 type GetCourseByNameRequest struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	CourseName    *wrapperspb.StringValue `protobuf:"bytes,1,opt,name=course_name,json=courseName,proto3" json:"course_name,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CourseName    string                 `protobuf:"bytes,1,opt,name=course_name,json=courseName,proto3" json:"course_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -309,11 +309,11 @@ func (*GetCourseByNameRequest) Descriptor() ([]byte, []int) {
 	return file_course_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *GetCourseByNameRequest) GetCourseName() *wrapperspb.StringValue {
+func (x *GetCourseByNameRequest) GetCourseName() string {
 	if x != nil {
 		return x.CourseName
 	}
-	return nil
+	return ""
 }
 
 // Response containing a list of courses that match the name.
@@ -662,9 +662,9 @@ const file_course_proto_rawDesc = "" +
 	"\x10GetCourseRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"G\n" +
 	"\x11GetCourseResponse\x122\n" +
-	"\x06course\x18\x01 \x01(\v2\x1a.course_recommender.CourseR\x06course\"W\n" +
-	"\x16GetCourseByNameRequest\x12=\n" +
-	"\vcourse_name\x18\x01 \x01(\v2\x1c.google.protobuf.StringValueR\n" +
+	"\x06course\x18\x01 \x01(\v2\x1a.course_recommender.CourseR\x06course\"9\n" +
+	"\x16GetCourseByNameRequest\x12\x1f\n" +
+	"\vcourse_name\x18\x01 \x01(\tR\n" +
 	"courseName\"O\n" +
 	"\x17GetCourseByNameResponse\x124\n" +
 	"\acourses\x18\x01 \x03(\v2\x1a.course_recommender.CourseR\acourses\"\xa1\x01\n" +
@@ -725,29 +725,28 @@ var file_course_proto_goTypes = []any{
 var file_course_proto_depIdxs = []int32{
 	0,  // 0: course_recommender.CreateCourseResponse.course:type_name -> course_recommender.Course
 	0,  // 1: course_recommender.GetCourseResponse.course:type_name -> course_recommender.Course
-	13, // 2: course_recommender.GetCourseByNameRequest.course_name:type_name -> google.protobuf.StringValue
-	0,  // 3: course_recommender.GetCourseByNameResponse.courses:type_name -> course_recommender.Course
-	13, // 4: course_recommender.UpdateCourseRequest.course_name:type_name -> google.protobuf.StringValue
-	14, // 5: course_recommender.UpdateCourseRequest.difficulty:type_name -> google.protobuf.Int32Value
-	0,  // 6: course_recommender.UpdateCourseResponse.course:type_name -> course_recommender.Course
-	0,  // 7: course_recommender.ListCoursesResponse.courses:type_name -> course_recommender.Course
-	1,  // 8: course_recommender.CourseService.CreateCourse:input_type -> course_recommender.CreateCourseRequest
-	3,  // 9: course_recommender.CourseService.GetCourse:input_type -> course_recommender.GetCourseRequest
-	5,  // 10: course_recommender.CourseService.GetCourseByName:input_type -> course_recommender.GetCourseByNameRequest
-	7,  // 11: course_recommender.CourseService.UpdateCourse:input_type -> course_recommender.UpdateCourseRequest
-	9,  // 12: course_recommender.CourseService.ListCourses:input_type -> course_recommender.ListCoursesRequest
-	11, // 13: course_recommender.CourseService.DeleteCourse:input_type -> course_recommender.DeleteCourseRequest
-	2,  // 14: course_recommender.CourseService.CreateCourse:output_type -> course_recommender.CreateCourseResponse
-	4,  // 15: course_recommender.CourseService.GetCourse:output_type -> course_recommender.GetCourseResponse
-	6,  // 16: course_recommender.CourseService.GetCourseByName:output_type -> course_recommender.GetCourseByNameResponse
-	8,  // 17: course_recommender.CourseService.UpdateCourse:output_type -> course_recommender.UpdateCourseResponse
-	10, // 18: course_recommender.CourseService.ListCourses:output_type -> course_recommender.ListCoursesResponse
-	12, // 19: course_recommender.CourseService.DeleteCourse:output_type -> course_recommender.DeleteCourseResponse
-	14, // [14:20] is the sub-list for method output_type
-	8,  // [8:14] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	0,  // 2: course_recommender.GetCourseByNameResponse.courses:type_name -> course_recommender.Course
+	13, // 3: course_recommender.UpdateCourseRequest.course_name:type_name -> google.protobuf.StringValue
+	14, // 4: course_recommender.UpdateCourseRequest.difficulty:type_name -> google.protobuf.Int32Value
+	0,  // 5: course_recommender.UpdateCourseResponse.course:type_name -> course_recommender.Course
+	0,  // 6: course_recommender.ListCoursesResponse.courses:type_name -> course_recommender.Course
+	1,  // 7: course_recommender.CourseService.CreateCourse:input_type -> course_recommender.CreateCourseRequest
+	3,  // 8: course_recommender.CourseService.GetCourse:input_type -> course_recommender.GetCourseRequest
+	5,  // 9: course_recommender.CourseService.GetCourseByName:input_type -> course_recommender.GetCourseByNameRequest
+	7,  // 10: course_recommender.CourseService.UpdateCourse:input_type -> course_recommender.UpdateCourseRequest
+	9,  // 11: course_recommender.CourseService.ListCourses:input_type -> course_recommender.ListCoursesRequest
+	11, // 12: course_recommender.CourseService.DeleteCourse:input_type -> course_recommender.DeleteCourseRequest
+	2,  // 13: course_recommender.CourseService.CreateCourse:output_type -> course_recommender.CreateCourseResponse
+	4,  // 14: course_recommender.CourseService.GetCourse:output_type -> course_recommender.GetCourseResponse
+	6,  // 15: course_recommender.CourseService.GetCourseByName:output_type -> course_recommender.GetCourseByNameResponse
+	8,  // 16: course_recommender.CourseService.UpdateCourse:output_type -> course_recommender.UpdateCourseResponse
+	10, // 17: course_recommender.CourseService.ListCourses:output_type -> course_recommender.ListCoursesResponse
+	12, // 18: course_recommender.CourseService.DeleteCourse:output_type -> course_recommender.DeleteCourseResponse
+	13, // [13:19] is the sub-list for method output_type
+	7,  // [7:13] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_course_proto_init() }

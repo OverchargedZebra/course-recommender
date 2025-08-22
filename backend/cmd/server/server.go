@@ -10,14 +10,6 @@ import (
 // Server implements the gRPC service.
 type Server struct {
 	api.UnimplementedCourseRecommenderServiceServer
-	// api.UnimplementedCourseQuestionServiceServer
-	// api.UnimplementedCourseServiceServer
-	// api.UnimplementedCourseTagServiceServer
-	// api.UnimplementedDegreeCourseServiceServer
-	// api.UnimplementedDegreeTypeServiceServer
-	// api.UnimplementedStudentCourseServiceServer
-	// api.UnimplementedStudentServiceServer
-	// api.UnimplementedTagServiceServer
 	q *db.Queries
 }
 

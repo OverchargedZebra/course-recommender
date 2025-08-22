@@ -3,8 +3,6 @@ package server
 import (
 	"context"
 
-	"github.com/jackc/pgx/v5/pgtype"
-
 	"OverchargedZebra/course-recommender/backend/internal/db"
 	"OverchargedZebra/course-recommender/backend/internal/server/api"
 
@@ -33,8 +31,7 @@ func (s *Server) GetDegreeType(ctx context.Context, req *api.GetDegreeTypeReques
 
 // Retrieves degree types by name.
 func (s *Server) GetDegreeTypeByName(ctx context.Context, req *api.GetDegreeTypeByNameRequest) (*api.GetDegreeTypeByNameResponse, error) {
-	degreeName, valid := handlePbStringWrapper(req.DegreeName)
-	result, err := s.q.GetDegreeTypeByName(ctx, pgtype.Text{String: degreeName, Valid: valid})
+	result, err := s.q.GetDegreeTypeByName(ctx, req.DegreeName)
 	if err != nil {
 		return nil, status.Errorf(codes.Aborted, "GetDegreeTypeByName request aborted because of: %v", err)
 	}

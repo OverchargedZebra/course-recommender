@@ -7,25 +7,13 @@ import (
 	"net"
 	"os"
 
+	"OverchargedZebra/course-recommender/backend/cmd/middleware"
 	"OverchargedZebra/course-recommender/backend/cmd/server"
 	"OverchargedZebra/course-recommender/backend/internal/db"
-	"OverchargedZebra/course-recommender/backend/internal/server/api"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"google.golang.org/grpc"
 )
-
-func registerAllApi(grpcServer *grpc.Server, servicesServer *server.Server) {
-	api.RegisterCourseRecommenderServiceServer(grpcServer, servicesServer)
-	// api.RegisterCourseQuestionServiceServer(grpcServer, servicesServer)
-	// api.RegisterCourseServiceServer(grpcServer, servicesServer)
-	// api.RegisterCourseTagServiceServer(grpcServer, servicesServer)
-	// api.RegisterDegreeCourseServiceServer(grpcServer, servicesServer)
-	// api.RegisterDegreeTypeServiceServer(grpcServer, servicesServer)
-	// api.RegisterStudentCourseServiceServer(grpcServer, servicesServer)
-	// api.RegisterStudentServiceServer(grpcServer, servicesServer)
-	// api.RegisterTagServiceServer(grpcServer, servicesServer)
-}
 
 func main() {
 	connStr := fmt.Sprintf(
@@ -48,9 +36,11 @@ func main() {
 	queries := db.New(pool)
 
 	//Create and start gRPC server
-	grpcServer := grpc.NewServer()
+	grpcServer := grpc.NewServer(
+		grpc.UnaryInterceptor(middleware.UnaryInterceptor),
+	)
 	courseRecommenderServer := server.NewServer(queries)
-	registerAllApi(grpcServer, courseRecommenderServer)
+	middleware.RegisterAllApi(grpcServer, courseRecommenderServer)
 
 	port := fmt.Sprintf(":%v", os.Getenv("BACKEND_PORT"))
 	listener, err := net.Listen("tcp", port)
