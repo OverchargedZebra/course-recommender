@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package course_recommender;
+
+option go_package = "./api";
+
+import "course.proto";
+import "course_question.proto";
+import "course_tag.proto";
+import "degree_course.proto";
+import "degree_type.proto";
+import "student.proto";
+import "student_course.proto";
+import "tag.proto";
+
+// The root service that encompasses all other services in the course recommender system.
+service CourseRecommenderService {
+  // Creates a new course.
+  rpc CreateCourse(CreateCourseRequest) returns (CreateCourseResponse);
+  // Retrieves a course by its ID.
+  rpc GetCourse(GetCourseRequest) returns (GetCourseResponse);
+  // Retrieves courses by name.
+  rpc GetCourseByName(GetCourseByNameRequest) returns (GetCourseByNameResponse);
+  // Updates an existing course.
+  rpc UpdateCourse(UpdateCourseRequest) returns (UpdateCourseResponse);
+  // Lists all courses.
+  rpc ListCourses(ListCoursesRequest) returns (ListCoursesResponse);
+  // Deletes a course by its ID.
+  rpc DeleteCourse(DeleteCourseRequest) returns (DeleteCourseResponse);
+
+  // Creates a new course question.
+  rpc CreateCourseQuestion(CreateCourseQuestionRequest) returns (CreateCourseQuestionResponse);
+  // Retrieves a course question by its ID.
+  rpc GetCourseQuestion(GetCourseQuestionRequest) returns (GetCourseQuestionResponse);
+  // Updates an existing course question.
+  rpc UpdateCourseQuestion(UpdateCourseQuestionRequest) returns (UpdateCourseQuestionResponse);
+  // Lists all course questions.
+  rpc ListCourseQuestions(ListCourseQuestionsRequest) returns (ListCourseQuestionsResponse);
+  // Deletes a course question by its ID.
+  rpc DeleteCourseQuestion(DeleteCourseQuestionRequest) returns (DeleteCourseQuestionResponse);
+  // Retrieves all questions for a specific course.
+  rpc GetCourseQuestionsByCourseId(GetCourseQuestionsByCourseIdRequest) returns (GetCourseQuestionsByCourseIdResponse);
+
+  // Creates a new course-tag association.
+  rpc CreateCourseTag(CreateCourseTagRequest) returns (CreateCourseTagResponse);
+  // Retrieves all tags for a specific course.
+  rpc GetTagsByCourseId(GetTagsByCourseIdRequest) returns (GetTagsByCourseIdResponse);
+  // Retrieves all courses for a specific tag.
+  rpc GetCoursesByTagId(GetCoursesByTagIdRequest) returns (GetCoursesByTagIdResponse);
+  // Deletes a course-tag association.
+  rpc DeleteCourseTag(DeleteCourseTagRequest) returns (DeleteCourseTagResponse);
+
+  // Creates a new degree-course association.
+  rpc CreateDegreeCourse(CreateDegreeCourseRequest) returns (CreateDegreeCourseResponse);
+  // Retrieves all courses for a specific degree type.
+  rpc GetCoursesByDegreeId(GetCoursesByDegreeIdRequest) returns (GetCoursesByDegreeIdResponse);
+  // Retrieves all degree types for a specific course.
+  rpc GetDegreesByCourseId(GetDegreesByCourseIdRequest) returns (GetDegreesByCourseIdResponse);
+  // Deletes a degree-course association.
+  rpc DeleteDegreeCourse(DeleteDegreeCourseRequest) returns (DeleteDegreeCourseResponse);
+
+  // Creates a new degree type.
+  rpc CreateDegreeType(CreateDegreeTypeRequest) returns (CreateDegreeTypeResponse);
+  // Retrieves a degree type by its ID.
+  rpc GetDegreeType(GetDegreeTypeRequest) returns (GetDegreeTypeResponse);
+  // Retrieves degree types by name.
+  rpc GetDegreeTypeByName(GetDegreeTypeByNameRequest) returns (GetDegreeTypeByNameResponse);
+  // Updates an existing degree type.
+  rpc UpdateDegreeType(UpdateDegreeTypeRequest) returns (UpdateDegreeTypeResponse);
+  // Lists all degree types.
+  rpc ListDegreeTypes(ListDegreeTypesRequest) returns (ListDegreeTypesResponse);
+  // Deletes a degree type by its ID.
+  rpc DeleteDegreeType(DeleteDegreeTypeRequest) returns (DeleteDegreeTypeResponse);
+
+  // Creates a new student.
+  rpc CreateStudent(CreateStudentRequest) returns (CreateStudentResponse);
+  // Retrieves a student by their ID.
+  rpc GetStudent(GetStudentRequest) returns (GetStudentResponse);
+  // Retrieves a student by their email.
+  rpc GetStudentByEmail(GetStudentByEmailRequest) returns (GetStudentByEmailResponse);
+  // Updates an existing student's information.
+  rpc UpdateStudent(UpdateStudentRequest) returns (UpdateStudentResponse);
+  // Lists all students.
+  rpc ListStudents(ListStudentsRequest) returns (ListStudentsResponse);
+  // Deletes a student by their ID.
+  rpc DeleteStudent(DeleteStudentRequest) returns (DeleteStudentResponse);
+
+  // Creates a new student-course association.
+  rpc CreateStudentCourse(CreateStudentCourseRequest) returns (CreateStudentCourseResponse);
+  // Updates a student's marks and feedback for a course.
+  rpc UpdateStudentCourse(UpdateStudentCourseRequest) returns (UpdateStudentCourseResponse);
+  // Retrieves all students for a specific course.
+  rpc GetStudentsByCourseId(GetStudentsByCourseIdRequest) returns (GetStudentsByCourseIdResponse);
+  // Retrieves all courses for a specific student.
+  rpc GetCoursesByStudentId(GetCoursesByStudentIdRequest) returns (GetCoursesByStudentIdResponse);
+  // Deletes a student-course association.
+  rpc DeleteStudentCourse(DeleteStudentCourseRequest) returns (DeleteStudentCourseResponse);
+
+  // Creates a new tag.
+  rpc CreateTag(CreateTagRequest) returns (CreateTagResponse);
+  // Retrieves a tag by its ID.
+  rpc GetTag(GetTagRequest) returns (GetTagResponse);
+  // Retrieves tags by name.
+  rpc GetTagByName(GetTagByNameRequest) returns (GetTagByNameResponse);
+  // Updates an existing tag.
+  rpc UpdateTag(UpdateTagRequest) returns (UpdateTagResponse);
+  // Lists all tags.
+  rpc ListTags(ListTagsRequest) returns (ListTagsResponse);
+  // Deletes a tag by its ID.
+  rpc DeleteTag(DeleteTagRequest) returns (DeleteTagResponse);
+}

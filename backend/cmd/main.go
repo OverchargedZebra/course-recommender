@@ -16,14 +16,15 @@ import (
 )
 
 func registerAllApi(grpcServer *grpc.Server, servicesServer *server.Server) {
-	api.RegisterCourseQuestionServiceServer(grpcServer, servicesServer)
-	api.RegisterCourseServiceServer(grpcServer, servicesServer)
-	api.RegisterCourseTagServiceServer(grpcServer, servicesServer)
-	api.RegisterDegreeCourseServiceServer(grpcServer, servicesServer)
-	api.RegisterDegreeTypeServiceServer(grpcServer, servicesServer)
-	api.RegisterStudentCourseServiceServer(grpcServer, servicesServer)
-	api.RegisterStudentServiceServer(grpcServer, servicesServer)
-	api.RegisterTagServiceServer(grpcServer, servicesServer)
+	api.RegisterCourseRecommenderServiceServer(grpcServer, servicesServer)
+	// api.RegisterCourseQuestionServiceServer(grpcServer, servicesServer)
+	// api.RegisterCourseServiceServer(grpcServer, servicesServer)
+	// api.RegisterCourseTagServiceServer(grpcServer, servicesServer)
+	// api.RegisterDegreeCourseServiceServer(grpcServer, servicesServer)
+	// api.RegisterDegreeTypeServiceServer(grpcServer, servicesServer)
+	// api.RegisterStudentCourseServiceServer(grpcServer, servicesServer)
+	// api.RegisterStudentServiceServer(grpcServer, servicesServer)
+	// api.RegisterTagServiceServer(grpcServer, servicesServer)
 }
 
 func main() {
