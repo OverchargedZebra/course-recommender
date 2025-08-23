@@ -15,7 +15,7 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'google/protobuf/wrappers.pb.dart' as $1;
+import 'google/protobuf/wrappers.pb.dart' as $0;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
@@ -455,7 +455,7 @@ class GetDegreeTypeByNameResponse extends $pb.GeneratedMessage {
 class UpdateDegreeTypeRequest extends $pb.GeneratedMessage {
   factory UpdateDegreeTypeRequest({
     $fixnum.Int64? id,
-    $1.StringValue? degreeName,
+    $0.StringValue? degreeName,
   }) {
     final result = create();
     if (id != null) result.id = id;
@@ -478,8 +478,8 @@ class UpdateDegreeTypeRequest extends $pb.GeneratedMessage {
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'id')
-    ..aOM<$1.StringValue>(2, _omitFieldNames ? '' : 'degreeName',
-        subBuilder: $1.StringValue.create)
+    ..aOM<$0.StringValue>(2, _omitFieldNames ? '' : 'degreeName',
+        subBuilder: $0.StringValue.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -515,15 +515,15 @@ class UpdateDegreeTypeRequest extends $pb.GeneratedMessage {
   void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $1.StringValue get degreeName => $_getN(1);
+  $0.StringValue get degreeName => $_getN(1);
   @$pb.TagNumber(2)
-  set degreeName($1.StringValue value) => $_setField(2, value);
+  set degreeName($0.StringValue value) => $_setField(2, value);
   @$pb.TagNumber(2)
   $core.bool hasDegreeName() => $_has(1);
   @$pb.TagNumber(2)
   void clearDegreeName() => $_clearField(2);
   @$pb.TagNumber(2)
-  $1.StringValue ensureDegreeName() => $_ensure(1);
+  $0.StringValue ensureDegreeName() => $_ensure(1);
 }
 
 /// Response containing the updated degree type.

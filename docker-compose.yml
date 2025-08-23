@@ -61,15 +61,32 @@ services:
         container_name: course_recommender_nginx
         depends_on:
             - envoy
+            - backend
+        expose:
+            - "${NGINX_HTTP_PORT}"
+            - "${NGINX_HTTPS_PORT}"
         environment:
             - BACKEND_PORT=${BACKEND_PORT}
             - ENVOY_PORT=${ENVOY_PORT}
-            - NGINX_PORT=${NGINX_PORT}
-        ports:
-            - "${NGINX_PORT}:${NGINX_PORT}"
+            - NGINX_HTTP_PORT=${NGINX_HTTP_PORT}
+            - NGINX_HTTPS_PORT=${NGINX_HTTPS_PORT}
         volumes:
             - ./frontend/build/web:/usr/share/nginx/html:ro
             - ./nginx/nginx.conf.template:/etc/nginx/templates/nginx.conf.template:ro
+            - ./nginx/ssl:/etc/ssl:ro
+        networks:
+            - course-recommender-network
+        restart: unless-stopped
+
+    cloudflared:
+        image: cloudflare/cloudflared:latest
+        depends_on:
+            - nginx
+        command: tunnel --no-autoupdate --origin-ca-pool /etc/ssl/cert.pem run
+        environment:
+            - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+        volumes:
+            - ./nginx/ssl:/etc/ssl:ro
         networks:
             - course-recommender-network
         restart: unless-stopped

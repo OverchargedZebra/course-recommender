@@ -477,12 +477,7 @@ const file_course_tag_proto_rawDesc = "" +
 	"\tcourse_id\x18\x01 \x01(\x03R\bcourseId\x12\x15\n" +
 	"\x06tag_id\x18\x02 \x01(\x03R\x05tagId\"3\n" +
 	"\x17DeleteCourseTagResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xce\x03\n" +
-	"\x10CourseTagService\x12j\n" +
-	"\x0fCreateCourseTag\x12*.course_recommender.CreateCourseTagRequest\x1a+.course_recommender.CreateCourseTagResponse\x12p\n" +
-	"\x11GetTagsByCourseId\x12,.course_recommender.GetTagsByCourseIdRequest\x1a-.course_recommender.GetTagsByCourseIdResponse\x12p\n" +
-	"\x11GetCoursesByTagId\x12,.course_recommender.GetCoursesByTagIdRequest\x1a-.course_recommender.GetCoursesByTagIdResponse\x12j\n" +
-	"\x0fDeleteCourseTag\x12*.course_recommender.DeleteCourseTagRequest\x1a+.course_recommender.DeleteCourseTagResponseB\aZ\x05./apib\x06proto3"
+	"\asuccess\x18\x01 \x01(\bR\asuccessB\aZ\x05./apib\x06proto3"
 
 var (
 	file_course_tag_proto_rawDescOnce sync.Once
@@ -514,16 +509,8 @@ var file_course_tag_proto_depIdxs = []int32{
 	0,  // 0: course_recommender.CreateCourseTagResponse.course_tag:type_name -> course_recommender.CourseTag
 	9,  // 1: course_recommender.GetTagsByCourseIdResponse.tags:type_name -> course_recommender.Tag
 	10, // 2: course_recommender.GetCoursesByTagIdResponse.courses:type_name -> course_recommender.Course
-	1,  // 3: course_recommender.CourseTagService.CreateCourseTag:input_type -> course_recommender.CreateCourseTagRequest
-	3,  // 4: course_recommender.CourseTagService.GetTagsByCourseId:input_type -> course_recommender.GetTagsByCourseIdRequest
-	5,  // 5: course_recommender.CourseTagService.GetCoursesByTagId:input_type -> course_recommender.GetCoursesByTagIdRequest
-	7,  // 6: course_recommender.CourseTagService.DeleteCourseTag:input_type -> course_recommender.DeleteCourseTagRequest
-	2,  // 7: course_recommender.CourseTagService.CreateCourseTag:output_type -> course_recommender.CreateCourseTagResponse
-	4,  // 8: course_recommender.CourseTagService.GetTagsByCourseId:output_type -> course_recommender.GetTagsByCourseIdResponse
-	6,  // 9: course_recommender.CourseTagService.GetCoursesByTagId:output_type -> course_recommender.GetCoursesByTagIdResponse
-	8,  // 10: course_recommender.CourseTagService.DeleteCourseTag:output_type -> course_recommender.DeleteCourseTagResponse
-	7,  // [7:11] is the sub-list for method output_type
-	3,  // [3:7] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for method output_type
+	3,  // [3:3] is the sub-list for method input_type
 	3,  // [3:3] is the sub-list for extension type_name
 	3,  // [3:3] is the sub-list for extension extendee
 	0,  // [0:3] is the sub-list for field type_name
@@ -544,7 +531,7 @@ func file_course_tag_proto_init() {
 			NumEnums:      0,
 			NumMessages:   9,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   0,
 		},
 		GoTypes:           file_course_tag_proto_goTypes,
 		DependencyIndexes: file_course_tag_proto_depIdxs,

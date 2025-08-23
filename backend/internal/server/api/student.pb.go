@@ -683,15 +683,7 @@ const file_student_proto_rawDesc = "" +
 	"\x14DeleteStudentRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"1\n" +
 	"\x15DeleteStudentResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xfd\x04\n" +
-	"\x0eStudentService\x12d\n" +
-	"\rCreateStudent\x12(.course_recommender.CreateStudentRequest\x1a).course_recommender.CreateStudentResponse\x12[\n" +
-	"\n" +
-	"GetStudent\x12%.course_recommender.GetStudentRequest\x1a&.course_recommender.GetStudentResponse\x12y\n" +
-	"\x14GetStudentByUsername\x12/.course_recommender.GetStudentByUsernameRequest\x1a0.course_recommender.GetStudentByUsernameResponse\x12d\n" +
-	"\rUpdateStudent\x12(.course_recommender.UpdateStudentRequest\x1a).course_recommender.UpdateStudentResponse\x12a\n" +
-	"\fListStudents\x12'.course_recommender.ListStudentsRequest\x1a(.course_recommender.ListStudentsResponse\x12d\n" +
-	"\rDeleteStudent\x12(.course_recommender.DeleteStudentRequest\x1a).course_recommender.DeleteStudentResponseB\aZ\x05./apib\x06proto3"
+	"\asuccess\x18\x01 \x01(\bR\asuccessB\aZ\x05./apib\x06proto3"
 
 var (
 	file_student_proto_rawDescOnce sync.Once
@@ -730,20 +722,8 @@ var file_student_proto_depIdxs = []int32{
 	13, // 4: course_recommender.UpdateStudentRequest.student_password:type_name -> google.protobuf.StringValue
 	0,  // 5: course_recommender.UpdateStudentResponse.student:type_name -> course_recommender.Student
 	0,  // 6: course_recommender.ListStudentsResponse.students:type_name -> course_recommender.Student
-	1,  // 7: course_recommender.StudentService.CreateStudent:input_type -> course_recommender.CreateStudentRequest
-	3,  // 8: course_recommender.StudentService.GetStudent:input_type -> course_recommender.GetStudentRequest
-	5,  // 9: course_recommender.StudentService.GetStudentByUsername:input_type -> course_recommender.GetStudentByUsernameRequest
-	7,  // 10: course_recommender.StudentService.UpdateStudent:input_type -> course_recommender.UpdateStudentRequest
-	9,  // 11: course_recommender.StudentService.ListStudents:input_type -> course_recommender.ListStudentsRequest
-	11, // 12: course_recommender.StudentService.DeleteStudent:input_type -> course_recommender.DeleteStudentRequest
-	2,  // 13: course_recommender.StudentService.CreateStudent:output_type -> course_recommender.CreateStudentResponse
-	4,  // 14: course_recommender.StudentService.GetStudent:output_type -> course_recommender.GetStudentResponse
-	6,  // 15: course_recommender.StudentService.GetStudentByUsername:output_type -> course_recommender.GetStudentByUsernameResponse
-	8,  // 16: course_recommender.StudentService.UpdateStudent:output_type -> course_recommender.UpdateStudentResponse
-	10, // 17: course_recommender.StudentService.ListStudents:output_type -> course_recommender.ListStudentsResponse
-	12, // 18: course_recommender.StudentService.DeleteStudent:output_type -> course_recommender.DeleteStudentResponse
-	13, // [13:19] is the sub-list for method output_type
-	7,  // [7:13] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for method output_type
+	7,  // [7:7] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
 	7,  // [7:7] is the sub-list for extension extendee
 	0,  // [0:7] is the sub-list for field type_name
@@ -762,7 +742,7 @@ func file_student_proto_init() {
 			NumEnums:      0,
 			NumMessages:   13,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   0,
 		},
 		GoTypes:           file_student_proto_goTypes,
 		DependencyIndexes: file_student_proto_depIdxs,

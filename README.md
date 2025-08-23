@@ -61,7 +61,7 @@ frontend and every step in between.
 
   - for students
     - /CreateStudent
-    - /GetStudentByEmail
+    - /GetStudentByUsername
     - /UpdateStudent
     - /DeleteStudent
 

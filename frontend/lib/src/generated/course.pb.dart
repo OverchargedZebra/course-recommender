@@ -15,7 +15,7 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'google/protobuf/wrappers.pb.dart' as $1;
+import 'google/protobuf/wrappers.pb.dart' as $0;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
@@ -467,8 +467,8 @@ class GetCourseByNameResponse extends $pb.GeneratedMessage {
 class UpdateCourseRequest extends $pb.GeneratedMessage {
   factory UpdateCourseRequest({
     $fixnum.Int64? id,
-    $1.StringValue? courseName,
-    $1.Int32Value? difficulty,
+    $0.StringValue? courseName,
+    $0.Int32Value? difficulty,
   }) {
     final result = create();
     if (id != null) result.id = id;
@@ -492,10 +492,10 @@ class UpdateCourseRequest extends $pb.GeneratedMessage {
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'id')
-    ..aOM<$1.StringValue>(2, _omitFieldNames ? '' : 'courseName',
-        subBuilder: $1.StringValue.create)
-    ..aOM<$1.Int32Value>(3, _omitFieldNames ? '' : 'difficulty',
-        subBuilder: $1.Int32Value.create)
+    ..aOM<$0.StringValue>(2, _omitFieldNames ? '' : 'courseName',
+        subBuilder: $0.StringValue.create)
+    ..aOM<$0.Int32Value>(3, _omitFieldNames ? '' : 'difficulty',
+        subBuilder: $0.Int32Value.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -529,26 +529,26 @@ class UpdateCourseRequest extends $pb.GeneratedMessage {
   void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $1.StringValue get courseName => $_getN(1);
+  $0.StringValue get courseName => $_getN(1);
   @$pb.TagNumber(2)
-  set courseName($1.StringValue value) => $_setField(2, value);
+  set courseName($0.StringValue value) => $_setField(2, value);
   @$pb.TagNumber(2)
   $core.bool hasCourseName() => $_has(1);
   @$pb.TagNumber(2)
   void clearCourseName() => $_clearField(2);
   @$pb.TagNumber(2)
-  $1.StringValue ensureCourseName() => $_ensure(1);
+  $0.StringValue ensureCourseName() => $_ensure(1);
 
   @$pb.TagNumber(3)
-  $1.Int32Value get difficulty => $_getN(2);
+  $0.Int32Value get difficulty => $_getN(2);
   @$pb.TagNumber(3)
-  set difficulty($1.Int32Value value) => $_setField(3, value);
+  set difficulty($0.Int32Value value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasDifficulty() => $_has(2);
   @$pb.TagNumber(3)
   void clearDifficulty() => $_clearField(3);
   @$pb.TagNumber(3)
-  $1.Int32Value ensureDifficulty() => $_ensure(2);
+  $0.Int32Value ensureDifficulty() => $_ensure(2);
 }
 
 /// Response containing the updated course.

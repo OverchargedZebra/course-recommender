@@ -113,5 +113,5 @@ WITH
     );
 
 -- Create index for student table
--- Index on student email for faster verification
-CREATE INDEX student_email_idx ON student (student_email);
+-- Index on student username for faster verification
+CREATE INDEX student_username_idx ON student (student_username);

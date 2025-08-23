@@ -1,15 +1,17 @@
-.PHONY: reset run run down flutterweb sqlc proto
+.PHONY: reset run down flutterweb sqlc proto
 
 reset: down run
 
 run:
 	@docker compose up --build
 
+# Deleting the data with -v should be deliberate choice
+# it should be avoided unless it is seriously required
 down:
-	@docker compose down -v
+	@docker compose down
 
 flutterweb:
-	@cd ./frontend && flutter build web --wasm
+	@cd ./frontend && flutter build web --wasm --release
 
 sqlc:
 	@sqlc generate

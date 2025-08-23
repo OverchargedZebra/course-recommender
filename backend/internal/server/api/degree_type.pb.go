@@ -654,14 +654,7 @@ const file_degree_type_proto_rawDesc = "" +
 	"\x17DeleteDegreeTypeRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"4\n" +
 	"\x18DeleteDegreeTypeResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xaa\x05\n" +
-	"\x11DegreeTypeService\x12m\n" +
-	"\x10CreateDegreeType\x12+.course_recommender.CreateDegreeTypeRequest\x1a,.course_recommender.CreateDegreeTypeResponse\x12d\n" +
-	"\rGetDegreeType\x12(.course_recommender.GetDegreeTypeRequest\x1a).course_recommender.GetDegreeTypeResponse\x12v\n" +
-	"\x13GetDegreeTypeByName\x12..course_recommender.GetDegreeTypeByNameRequest\x1a/.course_recommender.GetDegreeTypeByNameResponse\x12m\n" +
-	"\x10UpdateDegreeType\x12+.course_recommender.UpdateDegreeTypeRequest\x1a,.course_recommender.UpdateDegreeTypeResponse\x12j\n" +
-	"\x0fListDegreeTypes\x12*.course_recommender.ListDegreeTypesRequest\x1a+.course_recommender.ListDegreeTypesResponse\x12m\n" +
-	"\x10DeleteDegreeType\x12+.course_recommender.DeleteDegreeTypeRequest\x1a,.course_recommender.DeleteDegreeTypeResponseB\aZ\x05./apib\x06proto3"
+	"\asuccess\x18\x01 \x01(\bR\asuccessB\aZ\x05./apib\x06proto3"
 
 var (
 	file_degree_type_proto_rawDescOnce sync.Once
@@ -699,20 +692,8 @@ var file_degree_type_proto_depIdxs = []int32{
 	13, // 3: course_recommender.UpdateDegreeTypeRequest.degree_name:type_name -> google.protobuf.StringValue
 	0,  // 4: course_recommender.UpdateDegreeTypeResponse.degree_type:type_name -> course_recommender.DegreeType
 	0,  // 5: course_recommender.ListDegreeTypesResponse.degree_types:type_name -> course_recommender.DegreeType
-	1,  // 6: course_recommender.DegreeTypeService.CreateDegreeType:input_type -> course_recommender.CreateDegreeTypeRequest
-	3,  // 7: course_recommender.DegreeTypeService.GetDegreeType:input_type -> course_recommender.GetDegreeTypeRequest
-	5,  // 8: course_recommender.DegreeTypeService.GetDegreeTypeByName:input_type -> course_recommender.GetDegreeTypeByNameRequest
-	7,  // 9: course_recommender.DegreeTypeService.UpdateDegreeType:input_type -> course_recommender.UpdateDegreeTypeRequest
-	9,  // 10: course_recommender.DegreeTypeService.ListDegreeTypes:input_type -> course_recommender.ListDegreeTypesRequest
-	11, // 11: course_recommender.DegreeTypeService.DeleteDegreeType:input_type -> course_recommender.DeleteDegreeTypeRequest
-	2,  // 12: course_recommender.DegreeTypeService.CreateDegreeType:output_type -> course_recommender.CreateDegreeTypeResponse
-	4,  // 13: course_recommender.DegreeTypeService.GetDegreeType:output_type -> course_recommender.GetDegreeTypeResponse
-	6,  // 14: course_recommender.DegreeTypeService.GetDegreeTypeByName:output_type -> course_recommender.GetDegreeTypeByNameResponse
-	8,  // 15: course_recommender.DegreeTypeService.UpdateDegreeType:output_type -> course_recommender.UpdateDegreeTypeResponse
-	10, // 16: course_recommender.DegreeTypeService.ListDegreeTypes:output_type -> course_recommender.ListDegreeTypesResponse
-	12, // 17: course_recommender.DegreeTypeService.DeleteDegreeType:output_type -> course_recommender.DeleteDegreeTypeResponse
-	12, // [12:18] is the sub-list for method output_type
-	6,  // [6:12] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for method output_type
+	6,  // [6:6] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
 	6,  // [6:6] is the sub-list for extension extendee
 	0,  // [0:6] is the sub-list for field type_name
@@ -731,7 +712,7 @@ func file_degree_type_proto_init() {
 			NumEnums:      0,
 			NumMessages:   13,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   0,
 		},
 		GoTypes:           file_degree_type_proto_goTypes,
 		DependencyIndexes: file_degree_type_proto_depIdxs,

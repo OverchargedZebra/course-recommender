@@ -13,13 +13,29 @@ map $content_type $grpc_destination {
     "application/grpc-web" http://grpc_web_backend;
 }
 
+# insecure port that would change
 server {
-    listen $NGINX_PORT;
-    http2 on;
+    listen $NGINX_HTTP_PORT default_server;
+    listen [::]:$NGINX_HTTP_PORT default_server;
+    server_name $NGINX_SERVER_NAME;
 
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+# settings for tls enabled server
+server {
+    listen $NGINX_HTTPS_PORT ssl default_server;
+    listen [::]:$NGINX_HTTPS_PORT ssl default_server;
+
+    http2 on;
     proxy_http_version 1.1;
 
-    server_name _;
+    ssl_certificate /etc/ssl/cert.pem;
+    ssl_certificate_key /etc/ssl/privkey.pem;
+
+    server_name $NGINX_SERVER_NAME;
     client_max_body_size 64M;
 
     # Location for serving the Flutter web application.
@@ -42,8 +58,8 @@ server {
 
         # Add CORS headers for the actual gRPC-Web requests.
         add_header 'Access-Control-Allow-Origin' '*' always;
-
         # Use the variable set by the map to route traffic correctly.
         grpc_pass $grpc_destination;
     }
+
 }

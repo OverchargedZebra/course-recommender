@@ -646,15 +646,7 @@ const file_tag_proto_rawDesc = "" +
 	"\x10DeleteTagRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"-\n" +
 	"\x11DeleteTagResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xa5\x04\n" +
-	"\n" +
-	"TagService\x12X\n" +
-	"\tCreateTag\x12$.course_recommender.CreateTagRequest\x1a%.course_recommender.CreateTagResponse\x12O\n" +
-	"\x06GetTag\x12!.course_recommender.GetTagRequest\x1a\".course_recommender.GetTagResponse\x12a\n" +
-	"\fGetTagByName\x12'.course_recommender.GetTagByNameRequest\x1a(.course_recommender.GetTagByNameResponse\x12X\n" +
-	"\tUpdateTag\x12$.course_recommender.UpdateTagRequest\x1a%.course_recommender.UpdateTagResponse\x12U\n" +
-	"\bListTags\x12#.course_recommender.ListTagsRequest\x1a$.course_recommender.ListTagsResponse\x12X\n" +
-	"\tDeleteTag\x12$.course_recommender.DeleteTagRequest\x1a%.course_recommender.DeleteTagResponseB\aZ\x05./apib\x06proto3"
+	"\asuccess\x18\x01 \x01(\bR\asuccessB\aZ\x05./apib\x06proto3"
 
 var (
 	file_tag_proto_rawDescOnce sync.Once
@@ -692,20 +684,8 @@ var file_tag_proto_depIdxs = []int32{
 	13, // 3: course_recommender.UpdateTagRequest.tag_name:type_name -> google.protobuf.StringValue
 	0,  // 4: course_recommender.UpdateTagResponse.tag:type_name -> course_recommender.Tag
 	0,  // 5: course_recommender.ListTagsResponse.tags:type_name -> course_recommender.Tag
-	1,  // 6: course_recommender.TagService.CreateTag:input_type -> course_recommender.CreateTagRequest
-	3,  // 7: course_recommender.TagService.GetTag:input_type -> course_recommender.GetTagRequest
-	5,  // 8: course_recommender.TagService.GetTagByName:input_type -> course_recommender.GetTagByNameRequest
-	7,  // 9: course_recommender.TagService.UpdateTag:input_type -> course_recommender.UpdateTagRequest
-	9,  // 10: course_recommender.TagService.ListTags:input_type -> course_recommender.ListTagsRequest
-	11, // 11: course_recommender.TagService.DeleteTag:input_type -> course_recommender.DeleteTagRequest
-	2,  // 12: course_recommender.TagService.CreateTag:output_type -> course_recommender.CreateTagResponse
-	4,  // 13: course_recommender.TagService.GetTag:output_type -> course_recommender.GetTagResponse
-	6,  // 14: course_recommender.TagService.GetTagByName:output_type -> course_recommender.GetTagByNameResponse
-	8,  // 15: course_recommender.TagService.UpdateTag:output_type -> course_recommender.UpdateTagResponse
-	10, // 16: course_recommender.TagService.ListTags:output_type -> course_recommender.ListTagsResponse
-	12, // 17: course_recommender.TagService.DeleteTag:output_type -> course_recommender.DeleteTagResponse
-	12, // [12:18] is the sub-list for method output_type
-	6,  // [6:12] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for method output_type
+	6,  // [6:6] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
 	6,  // [6:6] is the sub-list for extension extendee
 	0,  // [0:6] is the sub-list for field type_name
@@ -724,7 +704,7 @@ func file_tag_proto_init() {
 			NumEnums:      0,
 			NumMessages:   13,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   0,
 		},
 		GoTypes:           file_tag_proto_goTypes,
 		DependencyIndexes: file_tag_proto_depIdxs,

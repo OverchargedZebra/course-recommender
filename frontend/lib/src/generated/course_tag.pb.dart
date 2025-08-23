@@ -15,8 +15,8 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'course.pb.dart' as $2;
-import 'tag.pb.dart' as $1;
+import 'course.pb.dart' as $1;
+import 'tag.pb.dart' as $0;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
@@ -287,7 +287,7 @@ class GetTagsByCourseIdRequest extends $pb.GeneratedMessage {
 /// Response containing a list of tags for a specific course.
 class GetTagsByCourseIdResponse extends $pb.GeneratedMessage {
   factory GetTagsByCourseIdResponse({
-    $core.Iterable<$1.Tag>? tags,
+    $core.Iterable<$0.Tag>? tags,
   }) {
     final result = create();
     if (tags != null) result.tags.addAll(tags);
@@ -308,8 +308,8 @@ class GetTagsByCourseIdResponse extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
-    ..pc<$1.Tag>(1, _omitFieldNames ? '' : 'tags', $pb.PbFieldType.PM,
-        subBuilder: $1.Tag.create)
+    ..pc<$0.Tag>(1, _omitFieldNames ? '' : 'tags', $pb.PbFieldType.PM,
+        subBuilder: $0.Tag.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -336,7 +336,7 @@ class GetTagsByCourseIdResponse extends $pb.GeneratedMessage {
   static GetTagsByCourseIdResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $pb.PbList<$1.Tag> get tags => $_getList(0);
+  $pb.PbList<$0.Tag> get tags => $_getList(0);
 }
 
 /// Request to get all courses for a specific tag.
@@ -402,7 +402,7 @@ class GetCoursesByTagIdRequest extends $pb.GeneratedMessage {
 /// Response containing a list of courses for a specific tag.
 class GetCoursesByTagIdResponse extends $pb.GeneratedMessage {
   factory GetCoursesByTagIdResponse({
-    $core.Iterable<$2.Course>? courses,
+    $core.Iterable<$1.Course>? courses,
   }) {
     final result = create();
     if (courses != null) result.courses.addAll(courses);
@@ -423,8 +423,8 @@ class GetCoursesByTagIdResponse extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
-    ..pc<$2.Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
-        subBuilder: $2.Course.create)
+    ..pc<$1.Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
+        subBuilder: $1.Course.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -451,7 +451,7 @@ class GetCoursesByTagIdResponse extends $pb.GeneratedMessage {
   static GetCoursesByTagIdResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $pb.PbList<$2.Course> get courses => $_getList(0);
+  $pb.PbList<$1.Course> get courses => $_getList(0);
 }
 
 /// Request to delete a course-tag association.
