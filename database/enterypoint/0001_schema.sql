@@ -114,4 +114,4 @@ WITH
 
 -- Create index for student table
 -- Index on student username for faster verification
-CREATE INDEX student_username_idx ON student (student_usernam
+CREATE INDEX student_username_idx ON student (student_username);
