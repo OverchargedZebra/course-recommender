@@ -19,29 +19,29 @@ const Student$json = {
   '1': 'Student',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
-    {'1': 'student_email', '3': 2, '4': 1, '5': 9, '10': 'studentEmail'},
+    {'1': 'student_username', '3': 2, '4': 1, '5': 9, '10': 'studentUsername'},
     {'1': 'student_password', '3': 3, '4': 1, '5': 9, '10': 'studentPassword'},
   ],
 };
 
 /// Descriptor for `Student`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List studentDescriptor = $convert.base64Decode(
-    'CgdTdHVkZW50Eg4KAmlkGAEgASgDUgJpZBIjCg1zdHVkZW50X2VtYWlsGAIgASgJUgxzdHVkZW'
-    '50RW1haWwSKQoQc3R1ZGVudF9wYXNzd29yZBgDIAEoCVIPc3R1ZGVudFBhc3N3b3Jk');
+    'CgdTdHVkZW50Eg4KAmlkGAEgASgDUgJpZBIpChBzdHVkZW50X3VzZXJuYW1lGAIgASgJUg9zdH'
+    'VkZW50VXNlcm5hbWUSKQoQc3R1ZGVudF9wYXNzd29yZBgDIAEoCVIPc3R1ZGVudFBhc3N3b3Jk');
 
 @$core.Deprecated('Use createStudentRequestDescriptor instead')
 const CreateStudentRequest$json = {
   '1': 'CreateStudentRequest',
   '2': [
-    {'1': 'student_email', '3': 1, '4': 1, '5': 9, '10': 'studentEmail'},
+    {'1': 'student_username', '3': 1, '4': 1, '5': 9, '10': 'studentUsername'},
     {'1': 'student_password', '3': 2, '4': 1, '5': 9, '10': 'studentPassword'},
   ],
 };
 
 /// Descriptor for `CreateStudentRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List createStudentRequestDescriptor = $convert.base64Decode(
-    'ChRDcmVhdGVTdHVkZW50UmVxdWVzdBIjCg1zdHVkZW50X2VtYWlsGAEgASgJUgxzdHVkZW50RW'
-    '1haWwSKQoQc3R1ZGVudF9wYXNzd29yZBgCIAEoCVIPc3R1ZGVudFBhc3N3b3Jk');
+    'ChRDcmVhdGVTdHVkZW50UmVxdWVzdBIpChBzdHVkZW50X3VzZXJuYW1lGAEgASgJUg9zdHVkZW'
+    '50VXNlcm5hbWUSKQoQc3R1ZGVudF9wYXNzd29yZBgCIAEoCVIPc3R1ZGVudFBhc3N3b3Jk');
 
 @$core.Deprecated('Use createStudentResponseDescriptor instead')
 const CreateStudentResponse$json = {
@@ -95,23 +95,25 @@ final $typed_data.Uint8List getStudentResponseDescriptor = $convert.base64Decode
     'ChJHZXRTdHVkZW50UmVzcG9uc2USNQoHc3R1ZGVudBgBIAEoCzIbLmNvdXJzZV9yZWNvbW1lbm'
     'Rlci5TdHVkZW50UgdzdHVkZW50');
 
-@$core.Deprecated('Use getStudentByEmailRequestDescriptor instead')
-const GetStudentByEmailRequest$json = {
-  '1': 'GetStudentByEmailRequest',
+@$core.Deprecated('Use getStudentByUsernameRequestDescriptor instead')
+const GetStudentByUsernameRequest$json = {
+  '1': 'GetStudentByUsernameRequest',
   '2': [
-    {'1': 'student_email', '3': 1, '4': 1, '5': 9, '10': 'studentEmail'},
+    {'1': 'student_username', '3': 1, '4': 1, '5': 9, '10': 'studentUsername'},
+    {'1': 'student_password', '3': 2, '4': 1, '5': 9, '10': 'studentPassword'},
   ],
 };
 
-/// Descriptor for `GetStudentByEmailRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getStudentByEmailRequestDescriptor =
+/// Descriptor for `GetStudentByUsernameRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getStudentByUsernameRequestDescriptor =
     $convert.base64Decode(
-        'ChhHZXRTdHVkZW50QnlFbWFpbFJlcXVlc3QSIwoNc3R1ZGVudF9lbWFpbBgBIAEoCVIMc3R1ZG'
-        'VudEVtYWls');
+        'ChtHZXRTdHVkZW50QnlVc2VybmFtZVJlcXVlc3QSKQoQc3R1ZGVudF91c2VybmFtZRgBIAEoCV'
+        'IPc3R1ZGVudFVzZXJuYW1lEikKEHN0dWRlbnRfcGFzc3dvcmQYAiABKAlSD3N0dWRlbnRQYXNz'
+        'd29yZA==');
 
-@$core.Deprecated('Use getStudentByEmailResponseDescriptor instead')
-const GetStudentByEmailResponse$json = {
-  '1': 'GetStudentByEmailResponse',
+@$core.Deprecated('Use getStudentByUsernameResponseDescriptor instead')
+const GetStudentByUsernameResponse$json = {
+  '1': 'GetStudentByUsernameResponse',
   '2': [
     {
       '1': 'student',
@@ -124,11 +126,11 @@ const GetStudentByEmailResponse$json = {
   ],
 };
 
-/// Descriptor for `GetStudentByEmailResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List getStudentByEmailResponseDescriptor =
+/// Descriptor for `GetStudentByUsernameResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getStudentByUsernameResponseDescriptor =
     $convert.base64Decode(
-        'ChlHZXRTdHVkZW50QnlFbWFpbFJlc3BvbnNlEjUKB3N0dWRlbnQYASABKAsyGy5jb3Vyc2Vfcm'
-        'Vjb21tZW5kZXIuU3R1ZGVudFIHc3R1ZGVudA==');
+        'ChxHZXRTdHVkZW50QnlVc2VybmFtZVJlc3BvbnNlEjUKB3N0dWRlbnQYASABKAsyGy5jb3Vyc2'
+        'VfcmVjb21tZW5kZXIuU3R1ZGVudFIHc3R1ZGVudA==');
 
 @$core.Deprecated('Use updateStudentRequestDescriptor instead')
 const UpdateStudentRequest$json = {
@@ -136,12 +138,12 @@ const UpdateStudentRequest$json = {
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
     {
-      '1': 'student_email',
+      '1': 'student_username',
       '3': 2,
       '4': 1,
       '5': 11,
       '6': '.google.protobuf.StringValue',
-      '10': 'studentEmail'
+      '10': 'studentUsername'
     },
     {
       '1': 'student_password',
@@ -156,10 +158,10 @@ const UpdateStudentRequest$json = {
 
 /// Descriptor for `UpdateStudentRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List updateStudentRequestDescriptor = $convert.base64Decode(
-    'ChRVcGRhdGVTdHVkZW50UmVxdWVzdBIOCgJpZBgBIAEoA1ICaWQSQQoNc3R1ZGVudF9lbWFpbB'
-    'gCIAEoCzIcLmdvb2dsZS5wcm90b2J1Zi5TdHJpbmdWYWx1ZVIMc3R1ZGVudEVtYWlsEkcKEHN0'
-    'dWRlbnRfcGFzc3dvcmQYAyABKAsyHC5nb29nbGUucHJvdG9idWYuU3RyaW5nVmFsdWVSD3N0dW'
-    'RlbnRQYXNzd29yZA==');
+    'ChRVcGRhdGVTdHVkZW50UmVxdWVzdBIOCgJpZBgBIAEoA1ICaWQSRwoQc3R1ZGVudF91c2Vybm'
+    'FtZRgCIAEoCzIcLmdvb2dsZS5wcm90b2J1Zi5TdHJpbmdWYWx1ZVIPc3R1ZGVudFVzZXJuYW1l'
+    'EkcKEHN0dWRlbnRfcGFzc3dvcmQYAyABKAsyHC5nb29nbGUucHJvdG9idWYuU3RyaW5nVmFsdW'
+    'VSD3N0dWRlbnRQYXNzd29yZA==');
 
 @$core.Deprecated('Use updateStudentResponseDescriptor instead')
 const UpdateStudentResponse$json = {

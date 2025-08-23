@@ -42,7 +42,7 @@ type DegreeType struct {
 
 type Student struct {
 	ID              int64  `json:"id"`
-	StudentEmail    string `json:"student_email"`
+	StudentUsername string `json:"student_username"`
 	StudentPassword string `json:"student_password"`
 }
 

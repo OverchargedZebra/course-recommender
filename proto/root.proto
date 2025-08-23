@@ -77,7 +77,7 @@ service CourseRecommenderService {
   // Retrieves a student by their ID.
   rpc GetStudent(GetStudentRequest) returns (GetStudentResponse);
   // Retrieves a student by their email.
-  rpc GetStudentByEmail(GetStudentByEmailRequest) returns (GetStudentByEmailResponse);
+  rpc GetStudentByUsername(GetStudentByUsernameRequest) returns (GetStudentByUsernameResponse);
   // Updates an existing student's information.
   rpc UpdateStudent(UpdateStudentRequest) returns (UpdateStudentResponse);
   // Lists all students.

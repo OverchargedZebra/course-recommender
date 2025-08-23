@@ -15,7 +15,7 @@ import (
 func apiStudent(student db.Student) *api.Student {
 	return &api.Student{
 		Id:              student.ID,
-		StudentEmail:    student.StudentEmail,
+		StudentUsername: student.StudentUsername,
 		StudentPassword: student.StudentPassword,
 	}
 }
@@ -23,7 +23,7 @@ func apiStudent(student db.Student) *api.Student {
 // Creates a new student.
 func (s *Server) CreateStudent(ctx context.Context, req *api.CreateStudentRequest) (*api.CreateStudentResponse, error) {
 	result, err := s.q.CreateStudent(ctx, db.CreateStudentParams{
-		StudentEmail:    req.StudentEmail,
+		StudentUsername: req.StudentUsername,
 		StudentPassword: req.StudentPassword,
 	})
 
@@ -37,25 +37,28 @@ func (s *Server) CreateStudent(ctx context.Context, req *api.CreateStudentReques
 }
 
 // Retrieves a student by their email.
-func (s *Server) GetStudentByEmail(ctx context.Context, req *api.GetStudentByEmailRequest) (*api.GetStudentByEmailResponse, error) {
-	result, err := s.q.GetStudentByEmail(ctx, req.StudentEmail)
+func (s *Server) GetStudentByUsername(ctx context.Context, req *api.GetStudentByUsernameRequest) (*api.GetStudentByUsernameResponse, error) {
+	result, err := s.q.GetStudentByUsername(ctx, db.GetStudentByUsernameParams{
+		StudentUsername: req.StudentUsername,
+		StudentPassword: req.StudentPassword,
+	})
 	if err != nil {
 		return nil, status.Errorf(codes.Aborted, "GetStudentByEmail request aborted because of: %v", err)
 	}
 
 	student := apiStudent(result)
 
-	return &api.GetStudentByEmailResponse{Student: student}, nil
+	return &api.GetStudentByUsernameResponse{Student: student}, nil
 }
 
 // Updates an existing student's information.
 func (s *Server) UpdateStudent(ctx context.Context, req *api.UpdateStudentRequest) (*api.UpdateStudentResponse, error) {
-	studentEmail, validEmail := handlePbStringWrapper(req.StudentEmail)
+	studentUsername, validUsername := handlePbStringWrapper(req.StudentUsername)
 	studentPassword, validPassword := handlePbStringWrapper(req.StudentPassword)
 
 	result, err := s.q.UpdateStudent(ctx, db.UpdateStudentParams{
 		ID:              req.Id,
-		StudentEmail:    pgtype.Text{String: studentEmail, Valid: validEmail},
+		StudentUsername: pgtype.Text{String: studentUsername, Valid: validUsername},
 		StudentPassword: pgtype.Text{String: studentPassword, Valid: validPassword},
 	})
 	if err != nil {

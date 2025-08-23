@@ -24,12 +24,12 @@ export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 class Student extends $pb.GeneratedMessage {
   factory Student({
     $fixnum.Int64? id,
-    $core.String? studentEmail,
+    $core.String? studentUsername,
     $core.String? studentPassword,
   }) {
     final result = create();
     if (id != null) result.id = id;
-    if (studentEmail != null) result.studentEmail = studentEmail;
+    if (studentUsername != null) result.studentUsername = studentUsername;
     if (studentPassword != null) result.studentPassword = studentPassword;
     return result;
   }
@@ -49,7 +49,7 @@ class Student extends $pb.GeneratedMessage {
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'id')
-    ..aOS(2, _omitFieldNames ? '' : 'studentEmail')
+    ..aOS(2, _omitFieldNames ? '' : 'studentUsername')
     ..aOS(3, _omitFieldNames ? '' : 'studentPassword')
     ..hasRequiredFields = false;
 
@@ -82,13 +82,13 @@ class Student extends $pb.GeneratedMessage {
   void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get studentEmail => $_getSZ(1);
+  $core.String get studentUsername => $_getSZ(1);
   @$pb.TagNumber(2)
-  set studentEmail($core.String value) => $_setString(1, value);
+  set studentUsername($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
-  $core.bool hasStudentEmail() => $_has(1);
+  $core.bool hasStudentUsername() => $_has(1);
   @$pb.TagNumber(2)
-  void clearStudentEmail() => $_clearField(2);
+  void clearStudentUsername() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get studentPassword => $_getSZ(2);
@@ -103,11 +103,11 @@ class Student extends $pb.GeneratedMessage {
 /// Request to create a new student.
 class CreateStudentRequest extends $pb.GeneratedMessage {
   factory CreateStudentRequest({
-    $core.String? studentEmail,
+    $core.String? studentUsername,
     $core.String? studentPassword,
   }) {
     final result = create();
-    if (studentEmail != null) result.studentEmail = studentEmail;
+    if (studentUsername != null) result.studentUsername = studentUsername;
     if (studentPassword != null) result.studentPassword = studentPassword;
     return result;
   }
@@ -126,7 +126,7 @@ class CreateStudentRequest extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'studentEmail')
+    ..aOS(1, _omitFieldNames ? '' : 'studentUsername')
     ..aOS(2, _omitFieldNames ? '' : 'studentPassword')
     ..hasRequiredFields = false;
 
@@ -153,13 +153,13 @@ class CreateStudentRequest extends $pb.GeneratedMessage {
   static CreateStudentRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get studentEmail => $_getSZ(0);
+  $core.String get studentUsername => $_getSZ(0);
   @$pb.TagNumber(1)
-  set studentEmail($core.String value) => $_setString(0, value);
+  set studentUsername($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
-  $core.bool hasStudentEmail() => $_has(0);
+  $core.bool hasStudentUsername() => $_has(0);
   @$pb.TagNumber(1)
-  void clearStudentEmail() => $_clearField(1);
+  void clearStudentUsername() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get studentPassword => $_getSZ(1);
@@ -353,69 +353,83 @@ class GetStudentResponse extends $pb.GeneratedMessage {
   Student ensureStudent() => $_ensure(0);
 }
 
-/// Request to get a student by their email.
-class GetStudentByEmailRequest extends $pb.GeneratedMessage {
-  factory GetStudentByEmailRequest({
-    $core.String? studentEmail,
+/// Request to get a student by username and password
+class GetStudentByUsernameRequest extends $pb.GeneratedMessage {
+  factory GetStudentByUsernameRequest({
+    $core.String? studentUsername,
+    $core.String? studentPassword,
   }) {
     final result = create();
-    if (studentEmail != null) result.studentEmail = studentEmail;
+    if (studentUsername != null) result.studentUsername = studentUsername;
+    if (studentPassword != null) result.studentPassword = studentPassword;
     return result;
   }
 
-  GetStudentByEmailRequest._();
+  GetStudentByUsernameRequest._();
 
-  factory GetStudentByEmailRequest.fromBuffer($core.List<$core.int> data,
+  factory GetStudentByUsernameRequest.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(data, registry);
-  factory GetStudentByEmailRequest.fromJson($core.String json,
+  factory GetStudentByUsernameRequest.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetStudentByEmailRequest',
+      _omitMessageNames ? '' : 'GetStudentByUsernameRequest',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'studentEmail')
+    ..aOS(1, _omitFieldNames ? '' : 'studentUsername')
+    ..aOS(2, _omitFieldNames ? '' : 'studentPassword')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GetStudentByEmailRequest clone() =>
-      GetStudentByEmailRequest()..mergeFromMessage(this);
+  GetStudentByUsernameRequest clone() =>
+      GetStudentByUsernameRequest()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GetStudentByEmailRequest copyWith(
-          void Function(GetStudentByEmailRequest) updates) =>
-      super.copyWith((message) => updates(message as GetStudentByEmailRequest))
-          as GetStudentByEmailRequest;
+  GetStudentByUsernameRequest copyWith(
+          void Function(GetStudentByUsernameRequest) updates) =>
+      super.copyWith(
+              (message) => updates(message as GetStudentByUsernameRequest))
+          as GetStudentByUsernameRequest;
 
   @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetStudentByEmailRequest create() => GetStudentByEmailRequest._();
+  static GetStudentByUsernameRequest create() =>
+      GetStudentByUsernameRequest._();
   @$core.override
-  GetStudentByEmailRequest createEmptyInstance() => create();
-  static $pb.PbList<GetStudentByEmailRequest> createRepeated() =>
-      $pb.PbList<GetStudentByEmailRequest>();
+  GetStudentByUsernameRequest createEmptyInstance() => create();
+  static $pb.PbList<GetStudentByUsernameRequest> createRepeated() =>
+      $pb.PbList<GetStudentByUsernameRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetStudentByEmailRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<GetStudentByEmailRequest>(create);
-  static GetStudentByEmailRequest? _defaultInstance;
+  static GetStudentByUsernameRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetStudentByUsernameRequest>(create);
+  static GetStudentByUsernameRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get studentEmail => $_getSZ(0);
+  $core.String get studentUsername => $_getSZ(0);
   @$pb.TagNumber(1)
-  set studentEmail($core.String value) => $_setString(0, value);
+  set studentUsername($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
-  $core.bool hasStudentEmail() => $_has(0);
+  $core.bool hasStudentUsername() => $_has(0);
   @$pb.TagNumber(1)
-  void clearStudentEmail() => $_clearField(1);
+  void clearStudentUsername() => $_clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get studentPassword => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set studentPassword($core.String value) => $_setString(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasStudentPassword() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearStudentPassword() => $_clearField(2);
 }
 
 /// Response containing the requested student.
-class GetStudentByEmailResponse extends $pb.GeneratedMessage {
-  factory GetStudentByEmailResponse({
+class GetStudentByUsernameResponse extends $pb.GeneratedMessage {
+  factory GetStudentByUsernameResponse({
     Student? student,
   }) {
     final result = create();
@@ -423,17 +437,17 @@ class GetStudentByEmailResponse extends $pb.GeneratedMessage {
     return result;
   }
 
-  GetStudentByEmailResponse._();
+  GetStudentByUsernameResponse._();
 
-  factory GetStudentByEmailResponse.fromBuffer($core.List<$core.int> data,
+  factory GetStudentByUsernameResponse.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(data, registry);
-  factory GetStudentByEmailResponse.fromJson($core.String json,
+  factory GetStudentByUsernameResponse.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'GetStudentByEmailResponse',
+      _omitMessageNames ? '' : 'GetStudentByUsernameResponse',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
@@ -442,27 +456,29 @@ class GetStudentByEmailResponse extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GetStudentByEmailResponse clone() =>
-      GetStudentByEmailResponse()..mergeFromMessage(this);
+  GetStudentByUsernameResponse clone() =>
+      GetStudentByUsernameResponse()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GetStudentByEmailResponse copyWith(
-          void Function(GetStudentByEmailResponse) updates) =>
-      super.copyWith((message) => updates(message as GetStudentByEmailResponse))
-          as GetStudentByEmailResponse;
+  GetStudentByUsernameResponse copyWith(
+          void Function(GetStudentByUsernameResponse) updates) =>
+      super.copyWith(
+              (message) => updates(message as GetStudentByUsernameResponse))
+          as GetStudentByUsernameResponse;
 
   @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetStudentByEmailResponse create() => GetStudentByEmailResponse._();
+  static GetStudentByUsernameResponse create() =>
+      GetStudentByUsernameResponse._();
   @$core.override
-  GetStudentByEmailResponse createEmptyInstance() => create();
-  static $pb.PbList<GetStudentByEmailResponse> createRepeated() =>
-      $pb.PbList<GetStudentByEmailResponse>();
+  GetStudentByUsernameResponse createEmptyInstance() => create();
+  static $pb.PbList<GetStudentByUsernameResponse> createRepeated() =>
+      $pb.PbList<GetStudentByUsernameResponse>();
   @$core.pragma('dart2js:noInline')
-  static GetStudentByEmailResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<GetStudentByEmailResponse>(create);
-  static GetStudentByEmailResponse? _defaultInstance;
+  static GetStudentByUsernameResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GetStudentByUsernameResponse>(create);
+  static GetStudentByUsernameResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   Student get student => $_getN(0);
@@ -480,12 +496,12 @@ class GetStudentByEmailResponse extends $pb.GeneratedMessage {
 class UpdateStudentRequest extends $pb.GeneratedMessage {
   factory UpdateStudentRequest({
     $fixnum.Int64? id,
-    $1.StringValue? studentEmail,
+    $1.StringValue? studentUsername,
     $1.StringValue? studentPassword,
   }) {
     final result = create();
     if (id != null) result.id = id;
-    if (studentEmail != null) result.studentEmail = studentEmail;
+    if (studentUsername != null) result.studentUsername = studentUsername;
     if (studentPassword != null) result.studentPassword = studentPassword;
     return result;
   }
@@ -505,7 +521,7 @@ class UpdateStudentRequest extends $pb.GeneratedMessage {
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'id')
-    ..aOM<$1.StringValue>(2, _omitFieldNames ? '' : 'studentEmail',
+    ..aOM<$1.StringValue>(2, _omitFieldNames ? '' : 'studentUsername',
         subBuilder: $1.StringValue.create)
     ..aOM<$1.StringValue>(3, _omitFieldNames ? '' : 'studentPassword',
         subBuilder: $1.StringValue.create)
@@ -543,15 +559,15 @@ class UpdateStudentRequest extends $pb.GeneratedMessage {
   void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $1.StringValue get studentEmail => $_getN(1);
+  $1.StringValue get studentUsername => $_getN(1);
   @$pb.TagNumber(2)
-  set studentEmail($1.StringValue value) => $_setField(2, value);
+  set studentUsername($1.StringValue value) => $_setField(2, value);
   @$pb.TagNumber(2)
-  $core.bool hasStudentEmail() => $_has(1);
+  $core.bool hasStudentUsername() => $_has(1);
   @$pb.TagNumber(2)
-  void clearStudentEmail() => $_clearField(2);
+  void clearStudentUsername() => $_clearField(2);
   @$pb.TagNumber(2)
-  $1.StringValue ensureStudentEmail() => $_ensure(1);
+  $1.StringValue ensureStudentUsername() => $_ensure(1);
 
   @$pb.TagNumber(3)
   $1.StringValue get studentPassword => $_getN(2);

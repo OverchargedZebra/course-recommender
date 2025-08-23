@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS
 CREATE TABLE IF NOT EXISTS
     student (
         id BIGSERIAL PRIMARY KEY,
-        student_email TEXT NOT NULL UNIQUE,
+        student_username TEXT NOT NULL UNIQUE,
         -- remind users not to use their default password
         student_password TEXT NOT NULL -- the password is not encrypted and that
         -- is not a planned feature.

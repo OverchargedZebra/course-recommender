@@ -268,11 +268,11 @@ class CourseRecommenderServiceClient extends $grpc.Client {
   }
 
   /// Retrieves a student by their email.
-  $grpc.ResponseFuture<$5.GetStudentByEmailResponse> getStudentByEmail(
-    $5.GetStudentByEmailRequest request, {
+  $grpc.ResponseFuture<$5.GetStudentByUsernameResponse> getStudentByUsername(
+    $5.GetStudentByUsernameRequest request, {
     $grpc.CallOptions? options,
   }) {
-    return $createUnaryCall(_$getStudentByEmail, request, options: options);
+    return $createUnaryCall(_$getStudentByUsername, request, options: options);
   }
 
   /// Updates an existing student's information.
@@ -530,11 +530,11 @@ class CourseRecommenderServiceClient extends $grpc.Client {
           '/course_recommender.CourseRecommenderService/GetStudent',
           ($5.GetStudentRequest value) => value.writeToBuffer(),
           $5.GetStudentResponse.fromBuffer);
-  static final _$getStudentByEmail = $grpc.ClientMethod<
-          $5.GetStudentByEmailRequest, $5.GetStudentByEmailResponse>(
-      '/course_recommender.CourseRecommenderService/GetStudentByEmail',
-      ($5.GetStudentByEmailRequest value) => value.writeToBuffer(),
-      $5.GetStudentByEmailResponse.fromBuffer);
+  static final _$getStudentByUsername = $grpc.ClientMethod<
+          $5.GetStudentByUsernameRequest, $5.GetStudentByUsernameResponse>(
+      '/course_recommender.CourseRecommenderService/GetStudentByUsername',
+      ($5.GetStudentByUsernameRequest value) => value.writeToBuffer(),
+      $5.GetStudentByUsernameResponse.fromBuffer);
   static final _$updateStudent =
       $grpc.ClientMethod<$5.UpdateStudentRequest, $5.UpdateStudentResponse>(
           '/course_recommender.CourseRecommenderService/UpdateStudent',
@@ -861,15 +861,15 @@ abstract class CourseRecommenderServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $5.GetStudentRequest.fromBuffer(value),
         ($5.GetStudentResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$5.GetStudentByEmailRequest,
-            $5.GetStudentByEmailResponse>(
-        'GetStudentByEmail',
-        getStudentByEmail_Pre,
+    $addMethod($grpc.ServiceMethod<$5.GetStudentByUsernameRequest,
+            $5.GetStudentByUsernameResponse>(
+        'GetStudentByUsername',
+        getStudentByUsername_Pre,
         false,
         false,
         ($core.List<$core.int> value) =>
-            $5.GetStudentByEmailRequest.fromBuffer(value),
-        ($5.GetStudentByEmailResponse value) => value.writeToBuffer()));
+            $5.GetStudentByUsernameRequest.fromBuffer(value),
+        ($5.GetStudentByUsernameResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$5.UpdateStudentRequest, $5.UpdateStudentResponse>(
             'UpdateStudent',
@@ -1240,14 +1240,14 @@ abstract class CourseRecommenderServiceBase extends $grpc.Service {
   $async.Future<$5.GetStudentResponse> getStudent(
       $grpc.ServiceCall call, $5.GetStudentRequest request);
 
-  $async.Future<$5.GetStudentByEmailResponse> getStudentByEmail_Pre(
+  $async.Future<$5.GetStudentByUsernameResponse> getStudentByUsername_Pre(
       $grpc.ServiceCall $call,
-      $async.Future<$5.GetStudentByEmailRequest> $request) async {
-    return getStudentByEmail($call, await $request);
+      $async.Future<$5.GetStudentByUsernameRequest> $request) async {
+    return getStudentByUsername($call, await $request);
   }
 
-  $async.Future<$5.GetStudentByEmailResponse> getStudentByEmail(
-      $grpc.ServiceCall call, $5.GetStudentByEmailRequest request);
+  $async.Future<$5.GetStudentByUsernameResponse> getStudentByUsername(
+      $grpc.ServiceCall call, $5.GetStudentByUsernameRequest request);
 
   $async.Future<$5.UpdateStudentResponse> updateStudent_Pre(
       $grpc.ServiceCall $call,

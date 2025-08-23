@@ -12,27 +12,32 @@ import (
 )
 
 const createStudent = `-- name: CreateStudent :one
-INSERT INTO student(student_email, student_password)
-VALUES ($1, $2)
-RETURNING id, student_email, student_password
+INSERT INTO
+    student (student_username, student_password)
+VALUES
+    ($1, $2)
+RETURNING
+    id, student_username, student_password
 `
 
 type CreateStudentParams struct {
-	StudentEmail    string `json:"student_email"`
+	StudentUsername string `json:"student_username"`
 	StudentPassword string `json:"student_password"`
 }
 
 func (q *Queries) CreateStudent(ctx context.Context, arg CreateStudentParams) (Student, error) {
-	row := q.db.QueryRow(ctx, createStudent, arg.StudentEmail, arg.StudentPassword)
+	row := q.db.QueryRow(ctx, createStudent, arg.StudentUsername, arg.StudentPassword)
 	var i Student
-	err := row.Scan(&i.ID, &i.StudentEmail, &i.StudentPassword)
+	err := row.Scan(&i.ID, &i.StudentUsername, &i.StudentPassword)
 	return i, err
 }
 
 const deleteStudent = `-- name: DeleteStudent :one
 DELETE FROM student
-WHERE id = $1
-RETURNING TRUE
+WHERE
+    id = $1
+RETURNING
+    TRUE
 `
 
 func (q *Queries) DeleteStudent(ctx context.Context, id int64) (bool, error) {
@@ -43,34 +48,48 @@ func (q *Queries) DeleteStudent(ctx context.Context, id int64) (bool, error) {
 }
 
 const getStudent = `-- name: GetStudent :one
-SELECT id, student_email, student_password
-FROM student
-WHERE id = $1
+SELECT
+    id, student_username, student_password
+FROM
+    student
+WHERE
+    id = $1
 `
 
 func (q *Queries) GetStudent(ctx context.Context, id int64) (Student, error) {
 	row := q.db.QueryRow(ctx, getStudent, id)
 	var i Student
-	err := row.Scan(&i.ID, &i.StudentEmail, &i.StudentPassword)
+	err := row.Scan(&i.ID, &i.StudentUsername, &i.StudentPassword)
 	return i, err
 }
 
-const getStudentByEmail = `-- name: GetStudentByEmail :one
-SELECT id, student_email, student_password
-FROM student
-WHERE student_email = $1
+const getStudentByUsername = `-- name: GetStudentByUsername :one
+SELECT
+    id, student_username, student_password
+FROM
+    student
+WHERE
+    student_username = $1
+    AND student_password = $2
 `
 
-func (q *Queries) GetStudentByEmail(ctx context.Context, studentEmail string) (Student, error) {
-	row := q.db.QueryRow(ctx, getStudentByEmail, studentEmail)
+type GetStudentByUsernameParams struct {
+	StudentUsername string `json:"student_username"`
+	StudentPassword string `json:"student_password"`
+}
+
+func (q *Queries) GetStudentByUsername(ctx context.Context, arg GetStudentByUsernameParams) (Student, error) {
+	row := q.db.QueryRow(ctx, getStudentByUsername, arg.StudentUsername, arg.StudentPassword)
 	var i Student
-	err := row.Scan(&i.ID, &i.StudentEmail, &i.StudentPassword)
+	err := row.Scan(&i.ID, &i.StudentUsername, &i.StudentPassword)
 	return i, err
 }
 
 const listStudents = `-- name: ListStudents :many
-SELECT id, student_email, student_password
-FROM student
+SELECT
+    id, student_username, student_password
+FROM
+    student
 `
 
 func (q *Queries) ListStudents(ctx context.Context) ([]Student, error) {
@@ -82,7 +101,7 @@ func (q *Queries) ListStudents(ctx context.Context) ([]Student, error) {
 	var items []Student
 	for rows.Next() {
 		var i Student
-		if err := rows.Scan(&i.ID, &i.StudentEmail, &i.StudentPassword); err != nil {
+		if err := rows.Scan(&i.ID, &i.StudentUsername, &i.StudentPassword); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -95,21 +114,24 @@ func (q *Queries) ListStudents(ctx context.Context) ([]Student, error) {
 
 const updateStudent = `-- name: UpdateStudent :one
 UPDATE student
-SET student_email = COALESCE($2, student_email),
+SET
+    student_username = COALESCE($2, student_username),
     student_password = COALESCE($3, student_password)
-WHERE id = $1
-RETURNING id, student_email, student_password
+WHERE
+    id = $1
+RETURNING
+    id, student_username, student_password
 `
 
 type UpdateStudentParams struct {
 	ID              int64       `json:"id"`
-	StudentEmail    pgtype.Text `json:"student_email"`
+	StudentUsername pgtype.Text `json:"student_username"`
 	StudentPassword pgtype.Text `json:"student_password"`
 }
 
 func (q *Queries) UpdateStudent(ctx context.Context, arg UpdateStudentParams) (Student, error) {
-	row := q.db.QueryRow(ctx, updateStudent, arg.ID, arg.StudentEmail, arg.StudentPassword)
+	row := q.db.QueryRow(ctx, updateStudent, arg.ID, arg.StudentUsername, arg.StudentPassword)
 	var i Student
-	err := row.Scan(&i.ID, &i.StudentEmail, &i.StudentPassword)
+	err := row.Scan(&i.ID, &i.StudentUsername, &i.StudentPassword)
 	return i, err
 }

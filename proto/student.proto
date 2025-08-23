@@ -10,13 +10,13 @@ import "google/protobuf/wrappers.proto";
 // Note: Exposing password fields in APIs should be handled with care.
 message Student {
   int64 id = 1;
-  string student_email = 2;
+  string student_username = 2;
   string student_password = 3; // In a real-world app, this would likely be a hashed password.
 }
 
 // Request to create a new student.
 message CreateStudentRequest {
-  string student_email = 1;
+  string student_username = 1;
   string student_password = 2;
 }
 
@@ -35,20 +35,21 @@ message GetStudentResponse {
   Student student = 1;
 }
 
-// Request to get a student by their email.
-message GetStudentByEmailRequest {
-    string student_email = 1;
+// Request to get a student by username and password
+message GetStudentByUsernameRequest {
+    string student_username = 1;
+    string student_password = 2;
 }
 
 // Response containing the requested student.
-message GetStudentByEmailResponse {
+message GetStudentByUsernameResponse {
     Student student = 1;
 }
 
 // Request to update an existing student's information.
 message UpdateStudentRequest {
   int64 id = 1;
-  google.protobuf.StringValue student_email = 2;
+  google.protobuf.StringValue student_username = 2;
   google.protobuf.StringValue student_password = 3;
 }
 
@@ -82,7 +83,7 @@ service StudentService {
   // Retrieves a student by their ID.
   rpc GetStudent(GetStudentRequest) returns (GetStudentResponse);
   // Retrieves a student by their email.
-  rpc GetStudentByEmail(GetStudentByEmailRequest) returns (GetStudentByEmailResponse);
+  rpc GetStudentByUsername(GetStudentByUsernameRequest) returns (GetStudentByUsernameResponse);
   // Updates an existing student's information.
   rpc UpdateStudent(UpdateStudentRequest) returns (UpdateStudentResponse);
   // Lists all students.
