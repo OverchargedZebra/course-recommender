@@ -3,8 +3,6 @@ package server
 import (
 	"context"
 
-	"github.com/jackc/pgx/v5/pgtype"
-
 	"OverchargedZebra/course-recommender/backend/internal/db"
 	"OverchargedZebra/course-recommender/backend/internal/server/api"
 
@@ -15,7 +13,7 @@ import (
 func apiCourseQuestion(courseQuestion *db.CourseQuestion) *api.CourseQuestion {
 	return &api.CourseQuestion{
 		Id:              courseQuestion.ID,
-		CourseId:        courseQuestion.CourseID.Int64,
+		CourseId:        courseQuestion.CourseID,
 		Question:        courseQuestion.Question.String,
 		QuestionOptionA: courseQuestion.QuestionOptionA.String,
 		QuestionOptionB: courseQuestion.QuestionOptionB.String,
@@ -51,7 +49,7 @@ func (s *Server) ListCourseQuestions(ctx context.Context, req *api.ListCourseQue
 
 // Retrieves all questions for a specific course.
 func (s *Server) GetCourseQuestionsByCourseId(ctx context.Context, req *api.GetCourseQuestionsByCourseIdRequest) (*api.GetCourseQuestionsByCourseIdResponse, error) {
-	result, err := s.q.GetCourseQuestionsByCourseId(ctx, pgtype.Int8{Int64: req.CourseId, Valid: true})
+	result, err := s.q.GetCourseQuestionsByCourseId(ctx, req.CourseId)
 	if err != nil {
 		return nil, status.Errorf(codes.Aborted, "GetCourseQuestionByCourseId request aborted because of: %v", err)
 	}

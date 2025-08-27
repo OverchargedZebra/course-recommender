@@ -6,8 +6,6 @@ package db
 
 import (
 	"context"
-
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type Querier interface {
@@ -15,10 +13,10 @@ type Querier interface {
 	CreateCourseQuestion(ctx context.Context, arg CreateCourseQuestionParams) (CourseQuestion, error)
 	CreateCourseTag(ctx context.Context, arg CreateCourseTagParams) (CourseTag, error)
 	CreateDegreeCourse(ctx context.Context, arg CreateDegreeCourseParams) (DegreeCourse, error)
-	CreateDegreeType(ctx context.Context, degreeName pgtype.Text) (DegreeType, error)
+	CreateDegreeType(ctx context.Context, degreeName string) (DegreeType, error)
 	CreateStudent(ctx context.Context, arg CreateStudentParams) (Student, error)
 	CreateStudentCourse(ctx context.Context, arg CreateStudentCourseParams) (StudentCourse, error)
-	CreateTag(ctx context.Context, tagName pgtype.Text) (Tag, error)
+	CreateTag(ctx context.Context, tagName string) (Tag, error)
 	DeleteCourse(ctx context.Context, id int64) (bool, error)
 	DeleteCourseQuestion(ctx context.Context, id int64) (bool, error)
 	DeleteCourseTag(ctx context.Context, arg DeleteCourseTagParams) (bool, error)
@@ -30,7 +28,7 @@ type Querier interface {
 	GetCourse(ctx context.Context, id int64) (Course, error)
 	GetCourseByName(ctx context.Context, courseName string) ([]Course, error)
 	GetCourseQuestion(ctx context.Context, id int64) (CourseQuestion, error)
-	GetCourseQuestionsByCourseId(ctx context.Context, courseID pgtype.Int8) ([]CourseQuestion, error)
+	GetCourseQuestionsByCourseId(ctx context.Context, courseID int64) ([]CourseQuestion, error)
 	GetCoursesByDegreeId(ctx context.Context, id int64) ([]GetCoursesByDegreeIdRow, error)
 	GetCoursesByStudentId(ctx context.Context, id int64) ([]GetCoursesByStudentIdRow, error)
 	GetCoursesByTagId(ctx context.Context, id int64) ([]GetCoursesByTagIdRow, error)

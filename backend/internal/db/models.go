@@ -9,14 +9,14 @@ import (
 )
 
 type Course struct {
-	ID         int64       `json:"id"`
-	Difficulty pgtype.Int2 `json:"difficulty"`
-	CourseName pgtype.Text `json:"course_name"`
+	ID         int64  `json:"id"`
+	CourseName string `json:"course_name"`
+	Difficulty int16  `json:"difficulty"`
 }
 
 type CourseQuestion struct {
 	ID              int64       `json:"id"`
-	CourseID        pgtype.Int8 `json:"course_id"`
+	CourseID        int64       `json:"course_id"`
 	Question        pgtype.Text `json:"question"`
 	QuestionOptionA pgtype.Text `json:"question_option_a"`
 	QuestionOptionB pgtype.Text `json:"question_option_b"`
@@ -36,8 +36,8 @@ type DegreeCourse struct {
 }
 
 type DegreeType struct {
-	ID         int64       `json:"id"`
-	DegreeName pgtype.Text `json:"degree_name"`
+	ID         int64  `json:"id"`
+	DegreeName string `json:"degree_name"`
 }
 
 type Student struct {
@@ -54,6 +54,6 @@ type StudentCourse struct {
 }
 
 type Tag struct {
-	ID      int64       `json:"id"`
-	TagName pgtype.Text `json:"tag_name"`
+	ID      int64  `json:"id"`
+	TagName string `json:"tag_name"`
 }

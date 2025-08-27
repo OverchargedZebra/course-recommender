@@ -13,7 +13,7 @@ import (
 func apiDegreeType(degreeType *db.DegreeType) *api.DegreeType {
 	return &api.DegreeType{
 		Id:         degreeType.ID,
-		DegreeName: degreeType.DegreeName.String,
+		DegreeName: degreeType.DegreeName,
 	}
 }
 

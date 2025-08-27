@@ -17,18 +17,18 @@ INSERT INTO
 VALUES
     ($1, $2)
 RETURNING
-    id, difficulty, course_name
+    id, course_name, difficulty
 `
 
 type CreateCourseParams struct {
-	CourseName pgtype.Text `json:"course_name"`
-	Difficulty pgtype.Int2 `json:"difficulty"`
+	CourseName string `json:"course_name"`
+	Difficulty int16  `json:"difficulty"`
 }
 
 func (q *Queries) CreateCourse(ctx context.Context, arg CreateCourseParams) (Course, error) {
 	row := q.db.QueryRow(ctx, createCourse, arg.CourseName, arg.Difficulty)
 	var i Course
-	err := row.Scan(&i.ID, &i.Difficulty, &i.CourseName)
+	err := row.Scan(&i.ID, &i.CourseName, &i.Difficulty)
 	return i, err
 }
 
@@ -49,7 +49,7 @@ func (q *Queries) DeleteCourse(ctx context.Context, id int64) (bool, error) {
 
 const getCourse = `-- name: GetCourse :one
 SELECT
-    id, difficulty, course_name
+    id, course_name, difficulty
 FROM
     course
 WHERE
@@ -59,13 +59,13 @@ WHERE
 func (q *Queries) GetCourse(ctx context.Context, id int64) (Course, error) {
 	row := q.db.QueryRow(ctx, getCourse, id)
 	var i Course
-	err := row.Scan(&i.ID, &i.Difficulty, &i.CourseName)
+	err := row.Scan(&i.ID, &i.CourseName, &i.Difficulty)
 	return i, err
 }
 
 const getCourseByName = `-- name: GetCourseByName :many
 SELECT
-    id, difficulty, course_name
+    id, course_name, difficulty
 FROM
     course
 WHERE
@@ -87,7 +87,7 @@ func (q *Queries) GetCourseByName(ctx context.Context, courseName string) ([]Cou
 	var items []Course
 	for rows.Next() {
 		var i Course
-		if err := rows.Scan(&i.ID, &i.Difficulty, &i.CourseName); err != nil {
+		if err := rows.Scan(&i.ID, &i.CourseName, &i.Difficulty); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -100,7 +100,7 @@ func (q *Queries) GetCourseByName(ctx context.Context, courseName string) ([]Cou
 
 const listCourses = `-- name: ListCourses :many
 SELECT
-    id, difficulty, course_name
+    id, course_name, difficulty
 FROM
     course
 ORDER BY
@@ -116,7 +116,7 @@ func (q *Queries) ListCourses(ctx context.Context) ([]Course, error) {
 	var items []Course
 	for rows.Next() {
 		var i Course
-		if err := rows.Scan(&i.ID, &i.Difficulty, &i.CourseName); err != nil {
+		if err := rows.Scan(&i.ID, &i.CourseName, &i.Difficulty); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -135,7 +135,7 @@ SET
 WHERE
     id = $1
 RETURNING
-    id, difficulty, course_name
+    id, course_name, difficulty
 `
 
 type UpdateCourseParams struct {
@@ -147,6 +147,6 @@ type UpdateCourseParams struct {
 func (q *Queries) UpdateCourse(ctx context.Context, arg UpdateCourseParams) (Course, error) {
 	row := q.db.QueryRow(ctx, updateCourse, arg.ID, arg.CourseName, arg.Difficulty)
 	var i Course
-	err := row.Scan(&i.ID, &i.Difficulty, &i.CourseName)
+	err := row.Scan(&i.ID, &i.CourseName, &i.Difficulty)
 	return i, err
 }

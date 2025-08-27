@@ -20,7 +20,7 @@ RETURNING
     id, tag_name
 `
 
-func (q *Queries) CreateTag(ctx context.Context, tagName pgtype.Text) (Tag, error) {
+func (q *Queries) CreateTag(ctx context.Context, tagName string) (Tag, error) {
 	row := q.db.QueryRow(ctx, createTag, tagName)
 	var i Tag
 	err := row.Scan(&i.ID, &i.TagName)

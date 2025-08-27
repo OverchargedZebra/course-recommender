@@ -13,7 +13,7 @@ import (
 func apiTag(tag *db.Tag) *api.Tag {
 	return &api.Tag{
 		Id:      tag.ID,
-		TagName: tag.TagName.String,
+		TagName: tag.TagName,
 	}
 }
 

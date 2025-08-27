@@ -13,8 +13,8 @@ import (
 func apiCourse(course *db.Course) *api.Course {
 	return &api.Course{
 		Id:         course.ID,
-		CourseName: course.CourseName.String,
-		Difficulty: int32(course.Difficulty.Int16),
+		CourseName: course.CourseName,
+		Difficulty: int32(course.Difficulty),
 	}
 }
 

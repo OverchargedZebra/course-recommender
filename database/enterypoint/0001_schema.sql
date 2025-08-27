@@ -1,20 +1,23 @@
 -- degree type table definition
 CREATE TABLE IF NOT EXISTS
-    degree_type (id BIGSERIAL PRIMARY KEY, degree_name TEXT);
+    degree_type (
+        id BIGSERIAL PRIMARY KEY,
+        degree_name TEXT NOT NULL
+    );
 
 -- course table definition
 CREATE TABLE IF NOT EXISTS
     course (
         id BIGSERIAL PRIMARY KEY,
-        difficulty SMALLINT,
-        course_name TEXT
+        course_name TEXT NOT NULL,
+        difficulty SMALLINT NOT NULL
     );
 
 -- course question table definition
 CREATE TABLE IF NOT EXISTS
     course_question (
         id BIGSERIAL PRIMARY KEY,
-        course_id BIGINT REFERENCES course (id) ON DELETE CASCADE,
+        course_id BIGINT NOT NULL REFERENCES course (id) ON DELETE CASCADE,
         question TEXT,
         question_option_a TEXT,
         question_option_b TEXT,
@@ -26,20 +29,20 @@ CREATE TABLE IF NOT EXISTS
 -- junction table for degree type and course
 CREATE TABLE IF NOT EXISTS
     degree_course (
-        degree_type_id BIGINT REFERENCES degree_type (id) ON DELETE CASCADE,
-        course_id BIGINT REFERENCES course (id) ON DELETE CASCADE,
+        degree_type_id BIGINT NOT NULL REFERENCES degree_type (id) ON DELETE CASCADE,
+        course_id BIGINT NOT NULL REFERENCES course (id) ON DELETE CASCADE,
         PRIMARY KEY (degree_type_id, course_id)
     );
 
 -- tag table definition
 CREATE TABLE IF NOT EXISTS
-    tag (id BIGSERIAL PRIMARY KEY, tag_name TEXT);
+    tag (id BIGSERIAL PRIMARY KEY, tag_name TEXT NOT NULL);
 
 -- junction table for course and tag
 CREATE TABLE IF NOT EXISTS
     course_tag (
-        course_id BIGINT REFERENCES course (id) ON DELETE CASCADE,
-        tag_id BIGINT REFERENCES tag (id) ON DELETE CASCADE,
+        course_id BIGINT NOT NULL REFERENCES course (id) ON DELETE CASCADE,
+        tag_id BIGINT NOT NULL REFERENCES tag (id) ON DELETE CASCADE,
         PRIMARY KEY (course_id, tag_id)
     );
 
@@ -56,15 +59,15 @@ CREATE TABLE IF NOT EXISTS
 -- junction table for student and course
 CREATE TABLE IF NOT EXISTS
     student_course (
-        student_id BIGINT REFERENCES student (id) ON DELETE CASCADE,
-        course_id BIGINT REFERENCES course (id) ON DELETE CASCADE,
+        student_id BIGINT NOT NULL REFERENCES student (id) ON DELETE CASCADE,
+        course_id BIGINT NOT NULL REFERENCES course (id) ON DELETE CASCADE,
         marks SMALLINT,
-        PRIMARY KEY (student_id, course_id),
-        feedback BOOLEAN
+        feedback BOOLEAN,
+        PRIMARY KEY (student_id, course_id)
     );
 
 -- Create all the necessary indexes
--- create index for degree_type table
+-- create index for degree_type table for degree name so that it can be searched
 CREATE INDEX degree_type_search_idx ON degree_type USING bm25 (id, degree_name)
 WITH
     (
@@ -80,7 +83,7 @@ WITH
         }'
     );
 
--- create index for course table
+-- create index for course table for course name so that it can be searched
 CREATE INDEX course_search_idx ON course USING bm25 (id, course_name)
 WITH
     (
@@ -96,7 +99,7 @@ WITH
         }'
     );
 
--- Create index for tag table
+-- Create index for tag table for tag name so that it can be searched
 CREATE INDEX tag_search_idx ON tag USING bm25 (id, tag_name)
 WITH
     (

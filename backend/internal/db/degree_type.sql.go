@@ -20,7 +20,7 @@ RETURNING
     id, degree_name
 `
 
-func (q *Queries) CreateDegreeType(ctx context.Context, degreeName pgtype.Text) (DegreeType, error) {
+func (q *Queries) CreateDegreeType(ctx context.Context, degreeName string) (DegreeType, error) {
 	row := q.db.QueryRow(ctx, createDegreeType, degreeName)
 	var i DegreeType
 	err := row.Scan(&i.ID, &i.DegreeName)

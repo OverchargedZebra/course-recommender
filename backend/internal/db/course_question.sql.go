@@ -26,7 +26,7 @@ RETURNING id, course_id, question, question_option_a, question_option_b, questio
 `
 
 type CreateCourseQuestionParams struct {
-	CourseID        pgtype.Int8 `json:"course_id"`
+	CourseID        int64       `json:"course_id"`
 	Question        pgtype.Text `json:"question"`
 	QuestionOptionA pgtype.Text `json:"question_option_a"`
 	QuestionOptionB pgtype.Text `json:"question_option_b"`
@@ -100,7 +100,7 @@ FROM course_question
 WHERE course_id = $1
 `
 
-func (q *Queries) GetCourseQuestionsByCourseId(ctx context.Context, courseID pgtype.Int8) ([]CourseQuestion, error) {
+func (q *Queries) GetCourseQuestionsByCourseId(ctx context.Context, courseID int64) ([]CourseQuestion, error) {
 	rows, err := q.db.Query(ctx, getCourseQuestionsByCourseId, courseID)
 	if err != nil {
 		return nil, err

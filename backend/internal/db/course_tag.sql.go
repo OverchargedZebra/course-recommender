@@ -53,7 +53,7 @@ func (q *Queries) DeleteCourseTag(ctx context.Context, arg DeleteCourseTagParams
 
 const getCoursesByTagId = `-- name: GetCoursesByTagId :many
 SELECT
-    course.id, course.difficulty, course.course_name
+    course.id, course.course_name, course.difficulty
 FROM
     course_tag
     LEFT JOIN course ON course.id = course_tag.course_id
@@ -75,7 +75,7 @@ func (q *Queries) GetCoursesByTagId(ctx context.Context, id int64) ([]GetCourses
 	var items []GetCoursesByTagIdRow
 	for rows.Next() {
 		var i GetCoursesByTagIdRow
-		if err := rows.Scan(&i.Course.ID, &i.Course.Difficulty, &i.Course.CourseName); err != nil {
+		if err := rows.Scan(&i.Course.ID, &i.Course.CourseName, &i.Course.Difficulty); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
