@@ -13,6 +13,10 @@ nginx/ssl/*
 "default data/degree_type.csv"
 "default data/tag.csv"
 
+# nginx and envoy logs that do not need to be included in github
+nginx/log/
+envoy/log/
+
 # no need to store auto generated code in github for simplicity
 # commented to make sure that deployment is simple for now
 

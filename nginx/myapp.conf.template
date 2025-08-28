@@ -1,19 +1,28 @@
-# Define the backend service.
+# Upstream for grpc direct connection
+# will not work with cloudflare tunnel daemon
 upstream grpc_backend {
     # This will be replaced by the value of the PORT environment variable.
     server backend:$BACKEND_PORT;
+    keepalive 16;
 }
 
+# upstream for grpc backend. Useful for web based services
+# will be the main server for this project
 upstream grpc_web_backend {
     server envoy:$ENVOY_PORT;
+    keepalive 16;
 }
 
+# map the connection based on request type
+# serve grpc web backend by default
 map $content_type $grpc_destination {
-    default grpc://grpc_backend;
-    "application/grpc-web" http://grpc_web_backend;
+    default http://grpc_web_backend;
+    "application/grpc" grpc://grpc_backend;
 }
 
 # insecure port that would change
+# we do not want to serve insecure connection
+# to our users at all
 server {
     listen $NGINX_HTTP_PORT default_server;
     listen [::]:$NGINX_HTTP_PORT default_server;
@@ -36,7 +45,6 @@ server {
     ssl_certificate_key /etc/ssl/privkey.pem;
 
     server_name $NGINX_SERVER_NAME;
-    client_max_body_size 64M;
 
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 

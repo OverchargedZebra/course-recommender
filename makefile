@@ -11,7 +11,9 @@ down:
 	@docker compose down
 
 flutterweb:
-	@cd ./frontend && flutter build web --wasm --release
+	@wsl bash ./frontend/build_tools/build_web.sh && \
+	cd ./frontend && flutter build web --wasm --release && cd .. && \
+	wsl bash ./frontend/build_tools/patch_web.sh
 
 sqlc:
 	@sqlc generate
