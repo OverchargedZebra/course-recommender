@@ -89,7 +89,7 @@ class BrandImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // Uses a subtle color from the theme for the background.
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
       // Center the image.
       child: Center(
         // Image.asset fetches the image from your local project assets.
@@ -139,7 +139,7 @@ class SignUpForm extends StatelessWidget {
             decoration: InputDecoration(
               filled: true,
               // Uses a theme-appropriate color for the text field background.
-              fillColor: Theme.of(context).colorScheme.surfaceVariant,
+              fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
               border: InputBorder.none,
               hintText: 'Enter your username',
             ),
@@ -153,7 +153,7 @@ class SignUpForm extends StatelessWidget {
             obscureText: true,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Theme.of(context).colorScheme.surfaceVariant,
+              fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
               border: InputBorder.none,
               hintText: 'Enter your password',
             ),

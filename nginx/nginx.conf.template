@@ -38,6 +38,8 @@ server {
     server_name $NGINX_SERVER_NAME;
     client_max_body_size 64M;
 
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
     # Location for serving the Flutter web application.
     location / {
         root /usr/share/nginx/html;
