@@ -3,14 +3,14 @@
 upstream grpc_backend {
     # This will be replaced by the value of the PORT environment variable.
     server backend:$BACKEND_PORT;
-    keepalive 16;
+    keepalive 64;
 }
 
 # upstream for grpc backend. Useful for web based services
 # will be the main server for this project
 upstream grpc_web_backend {
     server envoy:$ENVOY_PORT;
-    keepalive 16;
+    keepalive 64;
 }
 
 # map the connection based on request type
