@@ -3,7 +3,9 @@ module OverchargedZebra/course-recommender/backend
 go 1.24.5
 
 require (
+	github.com/adrg/strutil v0.3.1
 	github.com/jackc/pgx/v5 v5.7.5
+	gonum.org/v1/gonum v0.16.0
 	google.golang.org/grpc v1.74.2
 )
 

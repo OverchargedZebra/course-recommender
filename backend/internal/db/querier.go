@@ -46,6 +46,7 @@ type Querier interface {
 	ListDegreeTypes(ctx context.Context) ([]DegreeType, error)
 	ListStudents(ctx context.Context) ([]Student, error)
 	ListTags(ctx context.Context) ([]Tag, error)
+	LoadRecommenderData(ctx context.Context) ([]LoadRecommenderDataRow, error)
 	UpdateCourse(ctx context.Context, arg UpdateCourseParams) (Course, error)
 	UpdateCourseQuestion(ctx context.Context, arg UpdateCourseQuestionParams) (CourseQuestion, error)
 	UpdateDegreeType(ctx context.Context, arg UpdateDegreeTypeParams) (DegreeType, error)
