@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func apiStudent(student db.Student) *api.Student {
+func apiStudent(student *db.Student) *api.Student {
 	return &api.Student{
 		Id:              student.ID,
 		StudentUsername: student.StudentUsername,
@@ -30,7 +30,7 @@ func (s *Server) CreateStudent(ctx context.Context, req *api.CreateStudentReques
 		return nil, status.Errorf(codes.Aborted, "CreateStudent request aborted because of: %v", err)
 	}
 
-	student := apiStudent(result)
+	student := apiStudent(&result)
 
 	return &api.CreateStudentResponse{Student: student}, nil
 }
@@ -45,7 +45,7 @@ func (s *Server) GetStudentByUsername(ctx context.Context, req *api.GetStudentBy
 		return nil, status.Errorf(codes.Aborted, "GetStudentByEmail request aborted because of: %v", err)
 	}
 
-	student := apiStudent(result)
+	student := apiStudent(&result)
 
 	return &api.GetStudentByUsernameResponse{Student: student}, nil
 }
@@ -64,7 +64,7 @@ func (s *Server) UpdateStudent(ctx context.Context, req *api.UpdateStudentReques
 		return nil, status.Errorf(codes.Aborted, "UpdateStudent request aborted because of: %v", err)
 	}
 
-	student := apiStudent(result)
+	student := apiStudent(&result)
 
 	return &api.UpdateStudentResponse{Student: student}, nil
 }
