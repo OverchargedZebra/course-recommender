@@ -95,7 +95,8 @@ func (q *Queries) GetCoursesByStudentId(ctx context.Context, id int64) ([]GetCou
 
 const getStudentsByCourseId = `-- name: GetStudentsByCourseId :many
 SELECT
-    student.id, student.student_username, student.student_password
+    student.id,
+    student.student_username
 FROM
     student_course
     LEFT JOIN course ON course.id = student_course.course_id
@@ -105,7 +106,8 @@ WHERE
 `
 
 type GetStudentsByCourseIdRow struct {
-	Student Student `json:"student"`
+	ID              pgtype.Int8 `json:"id"`
+	StudentUsername pgtype.Text `json:"student_username"`
 }
 
 func (q *Queries) GetStudentsByCourseId(ctx context.Context, id int64) ([]GetStudentsByCourseIdRow, error) {
@@ -117,7 +119,7 @@ func (q *Queries) GetStudentsByCourseId(ctx context.Context, id int64) ([]GetStu
 	var items []GetStudentsByCourseIdRow
 	for rows.Next() {
 		var i GetStudentsByCourseIdRow
-		if err := rows.Scan(&i.Student.ID, &i.Student.StudentUsername, &i.Student.StudentPassword); err != nil {
+		if err := rows.Scan(&i.ID, &i.StudentUsername); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

@@ -4,8 +4,9 @@
 package recommender
 
 import (
+	"cmp"
 	"fmt"
-	"sort"
+	"slices"
 
 	"github.com/adrg/strutil"
 	"github.com/adrg/strutil/metrics"
@@ -14,13 +15,13 @@ import (
 	"OverchargedZebra/course-recommender/backend/internal/db"
 )
 
-type CBFRecommender struct {
+type ContentBasedRecommender struct {
 	courseIndexer    *CourseIndexer
 	similarityMatrix *mat.Dense
 }
 
 /*
-creates a new cbf recommender
+creates a new content based recommender
 
 # Args:
 
@@ -40,7 +41,7 @@ creates a new cbf recommender
 
 sum of alpha and beta needs to be less than 1, else you get an error
 */
-func NewCBFRecommender(courses []db.Course, tags []db.Tag, courseTags []db.CourseTag, degreeTypes []db.DegreeType, degreeCourses []db.DegreeCourse, alpha, beta float64) (*CBFRecommender, error) {
+func NewContentBasedRecommender(courses []db.Course, tags []db.Tag, courseTags []db.CourseTag, degreeTypes []db.DegreeType, degreeCourses []db.DegreeCourse, alpha, beta float64) (*ContentBasedRecommender, error) {
 	if len(courses) == 0 {
 		return nil, fmt.Errorf("courses cannot be empty")
 	}
@@ -52,7 +53,7 @@ func NewCBFRecommender(courses []db.Course, tags []db.Tag, courseTags []db.Cours
 	gamma := 1 - alpha - beta
 
 	// step 1. create mappings and helper sets
-	courseIndexer := NewCourseIndexer(courses)
+	indexer := NewCourseIndexer(courses)
 
 	// helper map to get tag sets for each course
 	// the reason struct{} was chosen because it takes
@@ -113,8 +114,8 @@ func NewCBFRecommender(courses []db.Course, tags []db.Tag, courseTags []db.Cours
 		}
 	}
 
-	rec := &CBFRecommender{
-		courseIndexer:    courseIndexer,
+	rec := &ContentBasedRecommender{
+		courseIndexer:    indexer,
 		similarityMatrix: similarityMatrix,
 	}
 
@@ -154,7 +155,7 @@ func jaccardSimilarity(set1, set2 map[int64]struct{}) float64 {
 }
 
 // Recommend the courses based on the student's previously studied courses
-func (r *CBFRecommender) Recommend(studentInteractions []db.StudentCourse, topN int) ([]Recommendation, error) {
+func (r *ContentBasedRecommender) Recommend(studentInteractions []db.StudentCourse, topN int) ([]Recommendation, error) {
 	// no history, no recommendations based on courses
 	if len(studentInteractions) == 0 {
 		return []Recommendation{}, nil
@@ -204,8 +205,9 @@ func (r *CBFRecommender) Recommend(studentInteractions []db.StudentCourse, topN 
 	}
 
 	// sort the slice in descending score order
-	sort.Slice(recommendations, func(i, j int) bool {
-		return recommendations[i].score > recommendations[j].score
+	slices.SortStableFunc(recommendations, func(x, y Recommendation) int {
+		// y is placed first so that it can be sorted in reverse
+		return cmp.Compare(y.score, x.score)
 	})
 
 	// if there are more than topN recommendations

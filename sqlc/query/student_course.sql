@@ -9,8 +9,8 @@ RETURNING
 -- name: UpdateStudentCourse :one
 UPDATE student_course
 SET
-    marks = sqlc.narg('marks'),
-    feedback = sqlc.narg('feedback')
+    marks = sqlc.narg ('marks'),
+    feedback = sqlc.narg ('feedback')
 WHERE
     student_id = $1
     AND course_id = $2
@@ -19,7 +19,8 @@ RETURNING
 
 -- name: GetStudentsByCourseId :many
 SELECT
-    sqlc.embed(student)
+    student.id,
+    student.student_username
 FROM
     student_course
     LEFT JOIN course ON course.id = student_course.course_id

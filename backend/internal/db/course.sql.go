@@ -63,6 +63,35 @@ func (q *Queries) GetCourse(ctx context.Context, id int64) (Course, error) {
 	return i, err
 }
 
+const getCourseByIds = `-- name: GetCourseByIds :many
+SELECT
+    id, course_name, difficulty
+FROM
+    course
+WHERE
+    id = ANY ($1::BIGINT[])
+`
+
+func (q *Queries) GetCourseByIds(ctx context.Context, courseIds []int64) ([]Course, error) {
+	rows, err := q.db.Query(ctx, getCourseByIds, courseIds)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Course
+	for rows.Next() {
+		var i Course
+		if err := rows.Scan(&i.ID, &i.CourseName, &i.Difficulty); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getCourseByName = `-- name: GetCourseByName :many
 SELECT
     id, course_name, difficulty

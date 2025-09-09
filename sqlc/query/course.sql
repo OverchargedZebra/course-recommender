@@ -14,6 +14,14 @@ FROM
 WHERE
     id = $1;
 
+-- name: GetCourseByIds :many
+SELECT
+    *
+FROM
+    course
+WHERE
+    id = ANY (sqlc.arg ('course_ids')::BIGINT[]);
+
 -- name: GetCourseByName :many
 SELECT
     *

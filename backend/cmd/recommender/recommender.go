@@ -28,6 +28,7 @@ type CourseIndexer struct {
 	IdxToCourseID map[int]int64
 }
 
+// singleton pattern
 // made sure only one of the instance of course indexer
 // is made even after it is called in different use cases
 func NewCourseIndexer(courses []db.Course) *CourseIndexer {

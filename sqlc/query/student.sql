@@ -4,11 +4,13 @@ INSERT INTO
 VALUES
     ($1, $2)
 RETURNING
-    *;
+    id,
+    student_username;
 
 -- name: GetStudent :one
 SELECT
-    *
+    id,
+    student_username
 FROM
     student
 WHERE
@@ -16,7 +18,8 @@ WHERE
 
 -- name: GetStudentByUsername :one
 SELECT
-    *
+    id,
+    student_username
 FROM
     student
 WHERE
@@ -31,11 +34,13 @@ SET
 WHERE
     id = $1
 RETURNING
-    *;
+    id,
+    student_username;
 
 -- name: ListStudents :many
 SELECT
-    *
+    id,
+    student_username
 FROM
     student;
 

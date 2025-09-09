@@ -12,13 +12,6 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func apiStudent(student *db.Student) *api.Student {
-	return &api.Student{
-		Id:              student.ID,
-		StudentUsername: student.StudentUsername,
-	}
-}
-
 // Creates a new student.
 func (s *Server) CreateStudent(ctx context.Context, req *api.CreateStudentRequest) (*api.CreateStudentResponse, error) {
 	result, err := s.q.CreateStudent(ctx, db.CreateStudentParams{
@@ -30,9 +23,10 @@ func (s *Server) CreateStudent(ctx context.Context, req *api.CreateStudentReques
 		return nil, status.Errorf(codes.Aborted, "CreateStudent request aborted because of: %v", err)
 	}
 
-	student := apiStudent(&result)
-
-	return &api.CreateStudentResponse{Student: student}, nil
+	return &api.CreateStudentResponse{Student: &api.Student{
+		Id:              result.ID,
+		StudentUsername: result.StudentUsername,
+	}}, nil
 }
 
 // Retrieves a student by their email.
@@ -45,9 +39,10 @@ func (s *Server) GetStudentByUsername(ctx context.Context, req *api.GetStudentBy
 		return nil, status.Errorf(codes.Aborted, "GetStudentByEmail request aborted because of: %v", err)
 	}
 
-	student := apiStudent(&result)
-
-	return &api.GetStudentByUsernameResponse{Student: student}, nil
+	return &api.GetStudentByUsernameResponse{Student: &api.Student{
+		Id:              result.ID,
+		StudentUsername: result.StudentUsername,
+	}}, nil
 }
 
 // Updates an existing student's information.
@@ -64,9 +59,10 @@ func (s *Server) UpdateStudent(ctx context.Context, req *api.UpdateStudentReques
 		return nil, status.Errorf(codes.Aborted, "UpdateStudent request aborted because of: %v", err)
 	}
 
-	student := apiStudent(&result)
-
-	return &api.UpdateStudentResponse{Student: student}, nil
+	return &api.UpdateStudentResponse{Student: &api.Student{
+		Id:              result.ID,
+		StudentUsername: result.StudentUsername,
+	}}, nil
 }
 
 // Deletes a student by their ID.

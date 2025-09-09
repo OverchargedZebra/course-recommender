@@ -17,7 +17,8 @@ INSERT INTO
 VALUES
     ($1, $2)
 RETURNING
-    id, student_username, student_password
+    id,
+    student_username
 `
 
 type CreateStudentParams struct {
@@ -25,10 +26,15 @@ type CreateStudentParams struct {
 	StudentPassword string `json:"student_password"`
 }
 
-func (q *Queries) CreateStudent(ctx context.Context, arg CreateStudentParams) (Student, error) {
+type CreateStudentRow struct {
+	ID              int64  `json:"id"`
+	StudentUsername string `json:"student_username"`
+}
+
+func (q *Queries) CreateStudent(ctx context.Context, arg CreateStudentParams) (CreateStudentRow, error) {
 	row := q.db.QueryRow(ctx, createStudent, arg.StudentUsername, arg.StudentPassword)
-	var i Student
-	err := row.Scan(&i.ID, &i.StudentUsername, &i.StudentPassword)
+	var i CreateStudentRow
+	err := row.Scan(&i.ID, &i.StudentUsername)
 	return i, err
 }
 
@@ -49,23 +55,30 @@ func (q *Queries) DeleteStudent(ctx context.Context, id int64) (bool, error) {
 
 const getStudent = `-- name: GetStudent :one
 SELECT
-    id, student_username, student_password
+    id,
+    student_username
 FROM
     student
 WHERE
     id = $1
 `
 
-func (q *Queries) GetStudent(ctx context.Context, id int64) (Student, error) {
+type GetStudentRow struct {
+	ID              int64  `json:"id"`
+	StudentUsername string `json:"student_username"`
+}
+
+func (q *Queries) GetStudent(ctx context.Context, id int64) (GetStudentRow, error) {
 	row := q.db.QueryRow(ctx, getStudent, id)
-	var i Student
-	err := row.Scan(&i.ID, &i.StudentUsername, &i.StudentPassword)
+	var i GetStudentRow
+	err := row.Scan(&i.ID, &i.StudentUsername)
 	return i, err
 }
 
 const getStudentByUsername = `-- name: GetStudentByUsername :one
 SELECT
-    id, student_username, student_password
+    id,
+    student_username
 FROM
     student
 WHERE
@@ -78,30 +91,41 @@ type GetStudentByUsernameParams struct {
 	StudentPassword string `json:"student_password"`
 }
 
-func (q *Queries) GetStudentByUsername(ctx context.Context, arg GetStudentByUsernameParams) (Student, error) {
+type GetStudentByUsernameRow struct {
+	ID              int64  `json:"id"`
+	StudentUsername string `json:"student_username"`
+}
+
+func (q *Queries) GetStudentByUsername(ctx context.Context, arg GetStudentByUsernameParams) (GetStudentByUsernameRow, error) {
 	row := q.db.QueryRow(ctx, getStudentByUsername, arg.StudentUsername, arg.StudentPassword)
-	var i Student
-	err := row.Scan(&i.ID, &i.StudentUsername, &i.StudentPassword)
+	var i GetStudentByUsernameRow
+	err := row.Scan(&i.ID, &i.StudentUsername)
 	return i, err
 }
 
 const listStudents = `-- name: ListStudents :many
 SELECT
-    id, student_username, student_password
+    id,
+    student_username
 FROM
     student
 `
 
-func (q *Queries) ListStudents(ctx context.Context) ([]Student, error) {
+type ListStudentsRow struct {
+	ID              int64  `json:"id"`
+	StudentUsername string `json:"student_username"`
+}
+
+func (q *Queries) ListStudents(ctx context.Context) ([]ListStudentsRow, error) {
 	rows, err := q.db.Query(ctx, listStudents)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Student
+	var items []ListStudentsRow
 	for rows.Next() {
-		var i Student
-		if err := rows.Scan(&i.ID, &i.StudentUsername, &i.StudentPassword); err != nil {
+		var i ListStudentsRow
+		if err := rows.Scan(&i.ID, &i.StudentUsername); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -120,7 +144,8 @@ SET
 WHERE
     id = $1
 RETURNING
-    id, student_username, student_password
+    id,
+    student_username
 `
 
 type UpdateStudentParams struct {
@@ -129,9 +154,14 @@ type UpdateStudentParams struct {
 	StudentPassword pgtype.Text `json:"student_password"`
 }
 
-func (q *Queries) UpdateStudent(ctx context.Context, arg UpdateStudentParams) (Student, error) {
+type UpdateStudentRow struct {
+	ID              int64  `json:"id"`
+	StudentUsername string `json:"student_username"`
+}
+
+func (q *Queries) UpdateStudent(ctx context.Context, arg UpdateStudentParams) (UpdateStudentRow, error) {
 	row := q.db.QueryRow(ctx, updateStudent, arg.ID, arg.StudentUsername, arg.StudentPassword)
-	var i Student
-	err := row.Scan(&i.ID, &i.StudentUsername, &i.StudentPassword)
+	var i UpdateStudentRow
+	err := row.Scan(&i.ID, &i.StudentUsername)
 	return i, err
 }
