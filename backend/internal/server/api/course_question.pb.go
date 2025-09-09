@@ -799,7 +799,14 @@ const file_course_question_proto_rawDesc = "" +
 	"#GetCourseQuestionsByCourseIdRequest\x12\x1b\n" +
 	"\tcourse_id\x18\x01 \x01(\x03R\bcourseId\"u\n" +
 	"$GetCourseQuestionsByCourseIdResponse\x12M\n" +
-	"\x10course_questions\x18\x01 \x03(\v2\".course_recommender.CourseQuestionR\x0fcourseQuestionsB\aZ\x05./apib\x06proto3"
+	"\x10course_questions\x18\x01 \x03(\v2\".course_recommender.CourseQuestionR\x0fcourseQuestions2\x86\x06\n" +
+	"\x15CourseQuestionService\x12y\n" +
+	"\x14CreateCourseQuestion\x12/.course_recommender.CreateCourseQuestionRequest\x1a0.course_recommender.CreateCourseQuestionResponse\x12p\n" +
+	"\x11GetCourseQuestion\x12,.course_recommender.GetCourseQuestionRequest\x1a-.course_recommender.GetCourseQuestionResponse\x12y\n" +
+	"\x14UpdateCourseQuestion\x12/.course_recommender.UpdateCourseQuestionRequest\x1a0.course_recommender.UpdateCourseQuestionResponse\x12v\n" +
+	"\x13ListCourseQuestions\x12..course_recommender.ListCourseQuestionsRequest\x1a/.course_recommender.ListCourseQuestionsResponse\x12y\n" +
+	"\x14DeleteCourseQuestion\x12/.course_recommender.DeleteCourseQuestionRequest\x1a0.course_recommender.DeleteCourseQuestionResponse\x12\x91\x01\n" +
+	"\x1cGetCourseQuestionsByCourseId\x127.course_recommender.GetCourseQuestionsByCourseIdRequest\x1a8.course_recommender.GetCourseQuestionsByCourseIdResponseB\aZ\x05./apib\x06proto3"
 
 var (
 	file_course_question_proto_rawDescOnce sync.Once
@@ -842,8 +849,20 @@ var file_course_question_proto_depIdxs = []int32{
 	0,  // 8: course_recommender.UpdateCourseQuestionResponse.course_question:type_name -> course_recommender.CourseQuestion
 	0,  // 9: course_recommender.ListCourseQuestionsResponse.course_questions:type_name -> course_recommender.CourseQuestion
 	0,  // 10: course_recommender.GetCourseQuestionsByCourseIdResponse.course_questions:type_name -> course_recommender.CourseQuestion
-	11, // [11:11] is the sub-list for method output_type
-	11, // [11:11] is the sub-list for method input_type
+	1,  // 11: course_recommender.CourseQuestionService.CreateCourseQuestion:input_type -> course_recommender.CreateCourseQuestionRequest
+	3,  // 12: course_recommender.CourseQuestionService.GetCourseQuestion:input_type -> course_recommender.GetCourseQuestionRequest
+	5,  // 13: course_recommender.CourseQuestionService.UpdateCourseQuestion:input_type -> course_recommender.UpdateCourseQuestionRequest
+	7,  // 14: course_recommender.CourseQuestionService.ListCourseQuestions:input_type -> course_recommender.ListCourseQuestionsRequest
+	9,  // 15: course_recommender.CourseQuestionService.DeleteCourseQuestion:input_type -> course_recommender.DeleteCourseQuestionRequest
+	11, // 16: course_recommender.CourseQuestionService.GetCourseQuestionsByCourseId:input_type -> course_recommender.GetCourseQuestionsByCourseIdRequest
+	2,  // 17: course_recommender.CourseQuestionService.CreateCourseQuestion:output_type -> course_recommender.CreateCourseQuestionResponse
+	4,  // 18: course_recommender.CourseQuestionService.GetCourseQuestion:output_type -> course_recommender.GetCourseQuestionResponse
+	6,  // 19: course_recommender.CourseQuestionService.UpdateCourseQuestion:output_type -> course_recommender.UpdateCourseQuestionResponse
+	8,  // 20: course_recommender.CourseQuestionService.ListCourseQuestions:output_type -> course_recommender.ListCourseQuestionsResponse
+	10, // 21: course_recommender.CourseQuestionService.DeleteCourseQuestion:output_type -> course_recommender.DeleteCourseQuestionResponse
+	12, // 22: course_recommender.CourseQuestionService.GetCourseQuestionsByCourseId:output_type -> course_recommender.GetCourseQuestionsByCourseIdResponse
+	17, // [17:23] is the sub-list for method output_type
+	11, // [11:17] is the sub-list for method input_type
 	11, // [11:11] is the sub-list for extension type_name
 	11, // [11:11] is the sub-list for extension extendee
 	0,  // [0:11] is the sub-list for field type_name
@@ -862,7 +881,7 @@ func file_course_question_proto_init() {
 			NumEnums:      0,
 			NumMessages:   13,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_course_question_proto_goTypes,
 		DependencyIndexes: file_course_question_proto_depIdxs,

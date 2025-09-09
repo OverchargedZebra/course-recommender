@@ -1,4 +1,4 @@
-// this file is for all recommendations made by cbf logic
+// this file is for all recommendations made by content based filtering logic
 // this recommender will recommend based on content
 // think of netflix "because you watched"
 package recommender
@@ -15,9 +15,7 @@ import (
 )
 
 type CBFRecommender struct {
-	courseIDToIdx    map[int64]int
-	idxToCourseID    map[int]int64
-	courses          []db.Course
+	courseIndexer    *CourseIndexer
 	similarityMatrix *mat.Dense
 }
 
@@ -54,14 +52,13 @@ func NewCBFRecommender(courses []db.Course, tags []db.Tag, courseTags []db.Cours
 	gamma := 1 - alpha - beta
 
 	// step 1. create mappings and helper sets
-	courseIDToIdx := make(map[int64]int, len(courses))
-	idxToCourseID := make(map[int]int64, len(courses))
-	for i, c := range courses {
-		courseIDToIdx[c.ID] = i
-		idxToCourseID[i] = c.ID
-	}
+	courseIndexer := NewCourseIndexer(courses)
 
 	// helper map to get tag sets for each course
+	// the reason struct{} was chosen because it takes
+	// almost 0 memory and gives us the speed of map
+	// this approach also prevents us from worrying
+	// about non linear index in the CourseTags slice
 	courseIDToTagSet := make(map[int64]map[int64]struct{})
 	for _, ct := range courseTags {
 		if _, ok := courseIDToTagSet[ct.CourseID]; !ok {
@@ -71,6 +68,8 @@ func NewCBFRecommender(courses []db.Course, tags []db.Tag, courseTags []db.Cours
 	}
 
 	// helper map to get degree sets for each course
+	// the reason for choosing struct{} is the same as
+	// the above one
 	courseIDToDegreeSet := make(map[int64]map[int64]struct{})
 	for _, dc := range degreeCourses {
 		if _, ok := courseIDToDegreeSet[dc.CourseID]; !ok {
@@ -115,15 +114,16 @@ func NewCBFRecommender(courses []db.Course, tags []db.Tag, courseTags []db.Cours
 	}
 
 	rec := &CBFRecommender{
-		courseIDToIdx:    courseIDToIdx,
-		idxToCourseID:    idxToCourseID,
-		courses:          courses,
+		courseIndexer:    courseIndexer,
 		similarityMatrix: similarityMatrix,
 	}
 
 	return rec, nil
 }
 
+// the reason for custom jaccard similarity was
+// due to its efficiency doing it with context
+// to how our code words
 func jaccardSimilarity(set1, set2 map[int64]struct{}) float64 {
 	// two empty sets are identical
 	if len(set1) == 0 && len(set2) == 0 {
@@ -153,6 +153,7 @@ func jaccardSimilarity(set1, set2 map[int64]struct{}) float64 {
 	return float64(interactionSize) / float64(unionSize)
 }
 
+// Recommend the courses based on the student's previously studied courses
 func (r *CBFRecommender) Recommend(studentInteractions []db.StudentCourse, topN int) ([]Recommendation, error) {
 	// no history, no recommendations based on courses
 	if len(studentInteractions) == 0 {
@@ -162,14 +163,15 @@ func (r *CBFRecommender) Recommend(studentInteractions []db.StudentCourse, topN 
 	// get a list of all the courses a student has taken
 	takenCourseIndices := make(map[int]struct{})
 	for _, interaction := range studentInteractions {
-		if idx, ok := r.courseIDToIdx[interaction.CourseID]; ok {
+		if idx, ok := r.courseIndexer.CourseIDToIdx[interaction.CourseID]; ok {
 			takenCourseIndices[idx] = struct{}{}
 		}
 	}
 
 	// make a list of recommendations
 	var recommendations []Recommendation
-	numCourses := len(r.courses)
+	// courseIDToIdx has the same number of elements as courses
+	numCourses := len(r.courseIndexer.CourseIDToIdx)
 
 	// loop through for the number of courses
 	for targetIdx := 0; targetIdx < numCourses; targetIdx++ {
@@ -195,7 +197,7 @@ func (r *CBFRecommender) Recommend(studentInteractions []db.StudentCourse, topN 
 		// if the similarity is greater than 0 than recommend that course
 		if maxSimilarity > 0 {
 			recommendations = append(recommendations, Recommendation{
-				CourseId: r.idxToCourseID[targetIdx],
+				CourseId: r.courseIndexer.IdxToCourseID[targetIdx],
 				score:    maxSimilarity,
 			})
 		}
@@ -207,14 +209,13 @@ func (r *CBFRecommender) Recommend(studentInteractions []db.StudentCourse, topN 
 	})
 
 	// if there are more than topN recommendations
-	// than return a part of the recommendations up
-	// till topN values
+	// than return a part of the recommendations
+	// up till topN values
 	if len(recommendations) > topN {
 		return recommendations[:topN], nil
 	}
 
 	// if the recommendations are less than topN
-	// than return the recommendations slice
-	// as is
+	// than return the recommendations slice as is
 	return recommendations, nil
 }

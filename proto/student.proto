@@ -11,7 +11,6 @@ import "google/protobuf/wrappers.proto";
 message Student {
   int64 id = 1;
   string student_username = 2;
-  string student_password = 3; // In a real-world app, this would likely be a hashed password.
 }
 
 // Request to create a new student.

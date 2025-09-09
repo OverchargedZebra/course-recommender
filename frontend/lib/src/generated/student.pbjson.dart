@@ -20,14 +20,13 @@ const Student$json = {
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
     {'1': 'student_username', '3': 2, '4': 1, '5': 9, '10': 'studentUsername'},
-    {'1': 'student_password', '3': 3, '4': 1, '5': 9, '10': 'studentPassword'},
   ],
 };
 
 /// Descriptor for `Student`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List studentDescriptor = $convert.base64Decode(
     'CgdTdHVkZW50Eg4KAmlkGAEgASgDUgJpZBIpChBzdHVkZW50X3VzZXJuYW1lGAIgASgJUg9zdH'
-    'VkZW50VXNlcm5hbWUSKQoQc3R1ZGVudF9wYXNzd29yZBgDIAEoCVIPc3R1ZGVudFBhc3N3b3Jk');
+    'VkZW50VXNlcm5hbWU=');
 
 @$core.Deprecated('Use createStudentRequestDescriptor instead')
 const CreateStudentRequest$json = {

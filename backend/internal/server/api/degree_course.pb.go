@@ -476,7 +476,12 @@ const file_degree_course_proto_rawDesc = "" +
 	"\x0edegree_type_id\x18\x01 \x01(\x03R\fdegreeTypeId\x12\x1b\n" +
 	"\tcourse_id\x18\x02 \x01(\x03R\bcourseId\"6\n" +
 	"\x1aDeleteDegreeCourseResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccessB\aZ\x05./apib\x06proto3"
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xf5\x03\n" +
+	"\x13DegreeCourseService\x12s\n" +
+	"\x12CreateDegreeCourse\x12-.course_recommender.CreateDegreeCourseRequest\x1a..course_recommender.CreateDegreeCourseResponse\x12y\n" +
+	"\x14GetCoursesByDegreeId\x12/.course_recommender.GetCoursesByDegreeIdRequest\x1a0.course_recommender.GetCoursesByDegreeIdResponse\x12y\n" +
+	"\x14GetDegreesByCourseId\x12/.course_recommender.GetDegreesByCourseIdRequest\x1a0.course_recommender.GetDegreesByCourseIdResponse\x12s\n" +
+	"\x12DeleteDegreeCourse\x12-.course_recommender.DeleteDegreeCourseRequest\x1a..course_recommender.DeleteDegreeCourseResponseB\aZ\x05./apib\x06proto3"
 
 var (
 	file_degree_course_proto_rawDescOnce sync.Once
@@ -508,8 +513,16 @@ var file_degree_course_proto_depIdxs = []int32{
 	0,  // 0: course_recommender.CreateDegreeCourseResponse.degree_course:type_name -> course_recommender.DegreeCourse
 	9,  // 1: course_recommender.GetCoursesByDegreeIdResponse.courses:type_name -> course_recommender.Course
 	10, // 2: course_recommender.GetDegreesByCourseIdResponse.degree_types:type_name -> course_recommender.DegreeType
-	3,  // [3:3] is the sub-list for method output_type
-	3,  // [3:3] is the sub-list for method input_type
+	1,  // 3: course_recommender.DegreeCourseService.CreateDegreeCourse:input_type -> course_recommender.CreateDegreeCourseRequest
+	3,  // 4: course_recommender.DegreeCourseService.GetCoursesByDegreeId:input_type -> course_recommender.GetCoursesByDegreeIdRequest
+	5,  // 5: course_recommender.DegreeCourseService.GetDegreesByCourseId:input_type -> course_recommender.GetDegreesByCourseIdRequest
+	7,  // 6: course_recommender.DegreeCourseService.DeleteDegreeCourse:input_type -> course_recommender.DeleteDegreeCourseRequest
+	2,  // 7: course_recommender.DegreeCourseService.CreateDegreeCourse:output_type -> course_recommender.CreateDegreeCourseResponse
+	4,  // 8: course_recommender.DegreeCourseService.GetCoursesByDegreeId:output_type -> course_recommender.GetCoursesByDegreeIdResponse
+	6,  // 9: course_recommender.DegreeCourseService.GetDegreesByCourseId:output_type -> course_recommender.GetDegreesByCourseIdResponse
+	8,  // 10: course_recommender.DegreeCourseService.DeleteDegreeCourse:output_type -> course_recommender.DeleteDegreeCourseResponse
+	7,  // [7:11] is the sub-list for method output_type
+	3,  // [3:7] is the sub-list for method input_type
 	3,  // [3:3] is the sub-list for extension type_name
 	3,  // [3:3] is the sub-list for extension extendee
 	0,  // [0:3] is the sub-list for field type_name
@@ -530,7 +543,7 @@ func file_degree_course_proto_init() {
 			NumEnums:      0,
 			NumMessages:   9,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_degree_course_proto_goTypes,
 		DependencyIndexes: file_degree_course_proto_depIdxs,

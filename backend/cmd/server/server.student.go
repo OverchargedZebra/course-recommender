@@ -16,7 +16,6 @@ func apiStudent(student db.Student) *api.Student {
 	return &api.Student{
 		Id:              student.ID,
 		StudentUsername: student.StudentUsername,
-		StudentPassword: student.StudentPassword,
 	}
 }
 

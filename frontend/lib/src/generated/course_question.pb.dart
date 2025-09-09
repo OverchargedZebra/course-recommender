@@ -15,7 +15,7 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'google/protobuf/wrappers.pb.dart' as $0;
+import 'google/protobuf/wrappers.pb.dart' as $1;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
@@ -489,12 +489,12 @@ class GetCourseQuestionResponse extends $pb.GeneratedMessage {
 class UpdateCourseQuestionRequest extends $pb.GeneratedMessage {
   factory UpdateCourseQuestionRequest({
     $fixnum.Int64? id,
-    $0.StringValue? question,
-    $0.StringValue? questionOptionA,
-    $0.StringValue? questionOptionB,
-    $0.StringValue? questionOptionC,
-    $0.StringValue? questionOptionD,
-    $0.StringValue? correctOption,
+    $1.StringValue? question,
+    $1.StringValue? questionOptionA,
+    $1.StringValue? questionOptionB,
+    $1.StringValue? questionOptionC,
+    $1.StringValue? questionOptionD,
+    $1.StringValue? correctOption,
   }) {
     final result = create();
     if (id != null) result.id = id;
@@ -522,18 +522,18 @@ class UpdateCourseQuestionRequest extends $pb.GeneratedMessage {
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'id')
-    ..aOM<$0.StringValue>(2, _omitFieldNames ? '' : 'question',
-        subBuilder: $0.StringValue.create)
-    ..aOM<$0.StringValue>(3, _omitFieldNames ? '' : 'questionOptionA',
-        subBuilder: $0.StringValue.create)
-    ..aOM<$0.StringValue>(4, _omitFieldNames ? '' : 'questionOptionB',
-        subBuilder: $0.StringValue.create)
-    ..aOM<$0.StringValue>(5, _omitFieldNames ? '' : 'questionOptionC',
-        subBuilder: $0.StringValue.create)
-    ..aOM<$0.StringValue>(6, _omitFieldNames ? '' : 'questionOptionD',
-        subBuilder: $0.StringValue.create)
-    ..aOM<$0.StringValue>(7, _omitFieldNames ? '' : 'correctOption',
-        subBuilder: $0.StringValue.create)
+    ..aOM<$1.StringValue>(2, _omitFieldNames ? '' : 'question',
+        subBuilder: $1.StringValue.create)
+    ..aOM<$1.StringValue>(3, _omitFieldNames ? '' : 'questionOptionA',
+        subBuilder: $1.StringValue.create)
+    ..aOM<$1.StringValue>(4, _omitFieldNames ? '' : 'questionOptionB',
+        subBuilder: $1.StringValue.create)
+    ..aOM<$1.StringValue>(5, _omitFieldNames ? '' : 'questionOptionC',
+        subBuilder: $1.StringValue.create)
+    ..aOM<$1.StringValue>(6, _omitFieldNames ? '' : 'questionOptionD',
+        subBuilder: $1.StringValue.create)
+    ..aOM<$1.StringValue>(7, _omitFieldNames ? '' : 'correctOption',
+        subBuilder: $1.StringValue.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -571,70 +571,70 @@ class UpdateCourseQuestionRequest extends $pb.GeneratedMessage {
   void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $0.StringValue get question => $_getN(1);
+  $1.StringValue get question => $_getN(1);
   @$pb.TagNumber(2)
-  set question($0.StringValue value) => $_setField(2, value);
+  set question($1.StringValue value) => $_setField(2, value);
   @$pb.TagNumber(2)
   $core.bool hasQuestion() => $_has(1);
   @$pb.TagNumber(2)
   void clearQuestion() => $_clearField(2);
   @$pb.TagNumber(2)
-  $0.StringValue ensureQuestion() => $_ensure(1);
+  $1.StringValue ensureQuestion() => $_ensure(1);
 
   @$pb.TagNumber(3)
-  $0.StringValue get questionOptionA => $_getN(2);
+  $1.StringValue get questionOptionA => $_getN(2);
   @$pb.TagNumber(3)
-  set questionOptionA($0.StringValue value) => $_setField(3, value);
+  set questionOptionA($1.StringValue value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasQuestionOptionA() => $_has(2);
   @$pb.TagNumber(3)
   void clearQuestionOptionA() => $_clearField(3);
   @$pb.TagNumber(3)
-  $0.StringValue ensureQuestionOptionA() => $_ensure(2);
+  $1.StringValue ensureQuestionOptionA() => $_ensure(2);
 
   @$pb.TagNumber(4)
-  $0.StringValue get questionOptionB => $_getN(3);
+  $1.StringValue get questionOptionB => $_getN(3);
   @$pb.TagNumber(4)
-  set questionOptionB($0.StringValue value) => $_setField(4, value);
+  set questionOptionB($1.StringValue value) => $_setField(4, value);
   @$pb.TagNumber(4)
   $core.bool hasQuestionOptionB() => $_has(3);
   @$pb.TagNumber(4)
   void clearQuestionOptionB() => $_clearField(4);
   @$pb.TagNumber(4)
-  $0.StringValue ensureQuestionOptionB() => $_ensure(3);
+  $1.StringValue ensureQuestionOptionB() => $_ensure(3);
 
   @$pb.TagNumber(5)
-  $0.StringValue get questionOptionC => $_getN(4);
+  $1.StringValue get questionOptionC => $_getN(4);
   @$pb.TagNumber(5)
-  set questionOptionC($0.StringValue value) => $_setField(5, value);
+  set questionOptionC($1.StringValue value) => $_setField(5, value);
   @$pb.TagNumber(5)
   $core.bool hasQuestionOptionC() => $_has(4);
   @$pb.TagNumber(5)
   void clearQuestionOptionC() => $_clearField(5);
   @$pb.TagNumber(5)
-  $0.StringValue ensureQuestionOptionC() => $_ensure(4);
+  $1.StringValue ensureQuestionOptionC() => $_ensure(4);
 
   @$pb.TagNumber(6)
-  $0.StringValue get questionOptionD => $_getN(5);
+  $1.StringValue get questionOptionD => $_getN(5);
   @$pb.TagNumber(6)
-  set questionOptionD($0.StringValue value) => $_setField(6, value);
+  set questionOptionD($1.StringValue value) => $_setField(6, value);
   @$pb.TagNumber(6)
   $core.bool hasQuestionOptionD() => $_has(5);
   @$pb.TagNumber(6)
   void clearQuestionOptionD() => $_clearField(6);
   @$pb.TagNumber(6)
-  $0.StringValue ensureQuestionOptionD() => $_ensure(5);
+  $1.StringValue ensureQuestionOptionD() => $_ensure(5);
 
   @$pb.TagNumber(7)
-  $0.StringValue get correctOption => $_getN(6);
+  $1.StringValue get correctOption => $_getN(6);
   @$pb.TagNumber(7)
-  set correctOption($0.StringValue value) => $_setField(7, value);
+  set correctOption($1.StringValue value) => $_setField(7, value);
   @$pb.TagNumber(7)
   $core.bool hasCorrectOption() => $_has(6);
   @$pb.TagNumber(7)
   void clearCorrectOption() => $_clearField(7);
   @$pb.TagNumber(7)
-  $0.StringValue ensureCorrectOption() => $_ensure(6);
+  $1.StringValue ensureCorrectOption() => $_ensure(6);
 }
 
 /// Response containing the updated course question.

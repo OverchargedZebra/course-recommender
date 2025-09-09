@@ -683,7 +683,14 @@ const file_course_proto_rawDesc = "" +
 	"\x13DeleteCourseRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"0\n" +
 	"\x14DeleteCourseResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccessB\aZ\x05./apib\x06proto3"
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xde\x04\n" +
+	"\rCourseService\x12a\n" +
+	"\fCreateCourse\x12'.course_recommender.CreateCourseRequest\x1a(.course_recommender.CreateCourseResponse\x12X\n" +
+	"\tGetCourse\x12$.course_recommender.GetCourseRequest\x1a%.course_recommender.GetCourseResponse\x12j\n" +
+	"\x0fGetCourseByName\x12*.course_recommender.GetCourseByNameRequest\x1a+.course_recommender.GetCourseByNameResponse\x12a\n" +
+	"\fUpdateCourse\x12'.course_recommender.UpdateCourseRequest\x1a(.course_recommender.UpdateCourseResponse\x12^\n" +
+	"\vListCourses\x12&.course_recommender.ListCoursesRequest\x1a'.course_recommender.ListCoursesResponse\x12a\n" +
+	"\fDeleteCourse\x12'.course_recommender.DeleteCourseRequest\x1a(.course_recommender.DeleteCourseResponseB\aZ\x05./apib\x06proto3"
 
 var (
 	file_course_proto_rawDescOnce sync.Once
@@ -723,8 +730,20 @@ var file_course_proto_depIdxs = []int32{
 	14, // 4: course_recommender.UpdateCourseRequest.difficulty:type_name -> google.protobuf.Int32Value
 	0,  // 5: course_recommender.UpdateCourseResponse.course:type_name -> course_recommender.Course
 	0,  // 6: course_recommender.ListCoursesResponse.courses:type_name -> course_recommender.Course
-	7,  // [7:7] is the sub-list for method output_type
-	7,  // [7:7] is the sub-list for method input_type
+	1,  // 7: course_recommender.CourseService.CreateCourse:input_type -> course_recommender.CreateCourseRequest
+	3,  // 8: course_recommender.CourseService.GetCourse:input_type -> course_recommender.GetCourseRequest
+	5,  // 9: course_recommender.CourseService.GetCourseByName:input_type -> course_recommender.GetCourseByNameRequest
+	7,  // 10: course_recommender.CourseService.UpdateCourse:input_type -> course_recommender.UpdateCourseRequest
+	9,  // 11: course_recommender.CourseService.ListCourses:input_type -> course_recommender.ListCoursesRequest
+	11, // 12: course_recommender.CourseService.DeleteCourse:input_type -> course_recommender.DeleteCourseRequest
+	2,  // 13: course_recommender.CourseService.CreateCourse:output_type -> course_recommender.CreateCourseResponse
+	4,  // 14: course_recommender.CourseService.GetCourse:output_type -> course_recommender.GetCourseResponse
+	6,  // 15: course_recommender.CourseService.GetCourseByName:output_type -> course_recommender.GetCourseByNameResponse
+	8,  // 16: course_recommender.CourseService.UpdateCourse:output_type -> course_recommender.UpdateCourseResponse
+	10, // 17: course_recommender.CourseService.ListCourses:output_type -> course_recommender.ListCoursesResponse
+	12, // 18: course_recommender.CourseService.DeleteCourse:output_type -> course_recommender.DeleteCourseResponse
+	13, // [13:19] is the sub-list for method output_type
+	7,  // [7:13] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
 	7,  // [7:7] is the sub-list for extension extendee
 	0,  // [0:7] is the sub-list for field type_name
@@ -743,7 +762,7 @@ func file_course_proto_init() {
 			NumEnums:      0,
 			NumMessages:   13,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_course_proto_goTypes,
 		DependencyIndexes: file_course_proto_depIdxs,

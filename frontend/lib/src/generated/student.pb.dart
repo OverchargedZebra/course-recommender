@@ -15,7 +15,7 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'google/protobuf/wrappers.pb.dart' as $0;
+import 'google/protobuf/wrappers.pb.dart' as $1;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
@@ -25,12 +25,10 @@ class Student extends $pb.GeneratedMessage {
   factory Student({
     $fixnum.Int64? id,
     $core.String? studentUsername,
-    $core.String? studentPassword,
   }) {
     final result = create();
     if (id != null) result.id = id;
     if (studentUsername != null) result.studentUsername = studentUsername;
-    if (studentPassword != null) result.studentPassword = studentPassword;
     return result;
   }
 
@@ -50,7 +48,6 @@ class Student extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'studentUsername')
-    ..aOS(3, _omitFieldNames ? '' : 'studentPassword')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -89,15 +86,6 @@ class Student extends $pb.GeneratedMessage {
   $core.bool hasStudentUsername() => $_has(1);
   @$pb.TagNumber(2)
   void clearStudentUsername() => $_clearField(2);
-
-  @$pb.TagNumber(3)
-  $core.String get studentPassword => $_getSZ(2);
-  @$pb.TagNumber(3)
-  set studentPassword($core.String value) => $_setString(2, value);
-  @$pb.TagNumber(3)
-  $core.bool hasStudentPassword() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearStudentPassword() => $_clearField(3);
 }
 
 /// Request to create a new student.
@@ -496,8 +484,8 @@ class GetStudentByUsernameResponse extends $pb.GeneratedMessage {
 class UpdateStudentRequest extends $pb.GeneratedMessage {
   factory UpdateStudentRequest({
     $fixnum.Int64? id,
-    $0.StringValue? studentUsername,
-    $0.StringValue? studentPassword,
+    $1.StringValue? studentUsername,
+    $1.StringValue? studentPassword,
   }) {
     final result = create();
     if (id != null) result.id = id;
@@ -521,10 +509,10 @@ class UpdateStudentRequest extends $pb.GeneratedMessage {
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'id')
-    ..aOM<$0.StringValue>(2, _omitFieldNames ? '' : 'studentUsername',
-        subBuilder: $0.StringValue.create)
-    ..aOM<$0.StringValue>(3, _omitFieldNames ? '' : 'studentPassword',
-        subBuilder: $0.StringValue.create)
+    ..aOM<$1.StringValue>(2, _omitFieldNames ? '' : 'studentUsername',
+        subBuilder: $1.StringValue.create)
+    ..aOM<$1.StringValue>(3, _omitFieldNames ? '' : 'studentPassword',
+        subBuilder: $1.StringValue.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -559,26 +547,26 @@ class UpdateStudentRequest extends $pb.GeneratedMessage {
   void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $0.StringValue get studentUsername => $_getN(1);
+  $1.StringValue get studentUsername => $_getN(1);
   @$pb.TagNumber(2)
-  set studentUsername($0.StringValue value) => $_setField(2, value);
+  set studentUsername($1.StringValue value) => $_setField(2, value);
   @$pb.TagNumber(2)
   $core.bool hasStudentUsername() => $_has(1);
   @$pb.TagNumber(2)
   void clearStudentUsername() => $_clearField(2);
   @$pb.TagNumber(2)
-  $0.StringValue ensureStudentUsername() => $_ensure(1);
+  $1.StringValue ensureStudentUsername() => $_ensure(1);
 
   @$pb.TagNumber(3)
-  $0.StringValue get studentPassword => $_getN(2);
+  $1.StringValue get studentPassword => $_getN(2);
   @$pb.TagNumber(3)
-  set studentPassword($0.StringValue value) => $_setField(3, value);
+  set studentPassword($1.StringValue value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasStudentPassword() => $_has(2);
   @$pb.TagNumber(3)
   void clearStudentPassword() => $_clearField(3);
   @$pb.TagNumber(3)
-  $0.StringValue ensureStudentPassword() => $_ensure(2);
+  $1.StringValue ensureStudentPassword() => $_ensure(2);
 }
 
 /// Response containing the updated student.
