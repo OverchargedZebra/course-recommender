@@ -67,11 +67,11 @@ type MasterRecommender struct {
 	Collaborative *CollaborativeRecommenderService
 	Serendipitous *SerendipitousRecommender
 	Difficulty    *DifficultyRecommender
-	dbQuerier     db.Querier
+	q             db.Queries
 }
 
 // NewMasterRecommender creates and initializes all recommender engines using a db.Querier.
-func NewMasterRecommender(ctx context.Context, querier db.Querier) (*MasterRecommender, error) {
+func NewMasterRecommender(ctx context.Context, querier db.Queries) (*MasterRecommender, error) {
 	// Note: The db.Querier interface would need to be updated to include methods
 	// like ListCourseTags, ListDegreeCourses, and ListStudentCourses to make this fully functional.
 	// We will assume they exist for this implementation.
@@ -112,7 +112,7 @@ func NewMasterRecommender(ctx context.Context, querier db.Querier) (*MasterRecom
 		students = append(students, db.Student{ID: s.ID, StudentUsername: s.StudentUsername})
 	}
 
-	cb, err := NewContentBasedRecommender(courses, tags, courseTags, degreeTypes, degreeCourses, 0.5, 0.5)
+	cb, err := NewContentBasedRecommender(courses, tags, courseTags, degreeTypes, degreeCourses, 0.5, 0.3)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create content based recommender: %w", err)
 	}
@@ -122,7 +122,7 @@ func NewMasterRecommender(ctx context.Context, querier db.Querier) (*MasterRecom
 		return nil, fmt.Errorf("failed to create collaborative recommender service: %w", err)
 	}
 
-	sr, err := NewSerendipitousRecommender(cb, cr, 0.5, 0.5)
+	sr, err := NewSerendipitousRecommender(cb, cr, 0.5, 0.3)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create serendipitous recommender: %w", err)
 	}
@@ -137,7 +137,7 @@ func NewMasterRecommender(ctx context.Context, querier db.Querier) (*MasterRecom
 		Collaborative: cr,
 		Serendipitous: sr,
 		Difficulty:    dr,
-		dbQuerier:     querier,
+		q:             querier,
 	}
 
 	go master.runCollaborativeUpdater(ctx)
@@ -154,7 +154,7 @@ func (mr *MasterRecommender) runCollaborativeUpdater(ctx context.Context) {
 		select {
 		case <-ticker.C:
 			fmt.Println("Running periodic collaborative model update...")
-			studentsDB, err := mr.dbQuerier.ListStudents(ctx)
+			studentsDB, err := mr.q.ListStudents(ctx)
 			if err != nil {
 				fmt.Printf("Error updating model (ListStudents): %v\n", err)
 				continue
@@ -164,13 +164,13 @@ func (mr *MasterRecommender) runCollaborativeUpdater(ctx context.Context) {
 				students = append(students, db.Student{ID: s.ID, StudentUsername: s.StudentUsername})
 			}
 
-			courses, err := mr.dbQuerier.ListCourses(ctx)
+			courses, err := mr.q.ListCourses(ctx)
 			if err != nil {
 				fmt.Printf("Error updating model (ListCourses): %v\n", err)
 				continue
 			}
 
-			interactions, err := mr.dbQuerier.ListStudentCourses(ctx)
+			interactions, err := mr.q.ListStudentCourses(ctx)
 			if err != nil {
 				fmt.Printf("Error updating model (ListStudentCourses): %v\n", err)
 				continue
@@ -266,5 +266,12 @@ func getCourseIdFromRecommendationSlice(recommendations []Recommendation) iter.S
 }
 
 func (mr *MasterRecommender) ConvertRecommendationToCourse(recommendations []Recommendation) ([]db.Course, error) {
-	slices.Collect()
+	courseIDs := slices.Collect(getCourseIdFromRecommendationSlice(recommendations))
+
+	results, err := mr.q.GetCourseByIds(context.Background(), courseIDs)
+	if err != nil {
+		return nil, fmt.Errorf("ConvertRecommendationToCourse encountered an error: %v", err)
+	}
+
+	return results, nil
 }
