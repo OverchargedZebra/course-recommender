@@ -38,6 +38,10 @@ FROM
 WHERE
     student.id = $1;
 
+-- name: ListStudentCourses :many
+SELECT *
+FROM student_course;
+
 -- name: DeleteStudentCourse :one
 DELETE FROM student_course
 WHERE

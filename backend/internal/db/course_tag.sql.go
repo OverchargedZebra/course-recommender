@@ -120,3 +120,28 @@ func (q *Queries) GetTagsByCourseId(ctx context.Context, id int64) ([]GetTagsByC
 	}
 	return items, nil
 }
+
+const listCourseTags = `-- name: ListCourseTags :many
+SELECT course_id, tag_id
+FROM course_tag
+`
+
+func (q *Queries) ListCourseTags(ctx context.Context) ([]CourseTag, error) {
+	rows, err := q.db.Query(ctx, listCourseTags)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []CourseTag
+	for rows.Next() {
+		var i CourseTag
+		if err := rows.Scan(&i.CourseID, &i.TagID); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

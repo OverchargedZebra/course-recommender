@@ -203,15 +203,10 @@ func (r *CollaborativeRecommender) Recommend(studentInteractions []db.StudentCou
 		return cmp.Compare(y.score, x.score)
 	})
 
-	// if there are more than topN recommendations
-	// than return a part of the recommendations
-	// up till topN values
-	if len(recommendations) > topN {
-		return recommendations[:topN], nil
+	if topN > 0 && len(recommendations) > topN {
+		recommendations = recommendations[:topN]
 	}
 
-	// if the recommendations are less than topN
-	// than return the recommendations slice as is
 	return recommendations, nil
 }
 
@@ -222,6 +217,10 @@ instead of staying with stale data and not updating every time a user gives feed
 we can do another method, we can update it once in a while to make sure that the
 recommender is up to date and is not computationally expensive to our server
 whenever there is a user rating update
+
+another option is to store these calculations inside the database with materialized views,
+this would also help with it being updated after a certain amount. This idea was discarded
+due to avoiding implementing any logic directly inside the database
 */
 
 // live recommender service
@@ -257,6 +256,14 @@ func (s *CollaborativeRecommenderService) UpdateModel(students []db.Student, cou
 
 	fmt.Println("[system] collaborative recommender model update complete")
 	return nil
+}
+
+// SimilarityMatrix returns the underlying similarity matrix from the recommender model.
+// It acquires a read lock to ensure safe concurrent access.
+func (s *CollaborativeRecommenderService) SimilarityMatrix() *mat.Dense {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.recommender.similarityMatrix
 }
 
 // Get Recommendations from the collaborative recommender service

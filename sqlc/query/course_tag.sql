@@ -26,6 +26,10 @@ FROM
 WHERE
     tag.id = $1;
 
+-- name: ListCourseTags :many
+SELECT *
+FROM course_tag;
+
 -- name: DeleteCourseTag :one
 DELETE FROM course_tag
 WHERE

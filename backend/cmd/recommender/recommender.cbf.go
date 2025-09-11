@@ -16,8 +16,10 @@ import (
 )
 
 type ContentBasedRecommender struct {
-	courseIndexer    *CourseIndexer
-	similarityMatrix *mat.Dense
+	courseIndexer       *CourseIndexer
+	similarityMatrix    *mat.Dense
+	courseIDToTagSet    map[int64]map[int64]struct{}
+	courseIDToDegreeSet map[int64]map[int64]struct{}
 }
 
 /*
@@ -115,8 +117,10 @@ func NewContentBasedRecommender(courses []db.Course, tags []db.Tag, courseTags [
 	}
 
 	rec := &ContentBasedRecommender{
-		courseIndexer:    indexer,
-		similarityMatrix: similarityMatrix,
+		courseIndexer:       indexer,
+		similarityMatrix:    similarityMatrix,
+		courseIDToTagSet:    courseIDToTagSet,
+		courseIDToDegreeSet: courseIDToDegreeSet,
 	}
 
 	return rec, nil
@@ -210,14 +214,64 @@ func (r *ContentBasedRecommender) Recommend(studentInteractions []db.StudentCour
 		return cmp.Compare(y.score, x.score)
 	})
 
-	// if there are more than topN recommendations
-	// than return a part of the recommendations
-	// up till topN values
-	if len(recommendations) > topN {
-		return recommendations[:topN], nil
+	if topN > 0 && len(recommendations) > topN {
+		recommendations = recommendations[:topN]
 	}
 
-	// if the recommendations are less than topN
-	// than return the recommendations slice as is
+	return recommendations, nil
+}
+
+/*
+Another issue that might occur is that the user has
+has not interactions with the system beforehand
+to prevent the problem with not being able to
+recommend them any course, we will be recommending
+them courses with the help of their chosen interest
+tags, these tags will not stay for ever and will
+only be temporarily used to recommend for cold start
+*/
+
+func (r *ContentBasedRecommender) RecommendFromTags(interestTagIDs []int64, topN int) ([]Recommendation, error) {
+	if len(interestTagIDs) == 0 {
+		return []Recommendation{}, nil // No tags, no recommendations
+	}
+
+	interestTagSet := make(map[int64]struct{}, len(interestTagIDs))
+	for _, tagID := range interestTagIDs {
+		interestTagSet[tagID] = struct{}{}
+	}
+
+	var recommendations []Recommendation
+	for courseID := range r.courseIndexer.CourseIDToIdx {
+		courseTags, ok := r.courseIDToTagSet[courseID]
+		if !ok {
+			continue
+		}
+
+		intersectionSize := 0
+		for tagID := range courseTags {
+			if _, interested := interestTagSet[tagID]; interested {
+				intersectionSize++
+			}
+		}
+
+		if intersectionSize > 0 {
+			recommendations = append(recommendations, Recommendation{
+				CourseId: courseID,
+				score:    float64(intersectionSize),
+			})
+		}
+	}
+
+	// sort the slice in descending score order
+	slices.SortStableFunc(recommendations, func(x, y Recommendation) int {
+		// y is placed first so that it can be sorted in reverse
+		return cmp.Compare(y.score, x.score)
+	})
+
+	if topN > 0 && len(recommendations) > topN {
+		recommendations = recommendations[:topN]
+	}
+
 	return recommendations, nil
 }

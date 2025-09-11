@@ -26,6 +26,10 @@ FROM
 WHERE
     course.id = $1;
 
+-- name: ListDegreeCourses :many
+SELECT *
+FROM degree_course;
+
 -- name: DeleteDegreeCourse :one
 DELETE FROM degree_course
 WHERE

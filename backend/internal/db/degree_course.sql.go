@@ -120,3 +120,28 @@ func (q *Queries) GetDegreesByCourseId(ctx context.Context, id int64) ([]GetDegr
 	}
 	return items, nil
 }
+
+const listDegreeCourses = `-- name: ListDegreeCourses :many
+SELECT degree_type_id, course_id
+FROM degree_course
+`
+
+func (q *Queries) ListDegreeCourses(ctx context.Context) ([]DegreeCourse, error) {
+	rows, err := q.db.Query(ctx, listDegreeCourses)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DegreeCourse
+	for rows.Next() {
+		var i DegreeCourse
+		if err := rows.Scan(&i.DegreeTypeID, &i.CourseID); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
