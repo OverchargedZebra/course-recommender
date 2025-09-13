@@ -73,7 +73,7 @@ func NewDifficultyRecommender(courses []db.Course, degreeCourses []db.DegreeCour
 // The caller is responsible for providing the student's score percentage on that most recent course.
 func (dr *DifficultyRecommender) Recommend(
 	studentInteractions []db.StudentCourse,
-	scorePercentage float64,
+	scorePercentage int32,
 	topN int,
 ) ([]Recommendation, error) {
 	if len(studentInteractions) == 0 {
@@ -92,14 +92,14 @@ func (dr *DifficultyRecommender) Recommend(
 
 	targetDifficulties := make(map[int16]struct{})
 
-	if scorePercentage < 0.50 {
+	if scorePercentage < 50 {
 		// Poor performance: recommend easier or same difficulty if at the bottom.
 		if recentCourseDifficulty > dr.minDifficulty {
 			targetDifficulties[recentCourseDifficulty-1] = struct{}{}
 		} else {
 			targetDifficulties[dr.minDifficulty] = struct{}{}
 		}
-	} else if scorePercentage < 0.75 {
+	} else if scorePercentage < 75 {
 		// Average performance: recommend same or lower difficulty.
 		if recentCourseDifficulty > dr.minDifficulty {
 			targetDifficulties[recentCourseDifficulty-1] = struct{}{}

@@ -7,9 +7,12 @@ import (
 	"cmp"
 	"fmt"
 	"slices"
+	"strings"
 
 	"github.com/adrg/strutil"
 	"github.com/adrg/strutil/metrics"
+	"github.com/bbalet/stopwords"
+	porterstemmer "github.com/blevesearch/go-porterstemmer"
 	"gonum.org/v1/gonum/mat"
 
 	"OverchargedZebra/course-recommender/backend/internal/db"
@@ -95,8 +98,18 @@ func NewContentBasedRecommender(courses []db.Course, tags []db.Tag, courseTags [
 			course1 := courses[i]
 			course2 := courses[j]
 
+			course1Cleaned, err := textPreprocessing(course1.CourseName)
+			if err != nil {
+				course1Cleaned = course1.CourseName
+			}
+
+			course2Cleaned, err := textPreprocessing(course2.CourseName)
+			if err != nil {
+				course2Cleaned = course2.CourseName
+			}
+
 			// a. Calculate Similarity based on course name
-			nameSimilarity := strutil.Similarity(course1.CourseName, course2.CourseName, sd)
+			nameSimilarity := strutil.Similarity(course1Cleaned, course2Cleaned, sd)
 
 			// b. Calculate jaccard similarity for tags
 			tags1 := courseIDToTagSet[course1.ID]
@@ -124,6 +137,22 @@ func NewContentBasedRecommender(courses []db.Course, tags []db.Tag, courseTags [
 	}
 
 	return rec, nil
+}
+
+func textPreprocessing(text string) (string, error) {
+	noStopWords := stopwords.CleanString(text, "en", false)
+
+	// tokenize the resulting strings
+	words := strings.Fields(noStopWords)
+
+	// stem each word
+	var stemmedWords []string
+	for _, word := range words {
+		stem := porterstemmer.StemString(word)
+		stemmedWords = append(stemmedWords, stem)
+	}
+
+	return strings.Join(stemmedWords, " "), nil
 }
 
 // the reason for custom jaccard similarity was

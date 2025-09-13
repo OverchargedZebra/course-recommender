@@ -200,7 +200,6 @@ const (
 // Recommend runs all recommenders and returns their results in a map.
 func (mr *MasterRecommender) Recommend(
 	studentInteractions []db.StudentCourse,
-	scorePercentage float64,
 	interestTagIDs []int64,
 	topN int,
 ) (map[RecommenderType][]Recommendation, error) {
@@ -209,6 +208,29 @@ func (mr *MasterRecommender) Recommend(
 	var mu sync.Mutex
 	errChan := make(chan error, 4)
 
+	// This part of the function is used to figure out the
+	// score the student scored, in this prototype
+	// each score is worth 1 and counts towards the final percentage
+	var scorePercentage int32
+	if len(studentInteractions) != 0 {
+		latestCourseIndex := len(studentInteractions) - 1
+		latestCourse := studentInteractions[latestCourseIndex].CourseID
+		studentID := studentInteractions[latestCourseIndex].StudentID
+
+		percentage, err := mr.q.GetPercentageStudentCourse(
+			context.Background(), db.GetPercentageStudentCourseParams{
+				CourseID:  latestCourse,
+				StudentID: studentID,
+			})
+
+		if err != nil {
+			return nil, err
+		}
+
+		scorePercentage = percentage
+	}
+
+	// make a map of all the results of the course recommend functions
 	recommenders := map[RecommenderType]func() ([]Recommendation, error){
 		ContentBasedRec: func() ([]Recommendation, error) {
 			return mr.ContentBased.Recommend(studentInteractions, topN)
@@ -227,6 +249,7 @@ func (mr *MasterRecommender) Recommend(
 		},
 	}
 
+	// use go concurrency to start all of the recommenders at the same time
 	for recType, recFunc := range recommenders {
 		wg.Add(1)
 		go func(recType RecommenderType, recFunc func() ([]Recommendation, error)) {
@@ -242,7 +265,9 @@ func (mr *MasterRecommender) Recommend(
 		}(recType, recFunc)
 	}
 
+	// wait for all the concurrent threads to finish their tasks
 	wg.Wait()
+	// if there is an error, we must close the function
 	close(errChan)
 
 	// Check for errors from goroutines
@@ -255,6 +280,7 @@ func (mr *MasterRecommender) Recommend(
 	return results, nil
 }
 
+// get the courseID from Recommendation slice
 func getCourseIdFromRecommendationSlice(recommendations []Recommendation) iter.Seq[int64] {
 	return func(yield func(int64) bool) {
 		for _, r := range recommendations {

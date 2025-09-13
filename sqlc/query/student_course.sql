@@ -38,9 +38,28 @@ FROM
 WHERE
     student.id = $1;
 
+-- name: GetPercentageStudentCourse :one
+SELECT
+    (COALESCE(sc.marks, 0) * 100) / NULLIF(cq.total_question, 0) AS percentage
+FROM
+    student_course AS sc
+    CROSS JOIN (
+        SELECT
+            COUNT(*) AS total_question
+        FROM
+            course_question
+        WHERE
+            course_question.course_id = $1
+    ) AS cq
+WHERE
+    sc.course_id = $1
+    AND sc.student_id = $2;
+
 -- name: ListStudentCourses :many
-SELECT *
-FROM student_course;
+SELECT
+    *
+FROM
+    student_course;
 
 -- name: DeleteStudentCourse :one
 DELETE FROM student_course

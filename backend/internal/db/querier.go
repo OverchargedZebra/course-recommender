@@ -36,6 +36,7 @@ type Querier interface {
 	GetDegreeType(ctx context.Context, id int64) (DegreeType, error)
 	GetDegreeTypeByName(ctx context.Context, degreeName string) ([]DegreeType, error)
 	GetDegreesByCourseId(ctx context.Context, id int64) ([]GetDegreesByCourseIdRow, error)
+	GetPercentageStudentCourse(ctx context.Context, arg GetPercentageStudentCourseParams) (int32, error)
 	GetStudent(ctx context.Context, id int64) (GetStudentRow, error)
 	GetStudentByUsername(ctx context.Context, arg GetStudentByUsernameParams) (GetStudentByUsernameRow, error)
 	GetStudentsByCourseId(ctx context.Context, id int64) ([]GetStudentsByCourseIdRow, error)

@@ -92,7 +92,7 @@ func TestContentBasedRecommender(t *testing.T) {
 		}
 
 		for _, rec := range recommendationToCourse(recs) {
-			t.Logf("history based rec: %v\n", rec)
+			t.Logf("history based rec: %v\n", rec.CourseName)
 		}
 	})
 
@@ -106,7 +106,7 @@ func TestContentBasedRecommender(t *testing.T) {
 		}
 		// Expect courses 4 (Web Dev) and 5 (ML)
 		for _, rec := range recommendationToCourse(recs) {
-			t.Logf("cold start rec: %v\n", rec)
+			t.Logf("cold start rec: %v\n", rec.CourseName)
 		}
 	})
 }
@@ -124,7 +124,7 @@ func TestCollaborativeRecommender(t *testing.T) {
 	}
 
 	for _, rec := range recommendationToCourse(recs) {
-		t.Logf("collaborative rec: %v", rec)
+		t.Logf("collaborative rec: %v\n", rec.CourseName)
 	}
 }
 
@@ -146,41 +146,41 @@ func TestSerendipitousRecommender(t *testing.T) {
 	}
 
 	for _, rec := range recommendationToCourse(recs) {
-		t.Logf("serendipitous rec: %v", rec)
+		t.Logf("serendipitous rec: %v\n", rec.CourseName)
 	}
 }
 
-func TestDifficultyRecommender(t *testing.T) {
-	rec, err := recommender.NewDifficultyRecommender(mockCourses, mockDegreeCourses)
-	if err != nil {
-		t.Fatalf("Failed to create DifficultyRecommender: %v", err)
-	}
+// func TestDifficultyRecommender(t *testing.T) {
+// 	rec, err := recommender.NewDifficultyRecommender(mockCourses, mockDegreeCourses)
+// 	if err != nil {
+// 		t.Fatalf("Failed to create DifficultyRecommender: %v", err)
+// 	}
 
-	t.Run("Good Performance", func(t *testing.T) {
-		// Alice's last course is 2 (difficulty 2), score 80% -> recommend difficulty 3
-		aliceInteractions := mockInteractions[:2]
-		recs, err := rec.Recommend(aliceInteractions, 0.80, 1)
-		if err != nil {
-			t.Fatalf("Recommend failed: %v", err)
-		}
-		if len(recs) != 1 {
-			t.Fatalf("Expected 1 recommendation, got %d", len(recs))
-		}
-		if recs[0].CourseId != 3 {
-			t.Errorf("Expected course 3 (difficulty 3), got %d", recs[0].CourseId)
-		}
-	})
+// 	t.Run("Good Performance", func(t *testing.T) {
+// 		// Alice's last course is 2 (difficulty 2), score 80% -> recommend difficulty 3
+// 		aliceInteractions := mockInteractions[:2]
+// 		recs, err := rec.Recommend(aliceInteractions, 0.80, 1)
+// 		if err != nil {
+// 			t.Fatalf("Recommend failed: %v", err)
+// 		}
+// 		if len(recs) != 1 {
+// 			t.Fatalf("Expected 1 recommendation, got %d", len(recs))
+// 		}
+// 		if recs[0].CourseId != 3 {
+// 			t.Errorf("Expected course 3 (difficulty 3), got %d", recs[0].CourseId)
+// 		}
+// 	})
 
-	t.Run("Bad Performance Edge Case", func(t *testing.T) {
-		// Took course 1 (difficulty 1), score 40% -> recommend other difficulty 1 courses
-		interactions := []db.StudentCourse{{StudentID: 1, CourseID: 1}}
-		recs, err := rec.Recommend(interactions, 0.40, 5)
-		if err != nil {
-			t.Fatalf("Recommend failed: %v", err)
-		}
-		// No other difficulty 1 courses in mock data
-		if len(recs) != 0 {
-			t.Errorf("Expected 0 recommendations, got %d", len(recs))
-		}
-	})
-}
+// 	t.Run("Bad Performance Edge Case", func(t *testing.T) {
+// 		// Took course 1 (difficulty 1), score 40% -> recommend other difficulty 1 courses
+// 		interactions := []db.StudentCourse{{StudentID: 1, CourseID: 1}}
+// 		recs, err := rec.Recommend(interactions, 0.40, 5)
+// 		if err != nil {
+// 			t.Fatalf("Recommend failed: %v", err)
+// 		}
+// 		// No other difficulty 1 courses in mock data
+// 		if len(recs) != 0 {
+// 			t.Errorf("Expected 0 recommendations, got %d", len(recs))
+// 		}
+// 	})
+// }

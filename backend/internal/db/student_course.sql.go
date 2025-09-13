@@ -93,6 +93,36 @@ func (q *Queries) GetCoursesByStudentId(ctx context.Context, id int64) ([]GetCou
 	return items, nil
 }
 
+const getPercentageStudentCourse = `-- name: GetPercentageStudentCourse :one
+SELECT
+    (COALESCE(sc.marks, 0) * 100) / NULLIF(cq.total_question, 0) AS percentage
+FROM
+    student_course AS sc
+    CROSS JOIN (
+        SELECT
+            COUNT(*) AS total_question
+        FROM
+            course_question
+        WHERE
+            course_question.course_id = $1
+    ) AS cq
+WHERE
+    sc.course_id = $1
+    AND sc.student_id = $2
+`
+
+type GetPercentageStudentCourseParams struct {
+	CourseID  int64 `json:"course_id"`
+	StudentID int64 `json:"student_id"`
+}
+
+func (q *Queries) GetPercentageStudentCourse(ctx context.Context, arg GetPercentageStudentCourseParams) (int32, error) {
+	row := q.db.QueryRow(ctx, getPercentageStudentCourse, arg.CourseID, arg.StudentID)
+	var percentage int32
+	err := row.Scan(&percentage)
+	return percentage, err
+}
+
 const getStudentsByCourseId = `-- name: GetStudentsByCourseId :many
 SELECT
     student.id,
@@ -131,8 +161,10 @@ func (q *Queries) GetStudentsByCourseId(ctx context.Context, id int64) ([]GetStu
 }
 
 const listStudentCourses = `-- name: ListStudentCourses :many
-SELECT student_id, course_id, marks, feedback
-FROM student_course
+SELECT
+    student_id, course_id, marks, feedback
+FROM
+    student_course
 `
 
 func (q *Queries) ListStudentCourses(ctx context.Context) ([]StudentCourse, error) {
