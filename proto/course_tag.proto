@@ -55,15 +55,3 @@ message DeleteCourseTagRequest {
 message DeleteCourseTagResponse {
   bool success = 1;
 }
-
-// The gRPC service definition for course tags.
-service CourseTagService {
-  // Creates a new course-tag association.
-  rpc CreateCourseTag(CreateCourseTagRequest) returns (CreateCourseTagResponse);
-  // Retrieves all tags for a specific course.
-  rpc GetTagsByCourseId(GetTagsByCourseIdRequest) returns (GetTagsByCourseIdResponse);
-  // Retrieves all courses for a specific tag.
-  rpc GetCoursesByTagId(GetCoursesByTagIdRequest) returns (GetCoursesByTagIdResponse);
-  // Deletes a course-tag association.
-  rpc DeleteCourseTag(DeleteCourseTagRequest) returns (DeleteCourseTagResponse);
-}

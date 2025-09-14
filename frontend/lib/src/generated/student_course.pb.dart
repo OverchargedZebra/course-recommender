@@ -15,9 +15,9 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'course.pb.dart' as $3;
-import 'google/protobuf/wrappers.pb.dart' as $1;
-import 'student.pb.dart' as $2;
+import 'course.pb.dart' as $2;
+import 'google/protobuf/wrappers.pb.dart' as $0;
+import 'student.pb.dart' as $1;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
@@ -259,8 +259,8 @@ class UpdateStudentCourseRequest extends $pb.GeneratedMessage {
   factory UpdateStudentCourseRequest({
     $fixnum.Int64? studentId,
     $fixnum.Int64? courseId,
-    $1.Int32Value? marks,
-    $1.BoolValue? feedback,
+    $0.Int32Value? marks,
+    $0.BoolValue? feedback,
   }) {
     final result = create();
     if (studentId != null) result.studentId = studentId;
@@ -286,10 +286,10 @@ class UpdateStudentCourseRequest extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'studentId')
     ..aInt64(2, _omitFieldNames ? '' : 'courseId')
-    ..aOM<$1.Int32Value>(3, _omitFieldNames ? '' : 'marks',
-        subBuilder: $1.Int32Value.create)
-    ..aOM<$1.BoolValue>(4, _omitFieldNames ? '' : 'feedback',
-        subBuilder: $1.BoolValue.create)
+    ..aOM<$0.Int32Value>(3, _omitFieldNames ? '' : 'marks',
+        subBuilder: $0.Int32Value.create)
+    ..aOM<$0.BoolValue>(4, _omitFieldNames ? '' : 'feedback',
+        subBuilder: $0.BoolValue.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -335,26 +335,26 @@ class UpdateStudentCourseRequest extends $pb.GeneratedMessage {
   void clearCourseId() => $_clearField(2);
 
   @$pb.TagNumber(3)
-  $1.Int32Value get marks => $_getN(2);
+  $0.Int32Value get marks => $_getN(2);
   @$pb.TagNumber(3)
-  set marks($1.Int32Value value) => $_setField(3, value);
+  set marks($0.Int32Value value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasMarks() => $_has(2);
   @$pb.TagNumber(3)
   void clearMarks() => $_clearField(3);
   @$pb.TagNumber(3)
-  $1.Int32Value ensureMarks() => $_ensure(2);
+  $0.Int32Value ensureMarks() => $_ensure(2);
 
   @$pb.TagNumber(4)
-  $1.BoolValue get feedback => $_getN(3);
+  $0.BoolValue get feedback => $_getN(3);
   @$pb.TagNumber(4)
-  set feedback($1.BoolValue value) => $_setField(4, value);
+  set feedback($0.BoolValue value) => $_setField(4, value);
   @$pb.TagNumber(4)
   $core.bool hasFeedback() => $_has(3);
   @$pb.TagNumber(4)
   void clearFeedback() => $_clearField(4);
   @$pb.TagNumber(4)
-  $1.BoolValue ensureFeedback() => $_ensure(3);
+  $0.BoolValue ensureFeedback() => $_ensure(3);
 }
 
 /// Response containing the updated student-course association.
@@ -487,7 +487,7 @@ class GetStudentsByCourseIdRequest extends $pb.GeneratedMessage {
 /// Response containing a list of students for a specific course.
 class GetStudentsByCourseIdResponse extends $pb.GeneratedMessage {
   factory GetStudentsByCourseIdResponse({
-    $core.Iterable<$2.Student>? students,
+    $core.Iterable<$1.Student>? students,
   }) {
     final result = create();
     if (students != null) result.students.addAll(students);
@@ -508,8 +508,8 @@ class GetStudentsByCourseIdResponse extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
-    ..pc<$2.Student>(1, _omitFieldNames ? '' : 'students', $pb.PbFieldType.PM,
-        subBuilder: $2.Student.create)
+    ..pc<$1.Student>(1, _omitFieldNames ? '' : 'students', $pb.PbFieldType.PM,
+        subBuilder: $1.Student.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -538,7 +538,7 @@ class GetStudentsByCourseIdResponse extends $pb.GeneratedMessage {
   static GetStudentsByCourseIdResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $pb.PbList<$2.Student> get students => $_getList(0);
+  $pb.PbList<$1.Student> get students => $_getList(0);
 }
 
 /// Request to get all courses a specific student is enrolled in.
@@ -606,7 +606,7 @@ class GetCoursesByStudentIdRequest extends $pb.GeneratedMessage {
 /// Response containing a list of courses for a specific student.
 class GetCoursesByStudentIdResponse extends $pb.GeneratedMessage {
   factory GetCoursesByStudentIdResponse({
-    $core.Iterable<$3.Course>? courses,
+    $core.Iterable<$2.Course>? courses,
   }) {
     final result = create();
     if (courses != null) result.courses.addAll(courses);
@@ -627,8 +627,8 @@ class GetCoursesByStudentIdResponse extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
-    ..pc<$3.Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
-        subBuilder: $3.Course.create)
+    ..pc<$2.Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
+        subBuilder: $2.Course.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -657,7 +657,7 @@ class GetCoursesByStudentIdResponse extends $pb.GeneratedMessage {
   static GetCoursesByStudentIdResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $pb.PbList<$3.Course> get courses => $_getList(0);
+  $pb.PbList<$2.Course> get courses => $_getList(0);
 }
 
 /// Request to delete a student-course association.

@@ -15,7 +15,7 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'google/protobuf/wrappers.pb.dart' as $1;
+import 'google/protobuf/wrappers.pb.dart' as $0;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
@@ -439,7 +439,7 @@ class GetTagByNameResponse extends $pb.GeneratedMessage {
 class UpdateTagRequest extends $pb.GeneratedMessage {
   factory UpdateTagRequest({
     $fixnum.Int64? id,
-    $1.StringValue? tagName,
+    $0.StringValue? tagName,
   }) {
     final result = create();
     if (id != null) result.id = id;
@@ -462,8 +462,8 @@ class UpdateTagRequest extends $pb.GeneratedMessage {
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'id')
-    ..aOM<$1.StringValue>(2, _omitFieldNames ? '' : 'tagName',
-        subBuilder: $1.StringValue.create)
+    ..aOM<$0.StringValue>(2, _omitFieldNames ? '' : 'tagName',
+        subBuilder: $0.StringValue.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -497,15 +497,15 @@ class UpdateTagRequest extends $pb.GeneratedMessage {
   void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $1.StringValue get tagName => $_getN(1);
+  $0.StringValue get tagName => $_getN(1);
   @$pb.TagNumber(2)
-  set tagName($1.StringValue value) => $_setField(2, value);
+  set tagName($0.StringValue value) => $_setField(2, value);
   @$pb.TagNumber(2)
   $core.bool hasTagName() => $_has(1);
   @$pb.TagNumber(2)
   void clearTagName() => $_clearField(2);
   @$pb.TagNumber(2)
-  $1.StringValue ensureTagName() => $_ensure(1);
+  $0.StringValue ensureTagName() => $_ensure(1);
 }
 
 /// Response containing the updated tag.

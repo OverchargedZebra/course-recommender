@@ -15,7 +15,7 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'google/protobuf/wrappers.pb.dart' as $1;
+import 'google/protobuf/wrappers.pb.dart' as $0;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
@@ -484,8 +484,8 @@ class GetStudentByUsernameResponse extends $pb.GeneratedMessage {
 class UpdateStudentRequest extends $pb.GeneratedMessage {
   factory UpdateStudentRequest({
     $fixnum.Int64? id,
-    $1.StringValue? studentUsername,
-    $1.StringValue? studentPassword,
+    $0.StringValue? studentUsername,
+    $0.StringValue? studentPassword,
   }) {
     final result = create();
     if (id != null) result.id = id;
@@ -509,10 +509,10 @@ class UpdateStudentRequest extends $pb.GeneratedMessage {
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'id')
-    ..aOM<$1.StringValue>(2, _omitFieldNames ? '' : 'studentUsername',
-        subBuilder: $1.StringValue.create)
-    ..aOM<$1.StringValue>(3, _omitFieldNames ? '' : 'studentPassword',
-        subBuilder: $1.StringValue.create)
+    ..aOM<$0.StringValue>(2, _omitFieldNames ? '' : 'studentUsername',
+        subBuilder: $0.StringValue.create)
+    ..aOM<$0.StringValue>(3, _omitFieldNames ? '' : 'studentPassword',
+        subBuilder: $0.StringValue.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -547,26 +547,26 @@ class UpdateStudentRequest extends $pb.GeneratedMessage {
   void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $1.StringValue get studentUsername => $_getN(1);
+  $0.StringValue get studentUsername => $_getN(1);
   @$pb.TagNumber(2)
-  set studentUsername($1.StringValue value) => $_setField(2, value);
+  set studentUsername($0.StringValue value) => $_setField(2, value);
   @$pb.TagNumber(2)
   $core.bool hasStudentUsername() => $_has(1);
   @$pb.TagNumber(2)
   void clearStudentUsername() => $_clearField(2);
   @$pb.TagNumber(2)
-  $1.StringValue ensureStudentUsername() => $_ensure(1);
+  $0.StringValue ensureStudentUsername() => $_ensure(1);
 
   @$pb.TagNumber(3)
-  $1.StringValue get studentPassword => $_getN(2);
+  $0.StringValue get studentPassword => $_getN(2);
   @$pb.TagNumber(3)
-  set studentPassword($1.StringValue value) => $_setField(3, value);
+  set studentPassword($0.StringValue value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasStudentPassword() => $_has(2);
   @$pb.TagNumber(3)
   void clearStudentPassword() => $_clearField(3);
   @$pb.TagNumber(3)
-  $1.StringValue ensureStudentPassword() => $_ensure(2);
+  $0.StringValue ensureStudentPassword() => $_ensure(2);
 }
 
 /// Response containing the updated student.

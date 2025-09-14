@@ -15,8 +15,8 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'course.pb.dart' as $1;
-import 'degree_type.pb.dart' as $2;
+import 'course.pb.dart' as $0;
+import 'degree_type.pb.dart' as $1;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
@@ -292,7 +292,7 @@ class GetCoursesByDegreeIdRequest extends $pb.GeneratedMessage {
 /// Response containing a list of courses for a specific degree type.
 class GetCoursesByDegreeIdResponse extends $pb.GeneratedMessage {
   factory GetCoursesByDegreeIdResponse({
-    $core.Iterable<$1.Course>? courses,
+    $core.Iterable<$0.Course>? courses,
   }) {
     final result = create();
     if (courses != null) result.courses.addAll(courses);
@@ -313,8 +313,8 @@ class GetCoursesByDegreeIdResponse extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
-    ..pc<$1.Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
-        subBuilder: $1.Course.create)
+    ..pc<$0.Course>(1, _omitFieldNames ? '' : 'courses', $pb.PbFieldType.PM,
+        subBuilder: $0.Course.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -343,7 +343,7 @@ class GetCoursesByDegreeIdResponse extends $pb.GeneratedMessage {
   static GetCoursesByDegreeIdResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $pb.PbList<$1.Course> get courses => $_getList(0);
+  $pb.PbList<$0.Course> get courses => $_getList(0);
 }
 
 /// Request to get all degree types for a specific course.
@@ -411,7 +411,7 @@ class GetDegreesByCourseIdRequest extends $pb.GeneratedMessage {
 /// Response containing a list of degree types for a specific course.
 class GetDegreesByCourseIdResponse extends $pb.GeneratedMessage {
   factory GetDegreesByCourseIdResponse({
-    $core.Iterable<$2.DegreeType>? degreeTypes,
+    $core.Iterable<$1.DegreeType>? degreeTypes,
   }) {
     final result = create();
     if (degreeTypes != null) result.degreeTypes.addAll(degreeTypes);
@@ -432,9 +432,9 @@ class GetDegreesByCourseIdResponse extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
-    ..pc<$2.DegreeType>(
+    ..pc<$1.DegreeType>(
         1, _omitFieldNames ? '' : 'degreeTypes', $pb.PbFieldType.PM,
-        subBuilder: $2.DegreeType.create)
+        subBuilder: $1.DegreeType.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -463,7 +463,7 @@ class GetDegreesByCourseIdResponse extends $pb.GeneratedMessage {
   static GetDegreesByCourseIdResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $pb.PbList<$2.DegreeType> get degreeTypes => $_getList(0);
+  $pb.PbList<$1.DegreeType> get degreeTypes => $_getList(0);
 }
 
 /// Request to delete a degree-course association.

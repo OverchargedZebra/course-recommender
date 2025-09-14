@@ -70,19 +70,3 @@ message DeleteDegreeTypeRequest {
 message DeleteDegreeTypeResponse {
   bool success = 1;
 }
-
-// The gRPC service definition for degree types.
-service DegreeTypeService {
-  // Creates a new degree type.
-  rpc CreateDegreeType(CreateDegreeTypeRequest) returns (CreateDegreeTypeResponse);
-  // Retrieves a degree type by its ID.
-  rpc GetDegreeType(GetDegreeTypeRequest) returns (GetDegreeTypeResponse);
-  // Retrieves degree types by name.
-  rpc GetDegreeTypeByName(GetDegreeTypeByNameRequest) returns (GetDegreeTypeByNameResponse);
-  // Updates an existing degree type.
-  rpc UpdateDegreeType(UpdateDegreeTypeRequest) returns (UpdateDegreeTypeResponse);
-  // Lists all degree types.
-  rpc ListDegreeTypes(ListDegreeTypesRequest) returns (ListDegreeTypesResponse);
-  // Deletes a degree type by its ID.
-  rpc DeleteDegreeType(DeleteDegreeTypeRequest) returns (DeleteDegreeTypeResponse);
-}

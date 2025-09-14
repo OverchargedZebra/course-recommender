@@ -87,19 +87,3 @@ message GetCourseQuestionsByCourseIdRequest {
 message GetCourseQuestionsByCourseIdResponse {
     repeated CourseQuestion course_questions = 1;
 }
-
-// The gRPC service definition for course questions.
-service CourseQuestionService {
-  // Creates a new course question.
-  rpc CreateCourseQuestion(CreateCourseQuestionRequest) returns (CreateCourseQuestionResponse);
-  // Retrieves a course question by its ID.
-  rpc GetCourseQuestion(GetCourseQuestionRequest) returns (GetCourseQuestionResponse);
-  // Updates an existing course question.
-  rpc UpdateCourseQuestion(UpdateCourseQuestionRequest) returns (UpdateCourseQuestionResponse);
-  // Lists all course questions.
-  rpc ListCourseQuestions(ListCourseQuestionsRequest) returns (ListCourseQuestionsResponse);
-  // Deletes a course question by its ID.
-  rpc DeleteCourseQuestion(DeleteCourseQuestionRequest) returns (DeleteCourseQuestionResponse);
-  // Retrieves all questions for a specific course.
-  rpc GetCourseQuestionsByCourseId(GetCourseQuestionsByCourseIdRequest) returns (GetCourseQuestionsByCourseIdResponse);
-}

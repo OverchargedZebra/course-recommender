@@ -70,19 +70,3 @@ message DeleteTagRequest {
 message DeleteTagResponse {
   bool success = 1;
 }
-
-// The gRPC service definition for tags.
-service TagService {
-  // Creates a new tag.
-  rpc CreateTag(CreateTagRequest) returns (CreateTagResponse);
-  // Retrieves a tag by its ID.
-  rpc GetTag(GetTagRequest) returns (GetTagResponse);
-  // Retrieves tags by name.
-  rpc GetTagByName(GetTagByNameRequest) returns (GetTagByNameResponse);
-  // Updates an existing tag.
-  rpc UpdateTag(UpdateTagRequest) returns (UpdateTagResponse);
-  // Lists all tags.
-  rpc ListTags(ListTagsRequest) returns (ListTagsResponse);
-  // Deletes a tag by its ID.
-  rpc DeleteTag(DeleteTagRequest) returns (DeleteTagResponse);
-}

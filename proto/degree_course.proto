@@ -55,15 +55,3 @@ message DeleteDegreeCourseRequest {
 message DeleteDegreeCourseResponse {
   bool success = 1;
 }
-
-// The gRPC service definition for degree-course associations.
-service DegreeCourseService {
-  // Creates a new degree-course association.
-  rpc CreateDegreeCourse(CreateDegreeCourseRequest) returns (CreateDegreeCourseResponse);
-  // Retrieves all courses for a specific degree type.
-  rpc GetCoursesByDegreeId(GetCoursesByDegreeIdRequest) returns (GetCoursesByDegreeIdResponse);
-  // Retrieves all degree types for a specific course.
-  rpc GetDegreesByCourseId(GetDegreesByCourseIdRequest) returns (GetDegreesByCourseIdResponse);
-  // Deletes a degree-course association.
-  rpc DeleteDegreeCourse(DeleteDegreeCourseRequest) returns (DeleteDegreeCourseResponse);
-}

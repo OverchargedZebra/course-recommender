@@ -71,17 +71,3 @@ message DeleteStudentCourseRequest {
 message DeleteStudentCourseResponse {
   bool success = 1;
 }
-
-// The gRPC service definition for student-course associations.
-service StudentCourseService {
-  // Creates a new student-course association.
-  rpc CreateStudentCourse(CreateStudentCourseRequest) returns (CreateStudentCourseResponse);
-  // Updates a student's marks and feedback for a course.
-  rpc UpdateStudentCourse(UpdateStudentCourseRequest) returns (UpdateStudentCourseResponse);
-  // Retrieves all students for a specific course.
-  rpc GetStudentsByCourseId(GetStudentsByCourseIdRequest) returns (GetStudentsByCourseIdResponse);
-  // Retrieves all courses for a specific student.
-  rpc GetCoursesByStudentId(GetCoursesByStudentIdRequest) returns (GetCoursesByStudentIdResponse);
-  // Deletes a student-course association.
-  rpc DeleteStudentCourse(DeleteStudentCourseRequest) returns (DeleteStudentCourseResponse);
-}

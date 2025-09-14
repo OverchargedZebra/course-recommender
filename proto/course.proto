@@ -73,19 +73,3 @@ message DeleteCourseRequest {
 message DeleteCourseResponse {
   bool success = 1;
 }
-
-// The gRPC service definition.
-service CourseService {
-  // Creates a new course.
-  rpc CreateCourse(CreateCourseRequest) returns (CreateCourseResponse);
-  // Retrieves a course by its ID.
-  rpc GetCourse(GetCourseRequest) returns (GetCourseResponse);
-  // Retrieves courses by name.
-  rpc GetCourseByName(GetCourseByNameRequest) returns (GetCourseByNameResponse);
-  // Updates an existing course.
-  rpc UpdateCourse(UpdateCourseRequest) returns (UpdateCourseResponse);
-  // Lists all courses.
-  rpc ListCourses(ListCoursesRequest) returns (ListCoursesResponse);
-  // Deletes a course by its ID.
-  rpc DeleteCourse(DeleteCourseRequest) returns (DeleteCourseResponse);
-}
