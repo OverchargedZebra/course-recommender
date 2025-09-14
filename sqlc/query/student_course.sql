@@ -61,6 +61,14 @@ SELECT
 FROM
     student_course;
 
+-- name: ListStudentCourseByStudentId :many
+SELECT
+    *
+FROM
+    student_course
+WHERE
+    student_id = $1;
+
 -- name: DeleteStudentCourse :one
 DELETE FROM student_course
 WHERE

@@ -160,6 +160,40 @@ func (q *Queries) GetStudentsByCourseId(ctx context.Context, id int64) ([]GetStu
 	return items, nil
 }
 
+const listStudentCourseByStudentId = `-- name: ListStudentCourseByStudentId :many
+SELECT
+    student_id, course_id, marks, feedback
+FROM
+    student_course
+WHERE
+    student_id = $1
+`
+
+func (q *Queries) ListStudentCourseByStudentId(ctx context.Context, studentID int64) ([]StudentCourse, error) {
+	rows, err := q.db.Query(ctx, listStudentCourseByStudentId, studentID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []StudentCourse
+	for rows.Next() {
+		var i StudentCourse
+		if err := rows.Scan(
+			&i.StudentID,
+			&i.CourseID,
+			&i.Marks,
+			&i.Feedback,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listStudentCourses = `-- name: ListStudentCourses :many
 SELECT
     student_id, course_id, marks, feedback

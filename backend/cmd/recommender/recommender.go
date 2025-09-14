@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"iter"
 	"slices"
+	"strings"
 	"sync"
 	"time"
 
@@ -197,46 +198,42 @@ const (
 	ColdStartRec     RecommenderType = "cold_start"
 )
 
-// Recommend runs all recommenders and returns their results in a map.
-func (mr *MasterRecommender) Recommend(
-	studentInteractions []db.StudentCourse,
-	interestTagIDs []int64,
+// Here on out functions part of recommendation start
+// multiple functions were used to break down a single
+// big function
+
+// functions used to return cold recommendation
+func (mr *MasterRecommender) recommendColdStart(
+	// input parameters
+	interestingTagIds []int64,
 	topN int,
-) (map[RecommenderType][]Recommendation, error) {
-	results := make(map[RecommenderType][]Recommendation)
-	var wg sync.WaitGroup
-	var mu sync.Mutex
-	errChan := make(chan error, 4)
+) (
+	// returning values
+	map[RecommenderType][]Recommendation,
+	error,
+) {
+	recommendations, err := mr.ContentBased.RecommendFromTags(interestingTagIds, topN)
 
-	// This part of the function is used to figure out the
-	// score the student scored, in this prototype
-	// each score is worth 1 and counts towards the final percentage
-	var scorePercentage int32
-	if len(studentInteractions) != 0 {
-		latestCourseIndex := len(studentInteractions) - 1
-		latestCourse := studentInteractions[latestCourseIndex].CourseID
-		studentID := studentInteractions[latestCourseIndex].StudentID
-
-		percentage, err := mr.q.GetPercentageStudentCourse(
-			context.Background(), db.GetPercentageStudentCourseParams{
-				CourseID:  latestCourse,
-				StudentID: studentID,
-			})
-
-		if err != nil {
-			return nil, err
-		}
-
-		scorePercentage = percentage
+	if err != nil {
+		return nil, fmt.Errorf("cold start recommendation failed because: %v", err)
 	}
 
-	// make a map of all the results of the course recommend functions
-	recommenders := map[RecommenderType]func() ([]Recommendation, error){
+	return map[RecommenderType][]Recommendation{
+		ColdStartRec: recommendations,
+	}, nil
+}
+
+// initialize regular recommenders
+func (mr *MasterRecommender) initializeRecommenders(
+	// input parameters
+	studentInteractions []db.StudentCourse,
+	percentage int32,
+	topN int,
+) map[RecommenderType]func() ([]Recommendation, error) {
+	// returns a map with key recommender type and their recommendation functions
+	return map[RecommenderType]func() ([]Recommendation, error){
 		ContentBasedRec: func() ([]Recommendation, error) {
 			return mr.ContentBased.Recommend(studentInteractions, topN)
-		},
-		ColdStartRec: func() ([]Recommendation, error) {
-			return mr.ContentBased.RecommendFromTags(interestTagIDs, topN)
 		},
 		CollaborativeRec: func() ([]Recommendation, error) {
 			return mr.Collaborative.Recommend(studentInteractions, topN)
@@ -245,39 +242,125 @@ func (mr *MasterRecommender) Recommend(
 			return mr.Serendipitous.Recommend(studentInteractions, topN)
 		},
 		DifficultyRec: func() ([]Recommendation, error) {
-			return mr.Difficulty.Recommend(studentInteractions, scorePercentage, topN)
+			return mr.Difficulty.Recommend(studentInteractions, percentage, topN)
 		},
 	}
+}
 
-	// use go concurrency to start all of the recommenders at the same time
+// get student percentage for their most recent grade
+// grade is gotten with the help of the student id and student course
+func (mr *MasterRecommender) getStudentRecentPercentage(studentInteractions []db.StudentCourse) int32 {
+	// get the most recent course index
+	recentCourseIndex := len(studentInteractions) - 1
+	studentID := studentInteractions[recentCourseIndex].StudentID
+	courseID := studentInteractions[recentCourseIndex].CourseID
+
+	// get the percentage score of a student from the database
+	percent, err := mr.q.GetPercentageStudentCourse(
+		context.Background(),
+		db.GetPercentageStudentCourseParams{
+			CourseID:  courseID,
+			StudentID: studentID,
+		})
+
+	// if there was an error than return 0
+	if err != nil {
+		return 0
+	}
+
+	return percent
+}
+
+// runs the standard recommenders concurrently
+func (mr *MasterRecommender) runRecommenderConcurrently(
+	// input parameters
+	recommenders map[RecommenderType]func() ([]Recommendation, error),
+) (
+	// returning values
+	map[RecommenderType][]Recommendation,
+	error,
+) {
+	// make the map and the error channel
+	results := make(map[RecommenderType][]Recommendation)
+	errChan := make(chan error, len(recommenders))
+
+	// make wait group and mutex for concurrency
+	var wg sync.WaitGroup
+	var mu sync.Mutex
+
+	// run this loop for the number of standard recommender type
 	for recType, recFunc := range recommenders {
+		// increase the number of wait group function
 		wg.Add(1)
-		go func(recType RecommenderType, recFunc func() ([]Recommendation, error)) {
+		go func(rt RecommenderType, rf func() ([]Recommendation, error)) {
+			// defer wait group done to release the lock on all the wait groups
 			defer wg.Done()
-			recs, err := recFunc()
+
+			// get the recommendations and the errors
+			recs, err := rf()
 			if err != nil {
-				errChan <- fmt.Errorf("error from %s recommender: %w", recType, err)
-				return
+				errChan <- fmt.Errorf("error from %v recommender: %v", rt, err)
 			}
+
+			// locking and unlocking to prevent race conditions
 			mu.Lock()
-			results[recType] = recs
+			results[rt] = recs
 			mu.Unlock()
 		}(recType, recFunc)
 	}
 
-	// wait for all the concurrent threads to finish their tasks
+	// wait for all the recommenders to finish and close the error channel
 	wg.Wait()
-	// if there is an error, we must close the function
 	close(errChan)
 
-	// Check for errors from goroutines
+	// join all the recommenders
+	var errs []string
 	for err := range errChan {
-		// In a real application, you might want to handle these errors more gracefully
-		// For now, we return the first error we encounter.
+		errs = append(errs, err.Error())
+	}
+
+	// there are errors then return nil and error
+	if len(errs) > 0 {
+		return nil, fmt.Errorf("Recommendation run failed with %v error(s): %v", len(errs), strings.Join(errs, "; "))
+	}
+
+	// return the results
+	return results, nil
+}
+
+// standard recommendation for students with history
+func (mr *MasterRecommender) recommendStandard(
+	// input parameters
+	studentInteractions []db.StudentCourse,
+	topN int,
+) (
+	// output values
+	map[RecommenderType][]Recommendation,
+	error,
+) {
+	percentageScore := mr.getStudentRecentPercentage(studentInteractions)
+	recommenders := mr.initializeRecommenders(studentInteractions, percentageScore, topN)
+
+	return mr.runRecommenderConcurrently(recommenders)
+}
+
+// wtf is this mess? need to refactor this shit
+func (mr *MasterRecommender) Recommend(
+	studentID int64,
+	interestTagIDs []int64,
+	topN int,
+) (map[RecommenderType][]Recommendation, error) {
+	// get the student interactions from the database
+	studentInteractions, err := mr.q.ListStudentCourseByStudentId(context.Background(), studentID)
+	if err != nil {
 		return nil, err
 	}
 
-	return results, nil
+	if len(studentInteractions) == 0 {
+		return mr.recommendColdStart(interestTagIDs, topN)
+	}
+
+	return mr.recommendStandard(studentInteractions, topN)
 }
 
 // get the courseID from Recommendation slice
