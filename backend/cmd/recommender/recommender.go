@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"iter"
+	"maps"
 	"slices"
 	"strings"
 	"sync"
@@ -206,7 +207,7 @@ const (
 func (mr *MasterRecommender) recommendColdStart(
 	// input parameters
 	interestingTagIds []int64,
-	topN int,
+	topN int32,
 ) (
 	// returning values
 	map[RecommenderType][]Recommendation,
@@ -228,7 +229,7 @@ func (mr *MasterRecommender) initializeRecommenders(
 	// input parameters
 	studentInteractions []db.StudentCourse,
 	percentage int32,
-	topN int,
+	topN int32,
 ) map[RecommenderType]func() ([]Recommendation, error) {
 	// returns a map with key recommender type and their recommendation functions
 	return map[RecommenderType]func() ([]Recommendation, error){
@@ -332,7 +333,7 @@ func (mr *MasterRecommender) runRecommenderConcurrently(
 func (mr *MasterRecommender) recommendStandard(
 	// input parameters
 	studentInteractions []db.StudentCourse,
-	topN int,
+	topN int32,
 ) (
 	// output values
 	map[RecommenderType][]Recommendation,
@@ -348,7 +349,7 @@ func (mr *MasterRecommender) recommendStandard(
 func (mr *MasterRecommender) Recommend(
 	studentID int64,
 	interestTagIDs []int64,
-	topN int,
+	topN int32,
 ) (map[RecommenderType][]Recommendation, error) {
 	// get the student interactions from the database
 	studentInteractions, err := mr.q.ListStudentCourseByStudentId(context.Background(), studentID)
@@ -363,11 +364,45 @@ func (mr *MasterRecommender) Recommend(
 	return mr.recommendStandard(studentInteractions, topN)
 }
 
+func (mr *MasterRecommender) RecommendCourse(
+	student int64,
+	interestTagIDs []int64,
+	topN int32,
+) (
+	map[string][]db.Course,
+	error,
+) {
+	recommendations, err := mr.Recommend(student, interestTagIDs, topN)
+	if err != nil {
+		return nil, fmt.Errorf("an error occurred when recommending courses: %v", err)
+	}
+
+	courseMap := maps.Collect(mr.getRecommenderCourseMap(recommendations))
+	return courseMap, nil
+}
+
 // get the courseID from Recommendation slice
 func getCourseIdFromRecommendationSlice(recommendations []Recommendation) iter.Seq[int64] {
 	return func(yield func(int64) bool) {
 		for _, r := range recommendations {
 			if !yield(r.CourseId) {
+				return
+			}
+		}
+	}
+}
+
+func (mr *MasterRecommender) getRecommenderCourseMap(recommenderMap map[RecommenderType][]Recommendation) iter.Seq2[string, []db.Course] {
+	return func(yield func(string, []db.Course) bool) {
+		for recommender, recommendations := range recommenderMap {
+			courses, err := mr.ConvertRecommendationToCourse(recommendations)
+			if err != nil {
+				if !yield(string(recommender), nil) {
+					return
+				}
+			}
+
+			if !yield(string(recommender), courses) {
 				return
 			}
 		}

@@ -50,7 +50,7 @@ func NewSerendipitousRecommender(
 }
 
 // Recommend suggests courses that are least similar to the user's interaction history.
-func (r *SerendipitousRecommender) Recommend(studentInteractions []db.StudentCourse, topN int) ([]Recommendation, error) {
+func (r *SerendipitousRecommender) Recommend(studentInteractions []db.StudentCourse, topN int32) ([]Recommendation, error) {
 	if len(studentInteractions) == 0 {
 		// Cannot make a serendipitous recommendation without knowing user history.
 		return []Recommendation{}, nil
@@ -103,7 +103,7 @@ func (r *SerendipitousRecommender) Recommend(studentInteractions []db.StudentCou
 		return cmp.Compare(x.score, y.score)
 	})
 
-	if topN > 0 && len(recommendations) > topN {
+	if topN > 0 && int32(len(recommendations)) > topN {
 		recommendations = recommendations[:topN]
 	}
 

@@ -62,6 +62,7 @@ const (
 	CourseRecommenderService_UpdateTag_FullMethodName                    = "/course_recommender.CourseRecommenderService/UpdateTag"
 	CourseRecommenderService_ListTags_FullMethodName                     = "/course_recommender.CourseRecommenderService/ListTags"
 	CourseRecommenderService_DeleteTag_FullMethodName                    = "/course_recommender.CourseRecommenderService/DeleteTag"
+	CourseRecommenderService_Recommend_FullMethodName                    = "/course_recommender.CourseRecommenderService/Recommend"
 )
 
 // CourseRecommenderServiceClient is the client API for CourseRecommenderService service.
@@ -156,6 +157,8 @@ type CourseRecommenderServiceClient interface {
 	ListTags(ctx context.Context, in *ListTagsRequest, opts ...grpc.CallOption) (*ListTagsResponse, error)
 	// Deletes a tag by its ID.
 	DeleteTag(ctx context.Context, in *DeleteTagRequest, opts ...grpc.CallOption) (*DeleteTagResponse, error)
+	// recommendation
+	Recommend(ctx context.Context, in *RecommendRequest, opts ...grpc.CallOption) (*RecommendResponse, error)
 }
 
 type courseRecommenderServiceClient struct {
@@ -596,6 +599,16 @@ func (c *courseRecommenderServiceClient) DeleteTag(ctx context.Context, in *Dele
 	return out, nil
 }
 
+func (c *courseRecommenderServiceClient) Recommend(ctx context.Context, in *RecommendRequest, opts ...grpc.CallOption) (*RecommendResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RecommendResponse)
+	err := c.cc.Invoke(ctx, CourseRecommenderService_Recommend_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CourseRecommenderServiceServer is the server API for CourseRecommenderService service.
 // All implementations must embed UnimplementedCourseRecommenderServiceServer
 // for forward compatibility.
@@ -688,6 +701,8 @@ type CourseRecommenderServiceServer interface {
 	ListTags(context.Context, *ListTagsRequest) (*ListTagsResponse, error)
 	// Deletes a tag by its ID.
 	DeleteTag(context.Context, *DeleteTagRequest) (*DeleteTagResponse, error)
+	// recommendation
+	Recommend(context.Context, *RecommendRequest) (*RecommendResponse, error)
 	mustEmbedUnimplementedCourseRecommenderServiceServer()
 }
 
@@ -826,6 +841,9 @@ func (UnimplementedCourseRecommenderServiceServer) ListTags(context.Context, *Li
 }
 func (UnimplementedCourseRecommenderServiceServer) DeleteTag(context.Context, *DeleteTagRequest) (*DeleteTagResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTag not implemented")
+}
+func (UnimplementedCourseRecommenderServiceServer) Recommend(context.Context, *RecommendRequest) (*RecommendResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Recommend not implemented")
 }
 func (UnimplementedCourseRecommenderServiceServer) mustEmbedUnimplementedCourseRecommenderServiceServer() {
 }
@@ -1623,6 +1641,24 @@ func _CourseRecommenderService_DeleteTag_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CourseRecommenderService_Recommend_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RecommendRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CourseRecommenderServiceServer).Recommend(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CourseRecommenderService_Recommend_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CourseRecommenderServiceServer).Recommend(ctx, req.(*RecommendRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CourseRecommenderService_ServiceDesc is the grpc.ServiceDesc for CourseRecommenderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1801,6 +1837,10 @@ var CourseRecommenderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteTag",
 			Handler:    _CourseRecommenderService_DeleteTag_Handler,
+		},
+		{
+			MethodName: "Recommend",
+			Handler:    _CourseRecommenderService_Recommend_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

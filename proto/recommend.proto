@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package course_recommender;
+
+option go_package = "./api";
+
+import "google/protobuf/wrappers.proto";
+
+import "course.proto";
+
+message RecommendRequest{
+    int64 student_id = 1;
+    repeated google.protobuf.Int64Value interest_tags = 2;
+    int32 topN = 3;
+}
+
+message CoursesList {
+    repeated Course course = 1;
+}
+
+message RecommendResponse {
+    map<string, CoursesList> recommendations = 1;
+}

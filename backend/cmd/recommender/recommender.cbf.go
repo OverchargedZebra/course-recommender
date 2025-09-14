@@ -188,7 +188,7 @@ func jaccardSimilarity(set1, set2 map[int64]struct{}) float64 {
 }
 
 // Recommend the courses based on the student's previously studied courses
-func (r *ContentBasedRecommender) Recommend(studentInteractions []db.StudentCourse, topN int) ([]Recommendation, error) {
+func (r *ContentBasedRecommender) Recommend(studentInteractions []db.StudentCourse, topN int32) ([]Recommendation, error) {
 	// no history, no recommendations based on courses
 	if len(studentInteractions) == 0 {
 		return []Recommendation{}, nil
@@ -243,7 +243,7 @@ func (r *ContentBasedRecommender) Recommend(studentInteractions []db.StudentCour
 		return cmp.Compare(y.score, x.score)
 	})
 
-	if topN > 0 && len(recommendations) > topN {
+	if topN > 0 && int32(len(recommendations)) > topN {
 		recommendations = recommendations[:topN]
 	}
 
@@ -260,7 +260,7 @@ tags, these tags will not stay for ever and will
 only be temporarily used to recommend for cold start
 */
 
-func (r *ContentBasedRecommender) RecommendFromTags(interestTagIDs []int64, topN int) ([]Recommendation, error) {
+func (r *ContentBasedRecommender) RecommendFromTags(interestTagIDs []int64, topN int32) ([]Recommendation, error) {
 	if len(interestTagIDs) == 0 {
 		return []Recommendation{}, nil // No tags, no recommendations
 	}
@@ -298,7 +298,7 @@ func (r *ContentBasedRecommender) RecommendFromTags(interestTagIDs []int64, topN
 		return cmp.Compare(y.score, x.score)
 	})
 
-	if topN > 0 && len(recommendations) > topN {
+	if topN > 0 && int32(len(recommendations)) > topN {
 		recommendations = recommendations[:topN]
 	}
 

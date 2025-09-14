@@ -21,6 +21,7 @@ import 'course_question.pb.dart' as $1;
 import 'course_tag.pb.dart' as $2;
 import 'degree_course.pb.dart' as $3;
 import 'degree_type.pb.dart' as $4;
+import 'recommend.pb.dart' as $8;
 import 'student.pb.dart' as $5;
 import 'student_course.pb.dart' as $6;
 import 'tag.pb.dart' as $7;
@@ -387,6 +388,14 @@ class CourseRecommenderServiceClient extends $grpc.Client {
     return $createUnaryCall(_$deleteTag, request, options: options);
   }
 
+  /// recommendation
+  $grpc.ResponseFuture<$8.RecommendResponse> recommend(
+    $8.RecommendRequest request, {
+    $grpc.CallOptions? options,
+  }) {
+    return $createUnaryCall(_$recommend, request, options: options);
+  }
+
   // method descriptors
 
   static final _$createCourse =
@@ -605,6 +614,11 @@ class CourseRecommenderServiceClient extends $grpc.Client {
           '/course_recommender.CourseRecommenderService/DeleteTag',
           ($7.DeleteTagRequest value) => value.writeToBuffer(),
           $7.DeleteTagResponse.fromBuffer);
+  static final _$recommend =
+      $grpc.ClientMethod<$8.RecommendRequest, $8.RecommendResponse>(
+          '/course_recommender.CourseRecommenderService/Recommend',
+          ($8.RecommendRequest value) => value.writeToBuffer(),
+          $8.RecommendResponse.fromBuffer);
 }
 
 @$pb.GrpcServiceName('course_recommender.CourseRecommenderService')
@@ -986,6 +1000,13 @@ abstract class CourseRecommenderServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $7.DeleteTagRequest.fromBuffer(value),
         ($7.DeleteTagResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$8.RecommendRequest, $8.RecommendResponse>(
+        'Recommend',
+        recommend_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $8.RecommendRequest.fromBuffer(value),
+        ($8.RecommendResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.CreateCourseResponse> createCourse_Pre(
@@ -1369,4 +1390,12 @@ abstract class CourseRecommenderServiceBase extends $grpc.Service {
 
   $async.Future<$7.DeleteTagResponse> deleteTag(
       $grpc.ServiceCall call, $7.DeleteTagRequest request);
+
+  $async.Future<$8.RecommendResponse> recommend_Pre($grpc.ServiceCall $call,
+      $async.Future<$8.RecommendRequest> $request) async {
+    return recommend($call, await $request);
+  }
+
+  $async.Future<$8.RecommendResponse> recommend(
+      $grpc.ServiceCall call, $8.RecommendRequest request);
 }

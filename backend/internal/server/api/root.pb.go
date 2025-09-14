@@ -25,7 +25,7 @@ var File_root_proto protoreflect.FileDescriptor
 const file_root_proto_rawDesc = "" +
 	"\n" +
 	"\n" +
-	"root.proto\x12\x12course_recommender\x1a\fcourse.proto\x1a\x15course_question.proto\x1a\x10course_tag.proto\x1a\x13degree_course.proto\x1a\x11degree_type.proto\x1a\rstudent.proto\x1a\x14student_course.proto\x1a\ttag.proto2\xf5$\n" +
+	"root.proto\x12\x12course_recommender\x1a\fcourse.proto\x1a\x15course_question.proto\x1a\x10course_tag.proto\x1a\x13degree_course.proto\x1a\x11degree_type.proto\x1a\rstudent.proto\x1a\x14student_course.proto\x1a\ttag.proto\x1a\x0frecommend.proto2\xcf%\n" +
 	"\x18CourseRecommenderService\x12a\n" +
 	"\fCreateCourse\x12'.course_recommender.CreateCourseRequest\x1a(.course_recommender.CreateCourseResponse\x12X\n" +
 	"\tGetCourse\x12$.course_recommender.GetCourseRequest\x1a%.course_recommender.GetCourseResponse\x12j\n" +
@@ -70,7 +70,8 @@ const file_root_proto_rawDesc = "" +
 	"\fGetTagByName\x12'.course_recommender.GetTagByNameRequest\x1a(.course_recommender.GetTagByNameResponse\x12X\n" +
 	"\tUpdateTag\x12$.course_recommender.UpdateTagRequest\x1a%.course_recommender.UpdateTagResponse\x12U\n" +
 	"\bListTags\x12#.course_recommender.ListTagsRequest\x1a$.course_recommender.ListTagsResponse\x12X\n" +
-	"\tDeleteTag\x12$.course_recommender.DeleteTagRequest\x1a%.course_recommender.DeleteTagResponseB\aZ\x05./apib\x06proto3"
+	"\tDeleteTag\x12$.course_recommender.DeleteTagRequest\x1a%.course_recommender.DeleteTagResponse\x12X\n" +
+	"\tRecommend\x12$.course_recommender.RecommendRequest\x1a%.course_recommender.RecommendResponseB\aZ\x05./apib\x06proto3"
 
 var file_root_proto_goTypes = []any{
 	(*CreateCourseRequest)(nil),                  // 0: course_recommender.CreateCourseRequest
@@ -116,49 +117,51 @@ var file_root_proto_goTypes = []any{
 	(*UpdateTagRequest)(nil),                     // 40: course_recommender.UpdateTagRequest
 	(*ListTagsRequest)(nil),                      // 41: course_recommender.ListTagsRequest
 	(*DeleteTagRequest)(nil),                     // 42: course_recommender.DeleteTagRequest
-	(*CreateCourseResponse)(nil),                 // 43: course_recommender.CreateCourseResponse
-	(*GetCourseResponse)(nil),                    // 44: course_recommender.GetCourseResponse
-	(*GetCourseByNameResponse)(nil),              // 45: course_recommender.GetCourseByNameResponse
-	(*UpdateCourseResponse)(nil),                 // 46: course_recommender.UpdateCourseResponse
-	(*ListCoursesResponse)(nil),                  // 47: course_recommender.ListCoursesResponse
-	(*DeleteCourseResponse)(nil),                 // 48: course_recommender.DeleteCourseResponse
-	(*CreateCourseQuestionResponse)(nil),         // 49: course_recommender.CreateCourseQuestionResponse
-	(*GetCourseQuestionResponse)(nil),            // 50: course_recommender.GetCourseQuestionResponse
-	(*UpdateCourseQuestionResponse)(nil),         // 51: course_recommender.UpdateCourseQuestionResponse
-	(*ListCourseQuestionsResponse)(nil),          // 52: course_recommender.ListCourseQuestionsResponse
-	(*DeleteCourseQuestionResponse)(nil),         // 53: course_recommender.DeleteCourseQuestionResponse
-	(*GetCourseQuestionsByCourseIdResponse)(nil), // 54: course_recommender.GetCourseQuestionsByCourseIdResponse
-	(*CreateCourseTagResponse)(nil),              // 55: course_recommender.CreateCourseTagResponse
-	(*GetTagsByCourseIdResponse)(nil),            // 56: course_recommender.GetTagsByCourseIdResponse
-	(*GetCoursesByTagIdResponse)(nil),            // 57: course_recommender.GetCoursesByTagIdResponse
-	(*DeleteCourseTagResponse)(nil),              // 58: course_recommender.DeleteCourseTagResponse
-	(*CreateDegreeCourseResponse)(nil),           // 59: course_recommender.CreateDegreeCourseResponse
-	(*GetCoursesByDegreeIdResponse)(nil),         // 60: course_recommender.GetCoursesByDegreeIdResponse
-	(*GetDegreesByCourseIdResponse)(nil),         // 61: course_recommender.GetDegreesByCourseIdResponse
-	(*DeleteDegreeCourseResponse)(nil),           // 62: course_recommender.DeleteDegreeCourseResponse
-	(*CreateDegreeTypeResponse)(nil),             // 63: course_recommender.CreateDegreeTypeResponse
-	(*GetDegreeTypeResponse)(nil),                // 64: course_recommender.GetDegreeTypeResponse
-	(*GetDegreeTypeByNameResponse)(nil),          // 65: course_recommender.GetDegreeTypeByNameResponse
-	(*UpdateDegreeTypeResponse)(nil),             // 66: course_recommender.UpdateDegreeTypeResponse
-	(*ListDegreeTypesResponse)(nil),              // 67: course_recommender.ListDegreeTypesResponse
-	(*DeleteDegreeTypeResponse)(nil),             // 68: course_recommender.DeleteDegreeTypeResponse
-	(*CreateStudentResponse)(nil),                // 69: course_recommender.CreateStudentResponse
-	(*GetStudentResponse)(nil),                   // 70: course_recommender.GetStudentResponse
-	(*GetStudentByUsernameResponse)(nil),         // 71: course_recommender.GetStudentByUsernameResponse
-	(*UpdateStudentResponse)(nil),                // 72: course_recommender.UpdateStudentResponse
-	(*ListStudentsResponse)(nil),                 // 73: course_recommender.ListStudentsResponse
-	(*DeleteStudentResponse)(nil),                // 74: course_recommender.DeleteStudentResponse
-	(*CreateStudentCourseResponse)(nil),          // 75: course_recommender.CreateStudentCourseResponse
-	(*UpdateStudentCourseResponse)(nil),          // 76: course_recommender.UpdateStudentCourseResponse
-	(*GetStudentsByCourseIdResponse)(nil),        // 77: course_recommender.GetStudentsByCourseIdResponse
-	(*GetCoursesByStudentIdResponse)(nil),        // 78: course_recommender.GetCoursesByStudentIdResponse
-	(*DeleteStudentCourseResponse)(nil),          // 79: course_recommender.DeleteStudentCourseResponse
-	(*CreateTagResponse)(nil),                    // 80: course_recommender.CreateTagResponse
-	(*GetTagResponse)(nil),                       // 81: course_recommender.GetTagResponse
-	(*GetTagByNameResponse)(nil),                 // 82: course_recommender.GetTagByNameResponse
-	(*UpdateTagResponse)(nil),                    // 83: course_recommender.UpdateTagResponse
-	(*ListTagsResponse)(nil),                     // 84: course_recommender.ListTagsResponse
-	(*DeleteTagResponse)(nil),                    // 85: course_recommender.DeleteTagResponse
+	(*RecommendRequest)(nil),                     // 43: course_recommender.RecommendRequest
+	(*CreateCourseResponse)(nil),                 // 44: course_recommender.CreateCourseResponse
+	(*GetCourseResponse)(nil),                    // 45: course_recommender.GetCourseResponse
+	(*GetCourseByNameResponse)(nil),              // 46: course_recommender.GetCourseByNameResponse
+	(*UpdateCourseResponse)(nil),                 // 47: course_recommender.UpdateCourseResponse
+	(*ListCoursesResponse)(nil),                  // 48: course_recommender.ListCoursesResponse
+	(*DeleteCourseResponse)(nil),                 // 49: course_recommender.DeleteCourseResponse
+	(*CreateCourseQuestionResponse)(nil),         // 50: course_recommender.CreateCourseQuestionResponse
+	(*GetCourseQuestionResponse)(nil),            // 51: course_recommender.GetCourseQuestionResponse
+	(*UpdateCourseQuestionResponse)(nil),         // 52: course_recommender.UpdateCourseQuestionResponse
+	(*ListCourseQuestionsResponse)(nil),          // 53: course_recommender.ListCourseQuestionsResponse
+	(*DeleteCourseQuestionResponse)(nil),         // 54: course_recommender.DeleteCourseQuestionResponse
+	(*GetCourseQuestionsByCourseIdResponse)(nil), // 55: course_recommender.GetCourseQuestionsByCourseIdResponse
+	(*CreateCourseTagResponse)(nil),              // 56: course_recommender.CreateCourseTagResponse
+	(*GetTagsByCourseIdResponse)(nil),            // 57: course_recommender.GetTagsByCourseIdResponse
+	(*GetCoursesByTagIdResponse)(nil),            // 58: course_recommender.GetCoursesByTagIdResponse
+	(*DeleteCourseTagResponse)(nil),              // 59: course_recommender.DeleteCourseTagResponse
+	(*CreateDegreeCourseResponse)(nil),           // 60: course_recommender.CreateDegreeCourseResponse
+	(*GetCoursesByDegreeIdResponse)(nil),         // 61: course_recommender.GetCoursesByDegreeIdResponse
+	(*GetDegreesByCourseIdResponse)(nil),         // 62: course_recommender.GetDegreesByCourseIdResponse
+	(*DeleteDegreeCourseResponse)(nil),           // 63: course_recommender.DeleteDegreeCourseResponse
+	(*CreateDegreeTypeResponse)(nil),             // 64: course_recommender.CreateDegreeTypeResponse
+	(*GetDegreeTypeResponse)(nil),                // 65: course_recommender.GetDegreeTypeResponse
+	(*GetDegreeTypeByNameResponse)(nil),          // 66: course_recommender.GetDegreeTypeByNameResponse
+	(*UpdateDegreeTypeResponse)(nil),             // 67: course_recommender.UpdateDegreeTypeResponse
+	(*ListDegreeTypesResponse)(nil),              // 68: course_recommender.ListDegreeTypesResponse
+	(*DeleteDegreeTypeResponse)(nil),             // 69: course_recommender.DeleteDegreeTypeResponse
+	(*CreateStudentResponse)(nil),                // 70: course_recommender.CreateStudentResponse
+	(*GetStudentResponse)(nil),                   // 71: course_recommender.GetStudentResponse
+	(*GetStudentByUsernameResponse)(nil),         // 72: course_recommender.GetStudentByUsernameResponse
+	(*UpdateStudentResponse)(nil),                // 73: course_recommender.UpdateStudentResponse
+	(*ListStudentsResponse)(nil),                 // 74: course_recommender.ListStudentsResponse
+	(*DeleteStudentResponse)(nil),                // 75: course_recommender.DeleteStudentResponse
+	(*CreateStudentCourseResponse)(nil),          // 76: course_recommender.CreateStudentCourseResponse
+	(*UpdateStudentCourseResponse)(nil),          // 77: course_recommender.UpdateStudentCourseResponse
+	(*GetStudentsByCourseIdResponse)(nil),        // 78: course_recommender.GetStudentsByCourseIdResponse
+	(*GetCoursesByStudentIdResponse)(nil),        // 79: course_recommender.GetCoursesByStudentIdResponse
+	(*DeleteStudentCourseResponse)(nil),          // 80: course_recommender.DeleteStudentCourseResponse
+	(*CreateTagResponse)(nil),                    // 81: course_recommender.CreateTagResponse
+	(*GetTagResponse)(nil),                       // 82: course_recommender.GetTagResponse
+	(*GetTagByNameResponse)(nil),                 // 83: course_recommender.GetTagByNameResponse
+	(*UpdateTagResponse)(nil),                    // 84: course_recommender.UpdateTagResponse
+	(*ListTagsResponse)(nil),                     // 85: course_recommender.ListTagsResponse
+	(*DeleteTagResponse)(nil),                    // 86: course_recommender.DeleteTagResponse
+	(*RecommendResponse)(nil),                    // 87: course_recommender.RecommendResponse
 }
 var file_root_proto_depIdxs = []int32{
 	0,  // 0: course_recommender.CourseRecommenderService.CreateCourse:input_type -> course_recommender.CreateCourseRequest
@@ -204,51 +207,53 @@ var file_root_proto_depIdxs = []int32{
 	40, // 40: course_recommender.CourseRecommenderService.UpdateTag:input_type -> course_recommender.UpdateTagRequest
 	41, // 41: course_recommender.CourseRecommenderService.ListTags:input_type -> course_recommender.ListTagsRequest
 	42, // 42: course_recommender.CourseRecommenderService.DeleteTag:input_type -> course_recommender.DeleteTagRequest
-	43, // 43: course_recommender.CourseRecommenderService.CreateCourse:output_type -> course_recommender.CreateCourseResponse
-	44, // 44: course_recommender.CourseRecommenderService.GetCourse:output_type -> course_recommender.GetCourseResponse
-	45, // 45: course_recommender.CourseRecommenderService.GetCourseByName:output_type -> course_recommender.GetCourseByNameResponse
-	46, // 46: course_recommender.CourseRecommenderService.UpdateCourse:output_type -> course_recommender.UpdateCourseResponse
-	47, // 47: course_recommender.CourseRecommenderService.ListCourses:output_type -> course_recommender.ListCoursesResponse
-	48, // 48: course_recommender.CourseRecommenderService.DeleteCourse:output_type -> course_recommender.DeleteCourseResponse
-	49, // 49: course_recommender.CourseRecommenderService.CreateCourseQuestion:output_type -> course_recommender.CreateCourseQuestionResponse
-	50, // 50: course_recommender.CourseRecommenderService.GetCourseQuestion:output_type -> course_recommender.GetCourseQuestionResponse
-	51, // 51: course_recommender.CourseRecommenderService.UpdateCourseQuestion:output_type -> course_recommender.UpdateCourseQuestionResponse
-	52, // 52: course_recommender.CourseRecommenderService.ListCourseQuestions:output_type -> course_recommender.ListCourseQuestionsResponse
-	53, // 53: course_recommender.CourseRecommenderService.DeleteCourseQuestion:output_type -> course_recommender.DeleteCourseQuestionResponse
-	54, // 54: course_recommender.CourseRecommenderService.GetCourseQuestionsByCourseId:output_type -> course_recommender.GetCourseQuestionsByCourseIdResponse
-	55, // 55: course_recommender.CourseRecommenderService.CreateCourseTag:output_type -> course_recommender.CreateCourseTagResponse
-	56, // 56: course_recommender.CourseRecommenderService.GetTagsByCourseId:output_type -> course_recommender.GetTagsByCourseIdResponse
-	57, // 57: course_recommender.CourseRecommenderService.GetCoursesByTagId:output_type -> course_recommender.GetCoursesByTagIdResponse
-	58, // 58: course_recommender.CourseRecommenderService.DeleteCourseTag:output_type -> course_recommender.DeleteCourseTagResponse
-	59, // 59: course_recommender.CourseRecommenderService.CreateDegreeCourse:output_type -> course_recommender.CreateDegreeCourseResponse
-	60, // 60: course_recommender.CourseRecommenderService.GetCoursesByDegreeId:output_type -> course_recommender.GetCoursesByDegreeIdResponse
-	61, // 61: course_recommender.CourseRecommenderService.GetDegreesByCourseId:output_type -> course_recommender.GetDegreesByCourseIdResponse
-	62, // 62: course_recommender.CourseRecommenderService.DeleteDegreeCourse:output_type -> course_recommender.DeleteDegreeCourseResponse
-	63, // 63: course_recommender.CourseRecommenderService.CreateDegreeType:output_type -> course_recommender.CreateDegreeTypeResponse
-	64, // 64: course_recommender.CourseRecommenderService.GetDegreeType:output_type -> course_recommender.GetDegreeTypeResponse
-	65, // 65: course_recommender.CourseRecommenderService.GetDegreeTypeByName:output_type -> course_recommender.GetDegreeTypeByNameResponse
-	66, // 66: course_recommender.CourseRecommenderService.UpdateDegreeType:output_type -> course_recommender.UpdateDegreeTypeResponse
-	67, // 67: course_recommender.CourseRecommenderService.ListDegreeTypes:output_type -> course_recommender.ListDegreeTypesResponse
-	68, // 68: course_recommender.CourseRecommenderService.DeleteDegreeType:output_type -> course_recommender.DeleteDegreeTypeResponse
-	69, // 69: course_recommender.CourseRecommenderService.CreateStudent:output_type -> course_recommender.CreateStudentResponse
-	70, // 70: course_recommender.CourseRecommenderService.GetStudent:output_type -> course_recommender.GetStudentResponse
-	71, // 71: course_recommender.CourseRecommenderService.GetStudentByUsername:output_type -> course_recommender.GetStudentByUsernameResponse
-	72, // 72: course_recommender.CourseRecommenderService.UpdateStudent:output_type -> course_recommender.UpdateStudentResponse
-	73, // 73: course_recommender.CourseRecommenderService.ListStudents:output_type -> course_recommender.ListStudentsResponse
-	74, // 74: course_recommender.CourseRecommenderService.DeleteStudent:output_type -> course_recommender.DeleteStudentResponse
-	75, // 75: course_recommender.CourseRecommenderService.CreateStudentCourse:output_type -> course_recommender.CreateStudentCourseResponse
-	76, // 76: course_recommender.CourseRecommenderService.UpdateStudentCourse:output_type -> course_recommender.UpdateStudentCourseResponse
-	77, // 77: course_recommender.CourseRecommenderService.GetStudentsByCourseId:output_type -> course_recommender.GetStudentsByCourseIdResponse
-	78, // 78: course_recommender.CourseRecommenderService.GetCoursesByStudentId:output_type -> course_recommender.GetCoursesByStudentIdResponse
-	79, // 79: course_recommender.CourseRecommenderService.DeleteStudentCourse:output_type -> course_recommender.DeleteStudentCourseResponse
-	80, // 80: course_recommender.CourseRecommenderService.CreateTag:output_type -> course_recommender.CreateTagResponse
-	81, // 81: course_recommender.CourseRecommenderService.GetTag:output_type -> course_recommender.GetTagResponse
-	82, // 82: course_recommender.CourseRecommenderService.GetTagByName:output_type -> course_recommender.GetTagByNameResponse
-	83, // 83: course_recommender.CourseRecommenderService.UpdateTag:output_type -> course_recommender.UpdateTagResponse
-	84, // 84: course_recommender.CourseRecommenderService.ListTags:output_type -> course_recommender.ListTagsResponse
-	85, // 85: course_recommender.CourseRecommenderService.DeleteTag:output_type -> course_recommender.DeleteTagResponse
-	43, // [43:86] is the sub-list for method output_type
-	0,  // [0:43] is the sub-list for method input_type
+	43, // 43: course_recommender.CourseRecommenderService.Recommend:input_type -> course_recommender.RecommendRequest
+	44, // 44: course_recommender.CourseRecommenderService.CreateCourse:output_type -> course_recommender.CreateCourseResponse
+	45, // 45: course_recommender.CourseRecommenderService.GetCourse:output_type -> course_recommender.GetCourseResponse
+	46, // 46: course_recommender.CourseRecommenderService.GetCourseByName:output_type -> course_recommender.GetCourseByNameResponse
+	47, // 47: course_recommender.CourseRecommenderService.UpdateCourse:output_type -> course_recommender.UpdateCourseResponse
+	48, // 48: course_recommender.CourseRecommenderService.ListCourses:output_type -> course_recommender.ListCoursesResponse
+	49, // 49: course_recommender.CourseRecommenderService.DeleteCourse:output_type -> course_recommender.DeleteCourseResponse
+	50, // 50: course_recommender.CourseRecommenderService.CreateCourseQuestion:output_type -> course_recommender.CreateCourseQuestionResponse
+	51, // 51: course_recommender.CourseRecommenderService.GetCourseQuestion:output_type -> course_recommender.GetCourseQuestionResponse
+	52, // 52: course_recommender.CourseRecommenderService.UpdateCourseQuestion:output_type -> course_recommender.UpdateCourseQuestionResponse
+	53, // 53: course_recommender.CourseRecommenderService.ListCourseQuestions:output_type -> course_recommender.ListCourseQuestionsResponse
+	54, // 54: course_recommender.CourseRecommenderService.DeleteCourseQuestion:output_type -> course_recommender.DeleteCourseQuestionResponse
+	55, // 55: course_recommender.CourseRecommenderService.GetCourseQuestionsByCourseId:output_type -> course_recommender.GetCourseQuestionsByCourseIdResponse
+	56, // 56: course_recommender.CourseRecommenderService.CreateCourseTag:output_type -> course_recommender.CreateCourseTagResponse
+	57, // 57: course_recommender.CourseRecommenderService.GetTagsByCourseId:output_type -> course_recommender.GetTagsByCourseIdResponse
+	58, // 58: course_recommender.CourseRecommenderService.GetCoursesByTagId:output_type -> course_recommender.GetCoursesByTagIdResponse
+	59, // 59: course_recommender.CourseRecommenderService.DeleteCourseTag:output_type -> course_recommender.DeleteCourseTagResponse
+	60, // 60: course_recommender.CourseRecommenderService.CreateDegreeCourse:output_type -> course_recommender.CreateDegreeCourseResponse
+	61, // 61: course_recommender.CourseRecommenderService.GetCoursesByDegreeId:output_type -> course_recommender.GetCoursesByDegreeIdResponse
+	62, // 62: course_recommender.CourseRecommenderService.GetDegreesByCourseId:output_type -> course_recommender.GetDegreesByCourseIdResponse
+	63, // 63: course_recommender.CourseRecommenderService.DeleteDegreeCourse:output_type -> course_recommender.DeleteDegreeCourseResponse
+	64, // 64: course_recommender.CourseRecommenderService.CreateDegreeType:output_type -> course_recommender.CreateDegreeTypeResponse
+	65, // 65: course_recommender.CourseRecommenderService.GetDegreeType:output_type -> course_recommender.GetDegreeTypeResponse
+	66, // 66: course_recommender.CourseRecommenderService.GetDegreeTypeByName:output_type -> course_recommender.GetDegreeTypeByNameResponse
+	67, // 67: course_recommender.CourseRecommenderService.UpdateDegreeType:output_type -> course_recommender.UpdateDegreeTypeResponse
+	68, // 68: course_recommender.CourseRecommenderService.ListDegreeTypes:output_type -> course_recommender.ListDegreeTypesResponse
+	69, // 69: course_recommender.CourseRecommenderService.DeleteDegreeType:output_type -> course_recommender.DeleteDegreeTypeResponse
+	70, // 70: course_recommender.CourseRecommenderService.CreateStudent:output_type -> course_recommender.CreateStudentResponse
+	71, // 71: course_recommender.CourseRecommenderService.GetStudent:output_type -> course_recommender.GetStudentResponse
+	72, // 72: course_recommender.CourseRecommenderService.GetStudentByUsername:output_type -> course_recommender.GetStudentByUsernameResponse
+	73, // 73: course_recommender.CourseRecommenderService.UpdateStudent:output_type -> course_recommender.UpdateStudentResponse
+	74, // 74: course_recommender.CourseRecommenderService.ListStudents:output_type -> course_recommender.ListStudentsResponse
+	75, // 75: course_recommender.CourseRecommenderService.DeleteStudent:output_type -> course_recommender.DeleteStudentResponse
+	76, // 76: course_recommender.CourseRecommenderService.CreateStudentCourse:output_type -> course_recommender.CreateStudentCourseResponse
+	77, // 77: course_recommender.CourseRecommenderService.UpdateStudentCourse:output_type -> course_recommender.UpdateStudentCourseResponse
+	78, // 78: course_recommender.CourseRecommenderService.GetStudentsByCourseId:output_type -> course_recommender.GetStudentsByCourseIdResponse
+	79, // 79: course_recommender.CourseRecommenderService.GetCoursesByStudentId:output_type -> course_recommender.GetCoursesByStudentIdResponse
+	80, // 80: course_recommender.CourseRecommenderService.DeleteStudentCourse:output_type -> course_recommender.DeleteStudentCourseResponse
+	81, // 81: course_recommender.CourseRecommenderService.CreateTag:output_type -> course_recommender.CreateTagResponse
+	82, // 82: course_recommender.CourseRecommenderService.GetTag:output_type -> course_recommender.GetTagResponse
+	83, // 83: course_recommender.CourseRecommenderService.GetTagByName:output_type -> course_recommender.GetTagByNameResponse
+	84, // 84: course_recommender.CourseRecommenderService.UpdateTag:output_type -> course_recommender.UpdateTagResponse
+	85, // 85: course_recommender.CourseRecommenderService.ListTags:output_type -> course_recommender.ListTagsResponse
+	86, // 86: course_recommender.CourseRecommenderService.DeleteTag:output_type -> course_recommender.DeleteTagResponse
+	87, // 87: course_recommender.CourseRecommenderService.Recommend:output_type -> course_recommender.RecommendResponse
+	44, // [44:88] is the sub-list for method output_type
+	0,  // [0:44] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name
@@ -267,6 +272,7 @@ func file_root_proto_init() {
 	file_student_proto_init()
 	file_student_course_proto_init()
 	file_tag_proto_init()
+	file_recommend_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

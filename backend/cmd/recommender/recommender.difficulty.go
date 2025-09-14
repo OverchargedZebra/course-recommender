@@ -74,7 +74,7 @@ func NewDifficultyRecommender(courses []db.Course, degreeCourses []db.DegreeCour
 func (dr *DifficultyRecommender) Recommend(
 	studentInteractions []db.StudentCourse,
 	scorePercentage int32,
-	topN int,
+	topN int32,
 ) ([]Recommendation, error) {
 	if len(studentInteractions) == 0 {
 		return []Recommendation{}, nil // No history, no recommendation
@@ -137,7 +137,7 @@ func (dr *DifficultyRecommender) Recommend(
 		return cmp.Compare(x.score, y.score)
 	})
 
-	if topN > 0 && len(recommendations) > topN {
+	if topN > 0 && int32(len(recommendations)) > topN {
 		recommendations = recommendations[:topN]
 	}
 

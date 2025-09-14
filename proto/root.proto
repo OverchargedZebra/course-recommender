@@ -12,6 +12,7 @@ import "degree_type.proto";
 import "student.proto";
 import "student_course.proto";
 import "tag.proto";
+import "recommend.proto";
 
 // The root service that encompasses all other services in the course recommender system.
 service CourseRecommenderService {
@@ -108,4 +109,8 @@ service CourseRecommenderService {
   rpc ListTags(ListTagsRequest) returns (ListTagsResponse);
   // Deletes a tag by its ID.
   rpc DeleteTag(DeleteTagRequest) returns (DeleteTagResponse);
+
+
+  // recommendation
+  rpc Recommend(RecommendRequest) returns (RecommendResponse);
 }

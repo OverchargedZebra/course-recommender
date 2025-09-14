@@ -137,7 +137,7 @@ func calculateCosineSimilarity(m *mat.Dense) *mat.Dense {
 }
 
 // Recommends a new course based on ratings other user gave it
-func (r *CollaborativeRecommender) Recommend(studentInteractions []db.StudentCourse, topN int) ([]Recommendation, error) {
+func (r *CollaborativeRecommender) Recommend(studentInteractions []db.StudentCourse, topN int32) ([]Recommendation, error) {
 	// Gets the total number of courses in the database
 	numCourses := len(r.courseIndexer.CourseIDToIdx)
 	studentRatingsVec := make([]float64, numCourses)
@@ -203,7 +203,7 @@ func (r *CollaborativeRecommender) Recommend(studentInteractions []db.StudentCou
 		return cmp.Compare(y.score, x.score)
 	})
 
-	if topN > 0 && len(recommendations) > topN {
+	if topN > 0 && int32(len(recommendations)) > topN {
 		recommendations = recommendations[:topN]
 	}
 
@@ -267,7 +267,7 @@ func (s *CollaborativeRecommenderService) SimilarityMatrix() *mat.Dense {
 }
 
 // Get Recommendations from the collaborative recommender service
-func (s *CollaborativeRecommenderService) Recommend(studentInteractions []db.StudentCourse, topN int) ([]Recommendation, error) {
+func (s *CollaborativeRecommenderService) Recommend(studentInteractions []db.StudentCourse, topN int32) ([]Recommendation, error) {
 	s.mu.RLock() // Acquire a read lock. Multiple readers can run at once.
 	defer s.mu.RUnlock()
 	return s.recommender.Recommend(studentInteractions, topN)
