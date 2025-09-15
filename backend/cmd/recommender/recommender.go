@@ -69,11 +69,11 @@ type MasterRecommender struct {
 	Collaborative *CollaborativeRecommenderService
 	Serendipitous *SerendipitousRecommender
 	Difficulty    *DifficultyRecommender
-	q             db.Queries
+	q             *db.Queries
 }
 
 // NewMasterRecommender creates and initializes all recommender engines using a db.Querier.
-func NewMasterRecommender(ctx context.Context, querier db.Queries) (*MasterRecommender, error) {
+func NewMasterRecommender(ctx context.Context, querier *db.Queries) (*MasterRecommender, error) {
 	// Note: The db.Querier interface would need to be updated to include methods
 	// like ListCourseTags, ListDegreeCourses, and ListStudentCourses to make this fully functional.
 	// We will assume they exist for this implementation.
@@ -357,7 +357,13 @@ func (mr *MasterRecommender) Recommend(
 		return nil, err
 	}
 
-	if len(studentInteractions) == 0 {
+	historyLen := len(studentInteractions)
+
+	if historyLen == 0 && len(interestTagIDs) == 0 {
+		return nil, fmt.Errorf("Recommend from master recommender failed due to inefficient parameters passed")
+	}
+
+	if historyLen == 0 {
 		return mr.recommendColdStart(interestTagIDs, topN)
 	}
 

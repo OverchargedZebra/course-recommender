@@ -9,7 +9,6 @@ package api
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -23,10 +22,9 @@ const (
 )
 
 type RecommendRequest struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	StudentId     int64                    `protobuf:"varint,1,opt,name=student_id,json=studentId,proto3" json:"student_id,omitempty"`
-	InterestTags  []*wrapperspb.Int64Value `protobuf:"bytes,2,rep,name=interest_tags,json=interestTags,proto3" json:"interest_tags,omitempty"`
-	TopN          int32                    `protobuf:"varint,3,opt,name=topN,proto3" json:"topN,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	StudentId     int64                  `protobuf:"varint,1,opt,name=student_id,json=studentId,proto3" json:"student_id,omitempty"`
+	InterestTags  []int64                `protobuf:"varint,2,rep,packed,name=interest_tags,json=interestTags,proto3" json:"interest_tags,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -68,18 +66,11 @@ func (x *RecommendRequest) GetStudentId() int64 {
 	return 0
 }
 
-func (x *RecommendRequest) GetInterestTags() []*wrapperspb.Int64Value {
+func (x *RecommendRequest) GetInterestTags() []int64 {
 	if x != nil {
 		return x.InterestTags
 	}
 	return nil
-}
-
-func (x *RecommendRequest) GetTopN() int32 {
-	if x != nil {
-		return x.TopN
-	}
-	return 0
 }
 
 type CoursesList struct {
@@ -174,12 +165,11 @@ var File_recommend_proto protoreflect.FileDescriptor
 
 const file_recommend_proto_rawDesc = "" +
 	"\n" +
-	"\x0frecommend.proto\x12\x12course_recommender\x1a\x1egoogle/protobuf/wrappers.proto\x1a\fcourse.proto\"\x87\x01\n" +
+	"\x0frecommend.proto\x12\x12course_recommender\x1a\fcourse.proto\"V\n" +
 	"\x10RecommendRequest\x12\x1d\n" +
 	"\n" +
-	"student_id\x18\x01 \x01(\x03R\tstudentId\x12@\n" +
-	"\rinterest_tags\x18\x02 \x03(\v2\x1b.google.protobuf.Int64ValueR\finterestTags\x12\x12\n" +
-	"\x04topN\x18\x03 \x01(\x05R\x04topN\"A\n" +
+	"student_id\x18\x01 \x01(\x03R\tstudentId\x12#\n" +
+	"\rinterest_tags\x18\x02 \x03(\x03R\finterestTags\"A\n" +
 	"\vCoursesList\x122\n" +
 	"\x06course\x18\x01 \x03(\v2\x1a.course_recommender.CourseR\x06course\"\xde\x01\n" +
 	"\x11RecommendResponse\x12d\n" +
@@ -202,23 +192,21 @@ func file_recommend_proto_rawDescGZIP() []byte {
 
 var file_recommend_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_recommend_proto_goTypes = []any{
-	(*RecommendRequest)(nil),      // 0: course_recommender.RecommendRequest
-	(*CoursesList)(nil),           // 1: course_recommender.CoursesList
-	(*RecommendResponse)(nil),     // 2: course_recommender.RecommendResponse
-	nil,                           // 3: course_recommender.RecommendResponse.RecommendationsEntry
-	(*wrapperspb.Int64Value)(nil), // 4: google.protobuf.Int64Value
-	(*Course)(nil),                // 5: course_recommender.Course
+	(*RecommendRequest)(nil),  // 0: course_recommender.RecommendRequest
+	(*CoursesList)(nil),       // 1: course_recommender.CoursesList
+	(*RecommendResponse)(nil), // 2: course_recommender.RecommendResponse
+	nil,                       // 3: course_recommender.RecommendResponse.RecommendationsEntry
+	(*Course)(nil),            // 4: course_recommender.Course
 }
 var file_recommend_proto_depIdxs = []int32{
-	4, // 0: course_recommender.RecommendRequest.interest_tags:type_name -> google.protobuf.Int64Value
-	5, // 1: course_recommender.CoursesList.course:type_name -> course_recommender.Course
-	3, // 2: course_recommender.RecommendResponse.recommendations:type_name -> course_recommender.RecommendResponse.RecommendationsEntry
-	1, // 3: course_recommender.RecommendResponse.RecommendationsEntry.value:type_name -> course_recommender.CoursesList
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	4, // 0: course_recommender.CoursesList.course:type_name -> course_recommender.Course
+	3, // 1: course_recommender.RecommendResponse.recommendations:type_name -> course_recommender.RecommendResponse.RecommendationsEntry
+	1, // 2: course_recommender.RecommendResponse.RecommendationsEntry.value:type_name -> course_recommender.CoursesList
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_recommend_proto_init() }

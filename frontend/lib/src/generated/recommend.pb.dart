@@ -15,21 +15,18 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'course.pb.dart' as $1;
-import 'google/protobuf/wrappers.pb.dart' as $0;
+import 'course.pb.dart' as $0;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class RecommendRequest extends $pb.GeneratedMessage {
   factory RecommendRequest({
     $fixnum.Int64? studentId,
-    $core.Iterable<$0.Int64Value>? interestTags,
-    $core.int? topN,
+    $core.Iterable<$fixnum.Int64>? interestTags,
   }) {
     final result = create();
     if (studentId != null) result.studentId = studentId;
     if (interestTags != null) result.interestTags.addAll(interestTags);
-    if (topN != null) result.topN = topN;
     return result;
   }
 
@@ -48,11 +45,8 @@ class RecommendRequest extends $pb.GeneratedMessage {
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'studentId')
-    ..pc<$0.Int64Value>(
-        2, _omitFieldNames ? '' : 'interestTags', $pb.PbFieldType.PM,
-        subBuilder: $0.Int64Value.create)
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'topN', $pb.PbFieldType.O3,
-        protoName: 'topN')
+    ..p<$fixnum.Int64>(
+        2, _omitFieldNames ? '' : 'interestTags', $pb.PbFieldType.K6)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -86,21 +80,12 @@ class RecommendRequest extends $pb.GeneratedMessage {
   void clearStudentId() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $pb.PbList<$0.Int64Value> get interestTags => $_getList(1);
-
-  @$pb.TagNumber(3)
-  $core.int get topN => $_getIZ(2);
-  @$pb.TagNumber(3)
-  set topN($core.int value) => $_setSignedInt32(2, value);
-  @$pb.TagNumber(3)
-  $core.bool hasTopN() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearTopN() => $_clearField(3);
+  $pb.PbList<$fixnum.Int64> get interestTags => $_getList(1);
 }
 
 class CoursesList extends $pb.GeneratedMessage {
   factory CoursesList({
-    $core.Iterable<$1.Course>? course,
+    $core.Iterable<$0.Course>? course,
   }) {
     final result = create();
     if (course != null) result.course.addAll(course);
@@ -121,8 +106,8 @@ class CoursesList extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'course_recommender'),
       createEmptyInstance: create)
-    ..pc<$1.Course>(1, _omitFieldNames ? '' : 'course', $pb.PbFieldType.PM,
-        subBuilder: $1.Course.create)
+    ..pc<$0.Course>(1, _omitFieldNames ? '' : 'course', $pb.PbFieldType.PM,
+        subBuilder: $0.Course.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -146,7 +131,7 @@ class CoursesList extends $pb.GeneratedMessage {
   static CoursesList? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $pb.PbList<$1.Course> get course => $_getList(0);
+  $pb.PbList<$0.Course> get course => $_getList(0);
 }
 
 class RecommendResponse extends $pb.GeneratedMessage {

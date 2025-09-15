@@ -19,23 +19,14 @@ const RecommendRequest$json = {
   '1': 'RecommendRequest',
   '2': [
     {'1': 'student_id', '3': 1, '4': 1, '5': 3, '10': 'studentId'},
-    {
-      '1': 'interest_tags',
-      '3': 2,
-      '4': 3,
-      '5': 11,
-      '6': '.google.protobuf.Int64Value',
-      '10': 'interestTags'
-    },
-    {'1': 'topN', '3': 3, '4': 1, '5': 5, '10': 'topN'},
+    {'1': 'interest_tags', '3': 2, '4': 3, '5': 3, '10': 'interestTags'},
   ],
 };
 
 /// Descriptor for `RecommendRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List recommendRequestDescriptor = $convert.base64Decode(
-    'ChBSZWNvbW1lbmRSZXF1ZXN0Eh0KCnN0dWRlbnRfaWQYASABKANSCXN0dWRlbnRJZBJACg1pbn'
-    'RlcmVzdF90YWdzGAIgAygLMhsuZ29vZ2xlLnByb3RvYnVmLkludDY0VmFsdWVSDGludGVyZXN0'
-    'VGFncxISCgR0b3BOGAMgASgFUgR0b3BO');
+    'ChBSZWNvbW1lbmRSZXF1ZXN0Eh0KCnN0dWRlbnRfaWQYASABKANSCXN0dWRlbnRJZBIjCg1pbn'
+    'RlcmVzdF90YWdzGAIgAygDUgxpbnRlcmVzdFRhZ3M=');
 
 @$core.Deprecated('Use coursesListDescriptor instead')
 const CoursesList$json = {

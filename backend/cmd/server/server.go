@@ -1,8 +1,11 @@
 package server
 
 import (
+	"OverchargedZebra/course-recommender/backend/cmd/recommender"
 	"OverchargedZebra/course-recommender/backend/internal/db"
 	"OverchargedZebra/course-recommender/backend/internal/server/api"
+	"context"
+	"fmt"
 
 	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 )
@@ -10,12 +13,20 @@ import (
 // Server implements the gRPC service.
 type Server struct {
 	api.UnimplementedCourseRecommenderServiceServer
-	q *db.Queries
+	q    *db.Queries
+	r    *recommender.MasterRecommender
+	topN int
 }
 
 // NewServer creates a new gRPC server.
 func NewServer(queries *db.Queries) *Server {
-	return &Server{q: queries}
+	rec, err := recommender.NewMasterRecommender(context.Background(), queries)
+
+	if err != nil {
+		panic(fmt.Errorf("unable to start recommender because of: %v", err))
+	}
+
+	return &Server{q: queries, r: rec, topN: 10}
 }
 
 func handlePbStringWrapper(wrap *wrapperspb.StringValue) (string, bool) {
