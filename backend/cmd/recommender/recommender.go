@@ -114,7 +114,7 @@ func NewMasterRecommender(ctx context.Context, querier *db.Queries) (*MasterReco
 		students = append(students, db.Student{ID: s.ID, StudentUsername: s.StudentUsername})
 	}
 
-	cb, err := NewContentBasedRecommender(courses, tags, courseTags, degreeTypes, degreeCourses, 0.5, 0.3)
+	cb, err := NewContentBasedRecommender(courses, tags, courseTags, degreeTypes, degreeCourses, 0.6, 0.2)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create content based recommender: %w", err)
 	}
@@ -124,7 +124,7 @@ func NewMasterRecommender(ctx context.Context, querier *db.Queries) (*MasterReco
 		return nil, fmt.Errorf("failed to create collaborative recommender service: %w", err)
 	}
 
-	sr, err := NewSerendipitousRecommender(cb, cr, 0.5, 0.3)
+	sr, err := NewSerendipitousRecommender(cb, cr, 0.6, 0.2)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create serendipitous recommender: %w", err)
 	}
@@ -149,7 +149,7 @@ func NewMasterRecommender(ctx context.Context, querier *db.Queries) (*MasterReco
 
 // runCollaborativeUpdater periodically fetches fresh data and updates the collaborative model.
 func (mr *MasterRecommender) runCollaborativeUpdater(ctx context.Context) {
-	ticker := time.NewTicker(6 * time.Hour)
+	ticker := time.NewTicker(3 * time.Hour)
 	defer ticker.Stop()
 
 	for {

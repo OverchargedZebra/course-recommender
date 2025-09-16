@@ -59,7 +59,10 @@ WHERE
 SELECT
     *
 FROM
-    student_course;
+    student_course
+ORDER BY
+    course_id ASC,
+    student_id ASC;
 
 -- name: ListStudentCourseByStudentId :many
 SELECT

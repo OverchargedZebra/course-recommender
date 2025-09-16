@@ -7,12 +7,7 @@ import (
 	"cmp"
 	"fmt"
 	"slices"
-	"strings"
 
-	"github.com/adrg/strutil"
-	"github.com/adrg/strutil/metrics"
-	"github.com/bbalet/stopwords"
-	porterstemmer "github.com/blevesearch/go-porterstemmer"
 	"gonum.org/v1/gonum/mat"
 
 	"OverchargedZebra/course-recommender/backend/internal/db"
@@ -89,27 +84,13 @@ func NewContentBasedRecommender(courses []db.Course, tags []db.Tag, courseTags [
 	simData := make([]float64, numCourses*numCourses)
 	similarityMatrix := mat.NewDense(numCourses, numCourses, simData)
 
-	sd := metrics.NewSorensenDice()
-	sd.CaseSensitive = false
-	sd.NgramSize = 2
-
 	for i := 0; i < numCourses; i++ {
 		for j := i; j < numCourses; j++ {
 			course1 := courses[i]
 			course2 := courses[j]
 
-			course1Cleaned, err := textPreprocessing(course1.CourseName)
-			if err != nil {
-				course1Cleaned = course1.CourseName
-			}
-
-			course2Cleaned, err := textPreprocessing(course2.CourseName)
-			if err != nil {
-				course2Cleaned = course2.CourseName
-			}
-
 			// a. Calculate Similarity based on course name
-			nameSimilarity := strutil.Similarity(course1Cleaned, course2Cleaned, sd)
+			nameSimilarity := cosineSimilarity(course1.Embedding.Slice(), course2.Embedding.Slice())
 
 			// b. Calculate jaccard similarity for tags
 			tags1 := courseIDToTagSet[course1.ID]
@@ -137,22 +118,6 @@ func NewContentBasedRecommender(courses []db.Course, tags []db.Tag, courseTags [
 	}
 
 	return rec, nil
-}
-
-func textPreprocessing(text string) (string, error) {
-	noStopWords := stopwords.CleanString(text, "en", false)
-
-	// tokenize the resulting strings
-	words := strings.Fields(noStopWords)
-
-	// stem each word
-	var stemmedWords []string
-	for _, word := range words {
-		stem := porterstemmer.StemString(word)
-		stemmedWords = append(stemmedWords, stem)
-	}
-
-	return strings.Join(stemmedWords, " "), nil
 }
 
 // the reason for custom jaccard similarity was
@@ -185,6 +150,38 @@ func jaccardSimilarity(set1, set2 map[int64]struct{}) float64 {
 
 	// returns jaccard similarity score
 	return float64(interactionSize) / float64(unionSize)
+}
+
+// function to find the cosine between two slice of []float32
+func cosineSimilarity(v1, v2 []float32) float64 {
+	s1 := make([]float64, len(v1))
+	for i, v := range v1 {
+		s1[i] = float64(v)
+	}
+
+	s2 := make([]float64, len(v2))
+	for i, v := range v2 {
+		s2[i] = float64(v)
+	}
+
+	// create gonum vectors from the float64 slices
+	vec1 := mat.NewVecDense(len(s1), s1)
+	vec2 := mat.NewVecDense(len(s2), s2)
+
+	// Calculate the L2 norm (magnitude) of each vector.
+	norm1 := mat.Norm(vec1, 2)
+	norm2 := mat.Norm(vec2, 2)
+
+	// prevent division by zero if one of the vectors has zero length
+	if norm1 == 0 || norm2 == 0 {
+		return 0.0
+	}
+
+	// calculate the dot product
+	dotProduct := mat.Dot(vec1, vec2)
+
+	// return the final cosine similarity
+	return dotProduct / (norm1 * norm2)
 }
 
 // Recommend the courses based on the student's previously studied courses

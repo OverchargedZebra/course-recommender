@@ -17,6 +17,15 @@ services:
         networks:
             - course-recommender-network
         restart: unless-stopped
+        healthcheck:
+            test:
+                [
+                    "CMD-SHELL",
+                    "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}",
+                ]
+            interval: 5s
+            timeout: 5s
+            retries: 5
 
     backend:
         build:
@@ -25,7 +34,8 @@ services:
         expose:
             - "${BACKEND_PORT}"
         depends_on:
-            - database
+            database:
+                condition: service_healthy
         environment:
             - user=${POSTGRES_USER}
             - password=${POSTGRES_PASSWORD}
@@ -67,6 +77,9 @@ services:
         expose:
             - "${NGINX_HTTP_PORT}"
             - "${NGINX_HTTPS_PORT}"
+        ports:
+            - "${NGINX_HTTP_PORT}:${NGINX_HTTP_PORT}"
+            - "${NGINX_HTTPS_PORT}:${NGINX_HTTPS_PORT}"
         environment:
             - BACKEND_PORT=${BACKEND_PORT}
             - ENVOY_PORT=${ENVOY_PORT}

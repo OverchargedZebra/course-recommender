@@ -24,11 +24,18 @@ FROM
     LEFT JOIN course ON course.id = course_tag.course_id
     LEFT JOIN tag ON tag.id = course_tag.tag_id
 WHERE
-    tag.id = $1;
+    tag.id = $1
+ORDER BY
+    course.difficulty;
 
 -- name: ListCourseTags :many
-SELECT *
-FROM course_tag;
+SELECT
+    *
+FROM
+    course_tag
+ORDER BY
+    course_id,
+    tag_id;
 
 -- name: DeleteCourseTag :one
 DELETE FROM course_tag

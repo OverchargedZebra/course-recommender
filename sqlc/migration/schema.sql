@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS
     course (
         id BIGSERIAL PRIMARY KEY,
         course_name TEXT NOT NULL,
-        difficulty SMALLINT NOT NULL
+        difficulty SMALLINT NOT NULL,
+        embedding vector (768)
     );
 
 -- course question table definition

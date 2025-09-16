@@ -53,13 +53,15 @@ func (q *Queries) DeleteDegreeCourse(ctx context.Context, arg DeleteDegreeCourse
 
 const getCoursesByDegreeId = `-- name: GetCoursesByDegreeId :many
 SELECT
-    course.id, course.course_name, course.difficulty
+    course.id, course.course_name, course.difficulty, course.embedding
 FROM
     degree_course
     LEFT JOIN degree_type ON degree_type.id = degree_course.degree_type_id
     LEFT JOIN course ON course.id = degree_course.course_id
 WHERE
     degree_type.id = $1
+ORDER BY
+    course.difficulty
 `
 
 type GetCoursesByDegreeIdRow struct {
@@ -75,7 +77,12 @@ func (q *Queries) GetCoursesByDegreeId(ctx context.Context, id int64) ([]GetCour
 	var items []GetCoursesByDegreeIdRow
 	for rows.Next() {
 		var i GetCoursesByDegreeIdRow
-		if err := rows.Scan(&i.Course.ID, &i.Course.CourseName, &i.Course.Difficulty); err != nil {
+		if err := rows.Scan(
+			&i.Course.ID,
+			&i.Course.CourseName,
+			&i.Course.Difficulty,
+			&i.Course.Embedding,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -122,8 +129,13 @@ func (q *Queries) GetDegreesByCourseId(ctx context.Context, id int64) ([]GetDegr
 }
 
 const listDegreeCourses = `-- name: ListDegreeCourses :many
-SELECT degree_type_id, course_id
-FROM degree_course
+SELECT
+    degree_type_id, course_id
+FROM
+    degree_course
+ORDER BY
+    degree_type_id ASC,
+    course_id ASC
 `
 
 func (q *Queries) ListDegreeCourses(ctx context.Context) ([]DegreeCourse, error) {

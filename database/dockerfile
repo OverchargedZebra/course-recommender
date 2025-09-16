@@ -1,14 +1,20 @@
-FROM postgres:bookworm
+FROM pgvector/pgvector:pg17-bookworm
 USER root
 
+# run command to update and download all the necessary files
 RUN apt-get update && \
     apt-get install -y \
     libicu72 \
     postgresql-16-cron \
-    curl && \
-    curl -L "https://github.com/paradedb/paradedb/releases/download/v0.18.0/postgresql-17-pg-search_0.18.0-1PARADEDB-bookworm_amd64.deb" -o /tmp/pg_search.deb && \
+    curl git make
+
+# run command to install the pg_search paradedb extension
+RUN curl -L "https://github.com/paradedb/paradedb/releases/download/v0.18.0/postgresql-17-pg-search_0.18.0-1PARADEDB-bookworm_amd64.deb" -o /tmp/pg_search.deb && \
     apt-get install -y /tmp/*.deb
 
+# run command to configure postgresql to use pg_cron, pg_search extension
+# set the postgres database name to the one in the secret .env file
+# set the timezone to pakistan timezone
 RUN echo "shared_preload_libraries='pg_cron,pg_search'" >> /usr/share/postgresql/postgresql.conf && \
     echo "cron.database_name='${POSTGRES_DB}'" >> /usr/share/postgresql/postgresql.conf && \
     echo "cron.timezone='UTC+5'" >> /usr/share/postgresql/postgresql.conf

@@ -60,7 +60,7 @@ func (q *Queries) DeleteStudentCourse(ctx context.Context, arg DeleteStudentCour
 
 const getCoursesByStudentId = `-- name: GetCoursesByStudentId :many
 SELECT
-    course.id, course.course_name, course.difficulty
+    course.id, course.course_name, course.difficulty, course.embedding
 FROM
     student_course
     LEFT JOIN course ON course.id = student_course.course_id
@@ -82,7 +82,12 @@ func (q *Queries) GetCoursesByStudentId(ctx context.Context, id int64) ([]GetCou
 	var items []GetCoursesByStudentIdRow
 	for rows.Next() {
 		var i GetCoursesByStudentIdRow
-		if err := rows.Scan(&i.Course.ID, &i.Course.CourseName, &i.Course.Difficulty); err != nil {
+		if err := rows.Scan(
+			&i.Course.ID,
+			&i.Course.CourseName,
+			&i.Course.Difficulty,
+			&i.Course.Embedding,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -199,6 +204,9 @@ SELECT
     student_id, course_id, marks, feedback
 FROM
     student_course
+ORDER BY
+    course_id ASC,
+    student_id ASC
 `
 
 func (q *Queries) ListStudentCourses(ctx context.Context) ([]StudentCourse, error) {

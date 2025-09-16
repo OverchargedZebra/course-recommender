@@ -3,13 +3,13 @@ module OverchargedZebra/course-recommender/backend
 go 1.24.5
 
 require (
-	github.com/adrg/strutil v0.3.1
-	github.com/bbalet/stopwords v1.0.0
-	github.com/blevesearch/go-porterstemmer v1.0.3
 	github.com/jackc/pgx/v5 v5.7.5
+	github.com/pgvector/pgvector-go v0.3.0
 	gonum.org/v1/gonum v0.16.0
 	google.golang.org/grpc v1.74.2
 )
+
+require github.com/stretchr/testify v1.8.4 // indirect
 
 require (
 	github.com/jackc/pgpassfile v1.0.0 // indirect

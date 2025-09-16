@@ -14,7 +14,9 @@ FROM
     LEFT JOIN degree_type ON degree_type.id = degree_course.degree_type_id
     LEFT JOIN course ON course.id = degree_course.course_id
 WHERE
-    degree_type.id = $1;
+    degree_type.id = $1
+ORDER BY
+    course.difficulty;
 
 -- name: GetDegreesByCourseId :many
 SELECT
@@ -27,8 +29,13 @@ WHERE
     course.id = $1;
 
 -- name: ListDegreeCourses :many
-SELECT *
-FROM degree_course;
+SELECT
+    *
+FROM
+    degree_course
+ORDER BY
+    degree_type_id ASC,
+    course_id ASC;
 
 -- name: DeleteDegreeCourse :one
 DELETE FROM degree_course

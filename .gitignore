@@ -7,11 +7,11 @@ nginx/ssl/*
 .vscode
 
 # remove default data that does not need to be stored in github
-"default data/course_tag.csv"
-"default data/course.csv"
-"default data/degree_course.csv"
-"default data/degree_type.csv"
-"default data/tag.csv"
+default data/course_tag.csv
+default data/course.csv
+default data/degree_course.csv
+default data/degree_type.csv
+default data/tag.csv
 
 # nginx and envoy logs that do not need to be included in github
 nginx/log/

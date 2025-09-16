@@ -6,12 +6,14 @@ package db
 
 import (
 	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/pgvector/pgvector-go"
 )
 
 type Course struct {
-	ID         int64  `json:"id"`
-	CourseName string `json:"course_name"`
-	Difficulty int16  `json:"difficulty"`
+	ID         int64           `json:"id"`
+	CourseName string          `json:"course_name"`
+	Difficulty int16           `json:"difficulty"`
+	Embedding  pgvector.Vector `json:"embedding"`
 }
 
 type CourseQuestion struct {

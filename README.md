@@ -32,7 +32,7 @@ frontend and every step in between.
 
 - course_recommender.CourseRecommenderService/
   - for courses
-    /GetCourse
+    - /GetCourse
     - /GetCourseByName
     - /ListCourse
 
@@ -70,3 +70,6 @@ frontend and every step in between.
     - /UpdateStudentCourse
     - /GetCoursesByStudentId
     - /DeleteStudentCourse
+
+  - for recommendation
+    - /Recommend

@@ -32,8 +32,8 @@ creates a new collaborative recommender
 */
 func NewCollaborativeRecommender(students []db.Student, courses []db.Course, historicalInteractions []db.StudentCourse) (*CollaborativeRecommender, error) {
 	// if there are no students or no courses then no collaborative filtering can be done
-	if (len(students) == 0) || (len(courses) == 0) {
-		return nil, fmt.Errorf("students and courses cannot be empty")
+	if len(students) == 0 || len(courses) == 0 {
+		return nil, fmt.Errorf("courses cannot be empty")
 	}
 
 	// gets the singleton courseIndexer item
@@ -83,7 +83,7 @@ func NewCollaborativeRecommender(students []db.Student, courses []db.Course, his
 	}
 
 	// calculates the score of each course based on the user rating
-	similarityMatrix := calculateCosineSimilarity(userCourseMatrix)
+	similarityMatrix := calculateCosineSimilarityMatrix(userCourseMatrix)
 
 	rec := &CollaborativeRecommender{
 		courseIndexer:    indexer,
@@ -95,7 +95,7 @@ func NewCollaborativeRecommender(students []db.Student, courses []db.Course, his
 
 // calculates the cosine similarity and returns
 // a square matrix containing the cosine similarity
-func calculateCosineSimilarity(m *mat.Dense) *mat.Dense {
+func calculateCosineSimilarityMatrix(m *mat.Dense) *mat.Dense {
 	// get the total number of courses
 	_, numCourses := m.Dims()
 

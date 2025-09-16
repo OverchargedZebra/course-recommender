@@ -53,13 +53,15 @@ func (q *Queries) DeleteCourseTag(ctx context.Context, arg DeleteCourseTagParams
 
 const getCoursesByTagId = `-- name: GetCoursesByTagId :many
 SELECT
-    course.id, course.course_name, course.difficulty
+    course.id, course.course_name, course.difficulty, course.embedding
 FROM
     course_tag
     LEFT JOIN course ON course.id = course_tag.course_id
     LEFT JOIN tag ON tag.id = course_tag.tag_id
 WHERE
     tag.id = $1
+ORDER BY
+    course.difficulty
 `
 
 type GetCoursesByTagIdRow struct {
@@ -75,7 +77,12 @@ func (q *Queries) GetCoursesByTagId(ctx context.Context, id int64) ([]GetCourses
 	var items []GetCoursesByTagIdRow
 	for rows.Next() {
 		var i GetCoursesByTagIdRow
-		if err := rows.Scan(&i.Course.ID, &i.Course.CourseName, &i.Course.Difficulty); err != nil {
+		if err := rows.Scan(
+			&i.Course.ID,
+			&i.Course.CourseName,
+			&i.Course.Difficulty,
+			&i.Course.Embedding,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -122,8 +129,13 @@ func (q *Queries) GetTagsByCourseId(ctx context.Context, id int64) ([]GetTagsByC
 }
 
 const listCourseTags = `-- name: ListCourseTags :many
-SELECT course_id, tag_id
-FROM course_tag
+SELECT
+    course_id, tag_id
+FROM
+    course_tag
+ORDER BY
+    course_id,
+    tag_id
 `
 
 func (q *Queries) ListCourseTags(ctx context.Context) ([]CourseTag, error) {
