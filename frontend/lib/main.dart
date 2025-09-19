@@ -1,9 +1,18 @@
+import 'dart:async';
+
+import 'package:frontend/src/screens/degree_course_screen.dart';
+import 'package:frontend/src/screens/tag_courses_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fixnum/fixnum.dart';
+
+import 'package:frontend/src/screens/splash_screen.dart';
+import 'package:frontend/src/screens/sign_up_screen.dart';
+import 'package:frontend/src/screens/home_screen.dart';
+
 import 'package:frontend/src/service/api_service.dart';
 import 'package:frontend/src/service/authentication_service.dart';
-import 'package:go_router/go_router.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/src/screens/sign_up_screen.dart';
 import 'package:frontend/src/helper/widgets/scaffold_with_navbar.dart';
 
 final apiServiceProvider = Provider<ApiService>((ref) {
@@ -13,7 +22,6 @@ final apiServiceProvider = Provider<ApiService>((ref) {
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'root',
 );
-
 final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'shell',
 );
@@ -33,8 +41,6 @@ class MyApp extends ConsumerWidget {
     final router = GoRouter(
       navigatorKey: _rootNavigatorKey,
       initialLocation: '/splash',
-      // This will automatically redirect the user when the auth state changes.
-      refreshListenable: GoRouterRefreshStream(authState.asStream()),
       redirect: (BuildContext context, GoRouterState state) {
         // While the auth state is loading, stay on the splash screen.
         if (authState.isLoading || authState.hasError) {
@@ -65,43 +71,82 @@ class MyApp extends ConsumerWidget {
           path: '/splash',
           builder: (context, state) => const SplashScreen(),
         ),
+
         GoRoute(
           path: '/login',
-          builder: (BuildContext context, GoRouterState state) {
+          builder: (context, state) {
             return const LoginPage();
           },
         ),
-        GoRoute(
-          path: '/select-tags',
-          builder: (BuildContext context, GoRouterState state) {
-            return const SelectTagsPage();
-          },
-        ),
+
         ShellRoute(
           navigatorKey: _shellNavigatorKey,
-          builder: (BuildContext context, GoRouterState state, Widget child) {
-            return ScaffoldWithNavBar(child: child);
+          builder: (context, state, Widget child) {
+            return ScaffoldWithNavbar(child: child);
           },
           routes: <RouteBase>[
             GoRoute(
               path: '/home',
-              builder: (BuildContext context, GoRouterState state) =>
-                  const HomePage(),
+              builder: (context, state) => const HomePage(),
             ),
+
             GoRoute(
               path: '/library',
-              builder: (BuildContext context, GoRouterState state) =>
-                  const LibraryPage(),
+              builder: (context, state) => const LibraryPage(),
             ),
+
             GoRoute(
               path: '/course/search',
-              builder: (BuildContext context, GoRouterState state) =>
-                  const CourseSearchPage(),
+              builder: (context, state) => const CourseSearchPage(),
             ),
+
             GoRoute(
               path: '/profile',
-              builder: (BuildContext context, GoRouterState state) =>
-                  const ProfilePage(),
+              builder: (context, state) => const ProfilePage(),
+            ),
+
+            GoRoute(
+              path: '/tag/:id/courses',
+              redirect: (context, state) {
+                final id = state.pathParameters['id'];
+
+                if (id == null) {
+                  return '/home';
+                }
+
+                if (Int64.tryParseInt(id) == null) {
+                  return '/home';
+                }
+
+                return null;
+              },
+              builder: (context, state) {
+                final idString = state.pathParameters['id'];
+                final id = Int64.parseInt(idString!);
+                return TagCoursesScreen(id: id);
+              },
+            ),
+
+            GoRoute(
+              path: '/degree/:id/courses',
+              redirect: (context, state) {
+                final id = state.pathParameters['id'];
+
+                if (id == null) {
+                  return '/home';
+                }
+
+                if (Int64.tryParseInt(id) == null) {
+                  return '/home';
+                }
+
+                return null;
+              },
+              builder: (context, state) {
+                final idString = state.pathParameters['id'];
+                final id = Int64.parseInt(idString!);
+                return DegreeCourseScreen(id: id);
+              },
             ),
           ],
         ),
@@ -143,47 +188,3 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
-
-final GoRouter _router = GoRouter(
-  navigatorKey: _rootNavigatorKey,
-  initialLocation: '/login',
-  routes: <RouteBase>[
-    GoRoute(
-      path: '/login',
-      builder: (context, GoRouterState state) {
-        return const LoginPage();
-      },
-    ),
-    GoRoute(
-      path: 'course/:id/quiz',
-      builder: (context, GoRouterState state) {
-        final String? id = state.pathParameters['id'];
-        return const CourseQuizPage(id: id);
-      },
-    ),
-    ShellRoute(
-      navigatorKey: _shellNavigatorKey,
-      builder: (context, GoRouterState state, child) {
-        return ScaffoldWithNavbar(child: child);
-      },
-      routes: <RouteBase>[
-        GoRoute(
-          path: '/home',
-          builder: (context, GoRouterState state) => const HomePage(),
-        ),
-        GoRoute(
-          path: '/library',
-          builder: (context, GoRouterState state) => const LibraryPage(),
-        ),
-        GoRoute(
-          path: '/course/search',
-          builder: (context, GoRouterState state) => const CourseSearchPage(),
-        ),
-        GoRoute(
-          path: '/profile',
-          builder: (context, GoRouterState state) => const ProfilePage(),
-        ),
-      ],
-    ),
-  ],
-);

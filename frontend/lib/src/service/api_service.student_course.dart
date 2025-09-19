@@ -37,7 +37,7 @@ extension StudentCoruseService on ApiService {
     }
   }
 
-  Future<List<Course>> GetCoursesByStudentId(Int64 req) async {
+  Future<List<Course>> getCoursesByStudentId(Int64 req) async {
     try {
       final request = GetCoursesByStudentIdRequest(studentId: req);
       final response = await _client.getCoursesByStudentId(request);

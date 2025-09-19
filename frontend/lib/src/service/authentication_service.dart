@@ -34,6 +34,7 @@ class AuthService {
 
   static const _studentIdKey = 'student_id';
   static const _usernameKey = 'student_username';
+  static const _hasHistoryKey = 'has_course_history';
 
   // Saves teh student ID securely and teh username in shared preferences
   Future<void> login(Int64 studentId, String username) async {
@@ -45,6 +46,7 @@ class AuthService {
   Future<void> logout() async {
     await _secureStorage.delete(key: _studentIdKey);
     await _sharedPreferences?.remove(_usernameKey);
+    await _sharedPreferences?.remove(_hasHistoryKey);
   }
 
   // Retrieves the stored student ID. Returns null if not found.
@@ -55,5 +57,13 @@ class AuthService {
   // Retrieves teh stored username. Returns null if not found.
   Future<String?> getUsername() async {
     return _sharedPreferences?.getString(_usernameKey);
+  }
+
+  Future<void> setHasCourseHistory(bool hasHistory) async {
+    await _sharedPreferences?.setBool(_hasHistoryKey, hasHistory);
+  }
+
+  Future<bool> getHasCourseHistory() async {
+    return _sharedPreferences?.getBool(_hasHistoryKey) ?? false;
   }
 }

@@ -11,7 +11,6 @@ import 'package:frontend/src/generated/tag.pb.dart';
 import 'package:grpc/grpc_web.dart'; // for web
 import 'package:frontend/src/generated/root.pbgrpc.dart';
 import 'package:frontend/src/generated/course.pb.dart';
-import 'package:protobuf/protobuf.dart';
 
 part 'api_service.course.dart';
 part 'api_service.course_question.dart';

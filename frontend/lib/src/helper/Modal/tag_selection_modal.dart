@@ -97,7 +97,8 @@ class _TagSelectionModal extends ConsumerState<TagSelectionModal> {
             const SizedBox(height: 20),
             Expanded(
               child: tagsAsync.when(
-                loading: () => const Center(child: CircularProgressIndicator()),
+                loading: () =>
+                    const Center(child: CircularProgressIndicator.adaptive()),
                 error: (err, stack) =>
                     Center(child: Text('Error loading tags: $err')),
                 data: (tags) {
@@ -129,8 +130,10 @@ class _TagSelectionModal extends ConsumerState<TagSelectionModal> {
                     ? const SizedBox(
                         height: 24,
                         width: 24,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
+                        child: CircularProgressIndicator.adaptive(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.white,
+                          ),
                           strokeWidth: 3,
                         ),
                       )

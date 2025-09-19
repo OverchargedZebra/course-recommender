@@ -13,7 +13,7 @@ services:
             - PGTZ='UTC+5'
         volumes:
             - CRD:/var/lib/postgresql/data
-            - ./database/enterypoint:/docker-entrypoint-initdb.d:ro
+            - ./database/entrypoint:/docker-entrypoint-initdb.d:ro
         networks:
             - course-recommender-network
         restart: unless-stopped
