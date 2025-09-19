@@ -27,7 +27,7 @@ func (s *Server) Recommend(ctx context.Context, req *api.RecommendRequest) (*api
 	result, err := s.r.RecommendCourse(req.StudentId, req.InterestTags, int32(s.topN))
 
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "Recommend request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "Recommend request aborted because of: %v", err)
 	}
 
 	response := maps.Collect(apiRecommendation(result))

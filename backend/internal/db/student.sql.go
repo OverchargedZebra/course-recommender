@@ -103,6 +103,22 @@ func (q *Queries) GetStudentByUsername(ctx context.Context, arg GetStudentByUser
 	return i, err
 }
 
+const getStudentByUsernameOnly = `-- name: GetStudentByUsernameOnly :one
+SELECT
+    id, student_username, student_password
+FROM
+    student
+WHERE
+    student_username = $1
+`
+
+func (q *Queries) GetStudentByUsernameOnly(ctx context.Context, studentUsername string) (Student, error) {
+	row := q.db.QueryRow(ctx, getStudentByUsernameOnly, studentUsername)
+	var i Student
+	err := row.Scan(&i.ID, &i.StudentUsername, &i.StudentPassword)
+	return i, err
+}
+
 const listStudents = `-- name: ListStudents :many
 SELECT
     id,

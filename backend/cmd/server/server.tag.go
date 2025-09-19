@@ -21,7 +21,7 @@ func apiTag(tag *db.Tag) *api.Tag {
 func (s *Server) GetTag(ctx context.Context, req *api.GetTagRequest) (*api.GetTagResponse, error) {
 	result, err := s.q.GetTag(ctx, req.Id)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "GetTag request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "GetTag request aborted because of: %v", err)
 	}
 
 	tag := apiTag(&result)
@@ -33,7 +33,7 @@ func (s *Server) GetTag(ctx context.Context, req *api.GetTagRequest) (*api.GetTa
 func (s *Server) GetTagByName(ctx context.Context, req *api.GetTagByNameRequest) (*api.GetTagByNameResponse, error) {
 	result, err := s.q.GetTagByName(ctx, req.TagName)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "GetTagByName request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "GetTagByName request aborted because of: %v", err)
 	}
 
 	tags := convertDataTypeList(result, apiTag)
@@ -45,7 +45,7 @@ func (s *Server) GetTagByName(ctx context.Context, req *api.GetTagByNameRequest)
 func (s *Server) ListTags(ctx context.Context, req *api.ListTagsRequest) (*api.ListTagsResponse, error) {
 	result, err := s.q.ListTags(ctx)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "ListTags request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "ListTags request aborted because of: %v", err)
 	}
 
 	tags := convertDataTypeList(result, apiTag)

@@ -30,6 +30,22 @@ void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
+// Helper class to bridge a Stream to a ChangeNotifier for GoRouter.
+class GoRouterRefreshStream extends ChangeNotifier {
+  GoRouterRefreshStream(Stream<dynamic> stream) {
+    notifyListeners();
+    _subscription = stream.asBroadcastStream().listen((_) => notifyListeners());
+  }
+
+  late final StreamSubscription<dynamic> _subscription;
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+}
+
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
@@ -41,6 +57,10 @@ class MyApp extends ConsumerWidget {
     final router = GoRouter(
       navigatorKey: _rootNavigatorKey,
       initialLocation: '/splash',
+      // THE FIX: We watch the .stream property of the provider, not the AsyncValue.
+      refreshListenable: GoRouterRefreshStream(
+        ref.watch(authStateProvider.),
+      ),
       redirect: (BuildContext context, GoRouterState state) {
         // While the auth state is loading, stay on the splash screen.
         if (authState.isLoading || authState.hasError) {
@@ -71,14 +91,12 @@ class MyApp extends ConsumerWidget {
           path: '/splash',
           builder: (context, state) => const SplashScreen(),
         ),
-
         GoRoute(
           path: '/login',
           builder: (context, state) {
             return const LoginPage();
           },
         ),
-
         ShellRoute(
           navigatorKey: _shellNavigatorKey,
           builder: (context, state, Widget child) {
@@ -89,35 +107,25 @@ class MyApp extends ConsumerWidget {
               path: '/home',
               builder: (context, state) => const HomePage(),
             ),
-
             GoRoute(
               path: '/library',
               builder: (context, state) => const LibraryPage(),
             ),
-
             GoRoute(
               path: '/course/search',
               builder: (context, state) => const CourseSearchPage(),
             ),
-
             GoRoute(
               path: '/profile',
               builder: (context, state) => const ProfilePage(),
             ),
-
             GoRoute(
               path: '/tag/:id/courses',
               redirect: (context, state) {
                 final id = state.pathParameters['id'];
-
-                if (id == null) {
+                if (id == null || Int64.tryParseInt(id) == null) {
                   return '/home';
                 }
-
-                if (Int64.tryParseInt(id) == null) {
-                  return '/home';
-                }
-
                 return null;
               },
               builder: (context, state) {
@@ -126,20 +134,13 @@ class MyApp extends ConsumerWidget {
                 return TagCoursesScreen(id: id);
               },
             ),
-
             GoRoute(
               path: '/degree/:id/courses',
               redirect: (context, state) {
                 final id = state.pathParameters['id'];
-
-                if (id == null) {
+                if (id == null || Int64.tryParseInt(id) == null) {
                   return '/home';
                 }
-
-                if (Int64.tryParseInt(id) == null) {
-                  return '/home';
-                }
-
                 return null;
               },
               builder: (context, state) {

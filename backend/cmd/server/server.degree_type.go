@@ -21,7 +21,7 @@ func apiDegreeType(degreeType *db.DegreeType) *api.DegreeType {
 func (s *Server) GetDegreeType(ctx context.Context, req *api.GetDegreeTypeRequest) (*api.GetDegreeTypeResponse, error) {
 	result, err := s.q.GetDegreeType(ctx, req.Id)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "GetDegreeType request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "GetDegreeType request aborted because of: %v", err)
 	}
 
 	degreeType := apiDegreeType(&result)
@@ -33,7 +33,7 @@ func (s *Server) GetDegreeType(ctx context.Context, req *api.GetDegreeTypeReques
 func (s *Server) GetDegreeTypeByName(ctx context.Context, req *api.GetDegreeTypeByNameRequest) (*api.GetDegreeTypeByNameResponse, error) {
 	result, err := s.q.GetDegreeTypeByName(ctx, req.DegreeName)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "GetDegreeTypeByName request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "GetDegreeTypeByName request aborted because of: %v", err)
 	}
 
 	degreeTypes := convertDataTypeList(result, apiDegreeType)
@@ -45,7 +45,7 @@ func (s *Server) GetDegreeTypeByName(ctx context.Context, req *api.GetDegreeType
 func (s *Server) ListDegreeTypes(ctx context.Context, req *api.ListDegreeTypesRequest) (*api.ListDegreeTypesResponse, error) {
 	result, err := s.q.ListDegreeTypes(ctx)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "ListDegreeTypes request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "ListDegreeTypes request aborted because of: %v", err)
 	}
 
 	degreeTypes := convertDataTypeList(result, apiDegreeType)

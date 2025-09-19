@@ -32,7 +32,7 @@ func (s *Server) CreateStudentCourse(ctx context.Context, req *api.CreateStudent
 		CourseID:  req.CourseId,
 	})
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "CreateStudentCourse request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "CreateStudentCourse request aborted because of: %v", err)
 	}
 
 	studentCourse := apiStudentCourse(result)
@@ -51,7 +51,7 @@ func (s *Server) UpdateStudentCourse(ctx context.Context, req *api.UpdateStudent
 		Feedback:  pgtype.Bool{Bool: feedback, Valid: validFeedback},
 	})
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "UpdateStudentCourse request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "UpdateStudentCourse request aborted because of: %v", err)
 	}
 
 	studentCourse := apiStudentCourse(result)
@@ -63,7 +63,7 @@ func (s *Server) UpdateStudentCourse(ctx context.Context, req *api.UpdateStudent
 func (s *Server) GetCoursesByStudentId(ctx context.Context, req *api.GetCoursesByStudentIdRequest) (*api.GetCoursesByStudentIdResponse, error) {
 	result, err := s.q.GetCoursesByStudentId(ctx, req.StudentId)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "GetCoursesByStudentId aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "GetCoursesByStudentId aborted because of: %v", err)
 	}
 
 	resultCourses := fixDataTypeList(result, courseByStudentIdToCourse)
@@ -80,7 +80,7 @@ func (s *Server) DeleteStudentCourse(ctx context.Context, req *api.DeleteStudent
 	})
 
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "DeleteStudentCourse request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "DeleteStudentCourse request aborted because of: %v", err)
 	}
 
 	return &api.DeleteStudentCourseResponse{Success: result}, nil

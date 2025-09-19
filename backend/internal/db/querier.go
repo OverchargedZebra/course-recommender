@@ -39,6 +39,7 @@ type Querier interface {
 	GetPercentageStudentCourse(ctx context.Context, arg GetPercentageStudentCourseParams) (int32, error)
 	GetStudent(ctx context.Context, id int64) (GetStudentRow, error)
 	GetStudentByUsername(ctx context.Context, arg GetStudentByUsernameParams) (GetStudentByUsernameRow, error)
+	GetStudentByUsernameOnly(ctx context.Context, studentUsername string) (Student, error)
 	GetStudentsByCourseId(ctx context.Context, id int64) ([]GetStudentsByCourseIdRow, error)
 	GetTag(ctx context.Context, id int64) (Tag, error)
 	GetTagByName(ctx context.Context, tagName string) ([]Tag, error)

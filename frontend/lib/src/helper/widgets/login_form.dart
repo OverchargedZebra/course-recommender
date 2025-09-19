@@ -7,12 +7,16 @@ class LoginForm extends StatelessWidget {
     required this.usernameController,
     required this.passwordController,
     required this.onLogin,
+    required this.isLoading,
+    this.errorMessage,
   });
 
   final GlobalKey<FormState> formKey;
   final TextEditingController usernameController;
   final TextEditingController passwordController;
   final VoidCallback onLogin;
+  final bool isLoading;
+  final String? errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +29,14 @@ class LoginForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Welcome back',
+            'Welcome Back',
             style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Please enter your details to sign in.',
+            'Please enter your details to sign in or sign up.',
             style: theme.textTheme.titleMedium?.copyWith(
               color: Colors.grey.shade600,
             ),
@@ -66,12 +70,30 @@ class LoginForm extends StatelessWidget {
               return null;
             },
           ),
+          // Display error message if it exists
+          if (errorMessage != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: Text(
+                errorMessage!,
+                style: TextStyle(color: theme.colorScheme.error),
+              ),
+            ),
           const SizedBox(height: 32),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: onLogin,
-              child: const Text('Sign In'),
+              onPressed: isLoading ? null : onLogin,
+              child: isLoading
+                  ? const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3,
+                        color: Colors.white,
+                      ),
+                    )
+                  : const Text('Sign In / Sign Up'),
             ),
           ),
         ],

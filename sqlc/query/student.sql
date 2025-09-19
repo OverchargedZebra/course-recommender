@@ -16,6 +16,14 @@ FROM
 WHERE
     id = $1;
 
+-- name: GetStudentByUsernameOnly :one
+SELECT
+    *
+FROM
+    student
+WHERE
+    student_username = $1;
+
 -- name: GetStudentByUsername :one
 SELECT
     id,

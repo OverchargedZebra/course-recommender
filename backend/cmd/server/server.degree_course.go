@@ -21,7 +21,7 @@ func DegreeByCourseIdToDegree(degree *db.GetDegreesByCourseIdRow) db.DegreeType 
 func (s *Server) GetCoursesByDegreeId(ctx context.Context, req *api.GetCoursesByDegreeIdRequest) (*api.GetCoursesByDegreeIdResponse, error) {
 	result, err := s.q.GetCoursesByDegreeId(ctx, req.DegreeTypeId)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "GetCoursesByDegreeID request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "GetCoursesByDegreeID request aborted because of: %v", err)
 	}
 
 	resultCourses := fixDataTypeList(result, CourseByDegreeIdToCourse)
@@ -34,7 +34,7 @@ func (s *Server) GetCoursesByDegreeId(ctx context.Context, req *api.GetCoursesBy
 func (s *Server) GetDegreesByCourseId(ctx context.Context, req *api.GetDegreesByCourseIdRequest) (*api.GetDegreesByCourseIdResponse, error) {
 	result, err := s.q.GetDegreesByCourseId(ctx, req.CourseId)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "GetDegreesByCourseId request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "GetDegreesByCourseId request aborted because of: %v", err)
 	}
 
 	resultDegrees := fixDataTypeList(result, DegreeByCourseIdToDegree)

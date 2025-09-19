@@ -21,7 +21,7 @@ func apiCourse(course *db.Course) *api.Course {
 func (s *Server) GetCourseByName(ctx context.Context, req *api.GetCourseByNameRequest) (*api.GetCourseByNameResponse, error) {
 	result, err := s.q.GetCourseByName(ctx, req.CourseName)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "GetCourseByName Request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "GetCourseByName Request aborted because of: %v", err)
 	}
 
 	courses := convertDataTypeList(result, apiCourse)
@@ -33,7 +33,7 @@ func (s *Server) GetCourseByName(ctx context.Context, req *api.GetCourseByNameRe
 func (s *Server) GetCourse(ctx context.Context, req *api.GetCourseRequest) (*api.GetCourseResponse, error) {
 	result, err := s.q.GetCourse(ctx, req.Id)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "GetCourse request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "GetCourse request aborted because of: %v", err)
 	}
 
 	return &api.GetCourseResponse{Course: apiCourse(&result)}, nil
@@ -43,7 +43,7 @@ func (s *Server) GetCourse(ctx context.Context, req *api.GetCourseRequest) (*api
 func (s *Server) ListCourses(ctx context.Context, req *api.ListCoursesRequest) (*api.ListCoursesResponse, error) {
 	result, err := s.q.ListCourses(ctx)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "ListCourses request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "ListCourses request aborted because of: %v", err)
 	}
 
 	courses := convertDataTypeList(result, apiCourse)

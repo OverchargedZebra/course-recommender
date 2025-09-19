@@ -21,7 +21,7 @@ func coursesByTagIdRowToCourse(course *db.GetCoursesByTagIdRow) db.Course {
 func (s *Server) GetTagsByCourseId(ctx context.Context, req *api.GetTagsByCourseIdRequest) (*api.GetTagsByCourseIdResponse, error) {
 	result, err := s.q.GetTagsByCourseId(ctx, req.CourseId)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "GetTagsByCourseId request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "GetTagsByCourseId request aborted because of: %v", err)
 	}
 
 	resultTags := fixDataTypeList(result, tagsByCourseIdRowToTag)
@@ -34,7 +34,7 @@ func (s *Server) GetTagsByCourseId(ctx context.Context, req *api.GetTagsByCourse
 func (s *Server) GetCoursesByTagId(ctx context.Context, req *api.GetCoursesByTagIdRequest) (*api.GetCoursesByTagIdResponse, error) {
 	result, err := s.q.GetCoursesByTagId(ctx, req.TagId)
 	if err != nil {
-		return nil, status.Errorf(codes.Aborted, "GetCourseByTagId request aborted because of: %v", err)
+		return nil, status.Errorf(codes.Internal, "GetCourseByTagId request aborted because of: %v", err)
 	}
 
 	resultCourses := fixDataTypeList(result, coursesByTagIdRowToCourse)
