@@ -1,4 +1,4 @@
-.PHONY: reset run down flutterweb sqlc proto
+.PHONY: reset run down webreset flutterweb sqlc proto
 
 reset: down run
 
@@ -10,8 +10,11 @@ run:
 down:
 	@docker compose down
 
+webreset:
+	@docker compose restart nginx
+
 flutterweb:
-	@cd ./frontend && flutter build web --wasm --release
+	@cd ./frontend && flutter build web --release
 
 sqlc:
 	@sqlc generate

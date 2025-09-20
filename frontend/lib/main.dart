@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_riverpod/misc.dart';
 import 'package:frontend/src/screens/degree_course_screen.dart';
 import 'package:frontend/src/screens/tag_courses_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -52,107 +53,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // This provider is used to determine the initial route.
-    final authState = ref.watch(authStateProvider);
-
-    final router = GoRouter(
-      navigatorKey: _rootNavigatorKey,
-      initialLocation: '/splash',
-      // THE FIX: We watch the .stream property of the provider, not the AsyncValue.
-      refreshListenable: GoRouterRefreshStream(
-        ref.watch(authStateProvider.),
-      ),
-      redirect: (BuildContext context, GoRouterState state) {
-        // While the auth state is loading, stay on the splash screen.
-        if (authState.isLoading || authState.hasError) {
-          return '/splash';
-        }
-
-        final studentId = authState.value;
-        final isLoggedIn = studentId != null;
-
-        final isLoggingIn = state.matchedLocation == '/login';
-        final isSplashing = state.matchedLocation == '/splash';
-
-        // If on splash screen, decide where to go next.
-        if (isSplashing) {
-          return isLoggedIn ? '/home' : '/login';
-        }
-
-        // If trying to access login page while already logged in, redirect to home.
-        if (isLoggingIn && isLoggedIn) {
-          return '/home';
-        }
-
-        // No redirect needed.
-        return null;
-      },
-      routes: <RouteBase>[
-        GoRoute(
-          path: '/splash',
-          builder: (context, state) => const SplashScreen(),
-        ),
-        GoRoute(
-          path: '/login',
-          builder: (context, state) {
-            return const LoginPage();
-          },
-        ),
-        ShellRoute(
-          navigatorKey: _shellNavigatorKey,
-          builder: (context, state, Widget child) {
-            return ScaffoldWithNavbar(child: child);
-          },
-          routes: <RouteBase>[
-            GoRoute(
-              path: '/home',
-              builder: (context, state) => const HomePage(),
-            ),
-            GoRoute(
-              path: '/library',
-              builder: (context, state) => const LibraryPage(),
-            ),
-            GoRoute(
-              path: '/course/search',
-              builder: (context, state) => const CourseSearchPage(),
-            ),
-            GoRoute(
-              path: '/profile',
-              builder: (context, state) => const ProfilePage(),
-            ),
-            GoRoute(
-              path: '/tag/:id/courses',
-              redirect: (context, state) {
-                final id = state.pathParameters['id'];
-                if (id == null || Int64.tryParseInt(id) == null) {
-                  return '/home';
-                }
-                return null;
-              },
-              builder: (context, state) {
-                final idString = state.pathParameters['id'];
-                final id = Int64.parseInt(idString!);
-                return TagCoursesScreen(id: id);
-              },
-            ),
-            GoRoute(
-              path: '/degree/:id/courses',
-              redirect: (context, state) {
-                final id = state.pathParameters['id'];
-                if (id == null || Int64.tryParseInt(id) == null) {
-                  return '/home';
-                }
-                return null;
-              },
-              builder: (context, state) {
-                final idString = state.pathParameters['id'];
-                final id = Int64.parseInt(idString!);
-                return DegreeCourseScreen(id: id);
-              },
-            ),
-          ],
-        ),
-      ],
-    );
+    final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
       title: 'Course Recommender',
@@ -189,3 +90,105 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
+
+final routerProvider = Provider<GoRouter>((ref) {
+  final authState = ref.watch(authStateProvider);
+
+  return GoRouter(
+    navigatorKey: _rootNavigatorKey,
+    initialLocation: '/splash',
+
+    refreshListenable: GoRouterRefreshStream(
+      ref.watch(authStateProvider as ProviderListenable<Stream<String?>>),
+    ),
+
+    redirect: (context, state) {
+      if (authState.isLoading || authState.hasError) {
+        return '/splash';
+      }
+
+      final studentId = authState.value;
+      final isLoggedIn = studentId != null;
+
+      final isLoggingIn = state.matchedLocation == '/login';
+      final isSplashing = state.matchedLocation == '/splash';
+
+      if (isSplashing) {
+        return isLoggedIn ? '/home' : '/login';
+      }
+
+      if (isLoggingIn && isLoggedIn) {
+        return '/home';
+      }
+
+      if (!isLoggedIn && !isLoggingIn) {
+        return '/login';
+      }
+
+      return null;
+    },
+    routes: <RouteBase>[
+      GoRoute(
+        path: '/splash',
+        builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: '/login',
+        builder: (context, state) {
+          return const LoginPage();
+        },
+      ),
+      ShellRoute(
+        navigatorKey: _shellNavigatorKey,
+        builder: (context, state, Widget child) {
+          return ScaffoldWithNavbar(child: child);
+        },
+        routes: <RouteBase>[
+          GoRoute(path: '/home', builder: (context, state) => const HomePage()),
+          // GoRoute(
+          //   path: '/library',
+          //   builder: (context, state) => const LibraryPage(),
+          // ),
+          // GoRoute(
+          //   path: '/course/search',
+          //   builder: (context, state) => const CourseSearchPage(),
+          // ),
+          // GoRoute(
+          //   path: '/profile',
+          //   builder: (context, state) => const ProfilePage(),
+          // ),
+          GoRoute(
+            path: '/tag/:id/courses',
+            redirect: (context, state) {
+              final id = state.pathParameters['id'];
+              if (id == null || Int64.tryParseInt(id) == null) {
+                return '/home';
+              }
+              return null;
+            },
+            builder: (context, state) {
+              final idString = state.pathParameters['id'];
+              final id = Int64.parseInt(idString!);
+              return TagCoursesScreen(id: id);
+            },
+          ),
+          GoRoute(
+            path: '/degree/:id/courses',
+            redirect: (context, state) {
+              final id = state.pathParameters['id'];
+              if (id == null || Int64.tryParseInt(id) == null) {
+                return '/home';
+              }
+              return null;
+            },
+            builder: (context, state) {
+              final idString = state.pathParameters['id'];
+              final id = Int64.parseInt(idString!);
+              return DegreeCourseScreen(id: id);
+            },
+          ),
+        ],
+      ),
+    ],
+  );
+});

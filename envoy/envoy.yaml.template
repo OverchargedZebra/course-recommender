@@ -14,7 +14,13 @@ static_resources:
         typed_config:
           "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
           stat_prefix: ingress_http
-          codec_type: AUTO
+          
+          # FIX: Add an access log to see incoming requests for easier debugging
+          access_log:
+          - name: envoy.access_loggers.stdout
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.access_loggers.stream.v3.StdoutAccessLog
+          
           route_config:
             name: local_route
             virtual_hosts:
@@ -29,7 +35,7 @@ static_resources:
                     grpc_timeout_header_max: 0s
               cors:
                 allow_origin_string_match:
-                - prefix: "*"
+                - exact: "*"
                 allow_methods: GET, PUT, DELETE, POST, OPTIONS
                 allow_headers: keep-alive,user-agent,cache-control,content-type,content-transfer-encoding,x-accept-content-encoding,x-accept-response-streaming,x-user-agent,x-grpc-web,grpc-timeout
                 max_age: "1728000"
@@ -49,8 +55,14 @@ static_resources:
   - name: my_grpc_service
     connect_timeout: 5s
     type: STRICT_DNS
-    http2_protocol_options: {}
     lb_policy: ROUND_ROBIN
+
+    typed_extension_protocol_options:
+      envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+        "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+        explicit_http_config:
+          http2_protocol_options: {}
+          
     load_assignment:
       cluster_name: my_grpc_service
       endpoints:

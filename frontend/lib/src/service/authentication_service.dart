@@ -21,9 +21,10 @@ final authServiceProvider = Provider<AuthService>((ref) {
 
 // A provider to check the initial authentication state of the user.
 // This will be used by the router to decide where to redirect.
-final authStateProvider = FutureProvider<String?>((ref) async {
+final authStateProvider = StreamProvider<String?>((ref) async* {
   // It reads the authService and calls the getStudentId method.
-  return ref.watch(authServiceProvider).getStudentId();
+  final studentId = await ref.watch(authServiceProvider).getStudentId();
+  yield studentId;
 });
 
 class AuthService {
