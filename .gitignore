@@ -3,7 +3,7 @@
 contabo_login.txt
 
 # do not store the ssl keys in github
-nginx/ssl/*
+# nginx/ssl/*
 
 # redundant vs code folder not needed for this project
 .vscode
