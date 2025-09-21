@@ -40,10 +40,7 @@ analysis_benchmark.json
 .packages
 .pub-preload-cache/
 .pub/
-build/flutter_assets
-build/reports
-build/ffadbad64b7e90142988b16430b8ab84
-build/7e4aebe516b998635f34742713e086a8.cache.dill.track.dill
+build/
 flutter_*.png
 linked_*.ds
 unlinked.ds
@@ -120,6 +117,3 @@ app.*.symbols
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
-
-# Exception of Web Builds
-!build/web/*
