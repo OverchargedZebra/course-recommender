@@ -1,16 +1,17 @@
 import 'dart:async';
 
-import 'package:flutter_riverpod/misc.dart';
-import 'package:frontend/src/screens/degree_course_screen.dart';
-import 'package:frontend/src/screens/tag_courses_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'package:frontend/src/screens/splash_screen.dart';
 import 'package:frontend/src/screens/sign_up_screen.dart';
 import 'package:frontend/src/screens/home_screen.dart';
+import 'package:frontend/src/screens/degree_course_screen.dart';
+import 'package:frontend/src/screens/tag_courses_screen.dart';
+import 'package:frontend/src/screens/student_course_screen.dart';
 
 import 'package:frontend/src/service/api_service.dart';
 import 'package:frontend/src/service/authentication_service.dart';
@@ -28,6 +29,7 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
 );
 
 void main() {
+  setUrlStrategy(PathUrlStrategy());
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -99,19 +101,14 @@ final routerProvider = Provider<GoRouter>((ref) {
     initialLocation: '/splash',
 
     refreshListenable: GoRouterRefreshStream(
-      ref.watch(authStateProvider as ProviderListenable<Stream<String?>>),
+      ref.watch(authServiceProvider).authStateStream,
     ),
 
     redirect: (context, state) {
-      if (authState.isLoading || authState.hasError) {
-        return '/splash';
-      }
-
       final studentId = authState.value;
       final isLoggedIn = studentId != null;
-
-      final isLoggingIn = state.matchedLocation == '/login';
       final isSplashing = state.matchedLocation == '/splash';
+      final isLoggingIn = state.matchedLocation == '/login';
 
       if (isSplashing) {
         return isLoggedIn ? '/home' : '/login';
@@ -128,9 +125,30 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: <RouteBase>[
+      GoRoute(path: '/', redirect: (context, state) => '/splash'),
       GoRoute(
         path: '/splash',
         builder: (context, state) => const SplashScreen(),
+        redirect: (context, state) {
+          final studentId = authState.value;
+          final isLoggedIn = studentId != null;
+          final isSplashing = state.matchedLocation == '/splash';
+          final isLoggingIn = state.matchedLocation == '/login';
+
+          if (isSplashing) {
+            return isLoggedIn ? '/home' : '/login';
+          }
+
+          if (isLoggingIn && isLoggedIn) {
+            return '/home';
+          }
+
+          if (!isLoggedIn && !isLoggingIn) {
+            return '/login';
+          }
+
+          return null;
+        },
       ),
       GoRoute(
         path: '/login',
@@ -145,13 +163,28 @@ final routerProvider = Provider<GoRouter>((ref) {
         },
         routes: <RouteBase>[
           GoRoute(path: '/home', builder: (context, state) => const HomePage()),
+          GoRoute(
+            path: '/student/:id/courses',
+            redirect: (context, state) {
+              final id = state.pathParameters['id'];
+              if (id == null || Int64.tryParseInt(id) == null) {
+                return '/home';
+              }
+              return null;
+            },
+            builder: (context, state) {
+              final idString = state.pathParameters['id'];
+              final id = Int64.parseInt(idString!);
+              return StudentCourseScreen(id: id);
+            },
+          ),
           // GoRoute(
-          //   path: '/library',
-          //   builder: (context, state) => const LibraryPage(),
+          //   path: '/search',
+          //   builder: (context, state) => const CourseSearchPage(),
           // ),
           // GoRoute(
-          //   path: '/course/search',
-          //   builder: (context, state) => const CourseSearchPage(),
+          //   path: '/course/quiz/:id',
+          //   builder: (context, state) => const CourseQuizPage(),
           // ),
           // GoRoute(
           //   path: '/profile',
@@ -169,7 +202,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (context, state) {
               final idString = state.pathParameters['id'];
               final id = Int64.parseInt(idString!);
-              return TagCoursesScreen(id: id);
+              return TagCourseScreen(id: id);
             },
           ),
           GoRoute(

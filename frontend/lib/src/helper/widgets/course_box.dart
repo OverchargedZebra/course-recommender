@@ -10,38 +10,50 @@ class CourseBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return ElevatedButton(
-      onPressed: () => showModalBottomSheet(
-        context: context,
-        builder: (_) => CourseEnrollModal(course: course),
-        enableDrag: false,
-      ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withAlpha(100),
-              blurRadius: 4,
-              spreadRadius: 2,
+    final colorScheme = theme.colorScheme;
+
+    return AspectRatio(
+      aspectRatio: 1 / 1,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => showDialog(
+            context: context,
+            builder: (_) => CourseEnrollModal(course: course),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: Text(
+                    course.courseName,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+
+                const Spacer(),
+
+                Text(
+                  "Difficulty: ${course.difficulty}",
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                Text(
+                  "ID: ${course.id}",
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Center(
-              child: Text(
-                "name: ${course.courseName}",
-                style: theme.textTheme.labelMedium,
-              ),
-            ),
-            Divider(height: 4),
-            Text(
-              "difficulty: ${course.difficulty}",
-              style: theme.textTheme.labelSmall,
-            ),
-            Text("id: ${course.id}", style: theme.textTheme.labelSmall),
-          ],
+          ),
         ),
       ),
     );

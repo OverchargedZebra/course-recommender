@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/main.dart'; // for apiServiceProvider
 import 'package:frontend/src/generated/tag.pb.dart';
 import 'package:frontend/src/service/api_service.dart';
-import 'package:go_router/go_router.dart';
+import 'package:frontend/src/service/authentication_service.dart';
 
 final allTagsProvider = FutureProvider<List<Tag>>((ref) async {
   final apiService = ref.watch(apiServiceProvider);
@@ -41,35 +41,12 @@ class _TagSelectionModal extends ConsumerState<TagSelectionModal> {
       return;
     }
 
-    setState(() {
-      _isLoading = true;
-    });
+    if (mounted) {
+      var list_as_id = _selectedTagIds.toList();
+      var list_as_string = list_as_id.map((e) => e.toString()).toList();
 
-    final apiService = ref.read(apiServiceProvider);
-
-    try {
-      await apiService.getRecommendation(
-        widget.studentId,
-        _selectedTagIds.toList(),
-      );
-
-      // After success, close the modal and navigate to the home screen.
-      if (mounted) {
-        Navigator.of(context).pop();
-        context.go('/home');
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('An error occurred: $e')));
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+      ref.read(authServiceProvider).setInterestTags(list_as_string);
+      Navigator.of(context).pop(list_as_id);
     }
   }
 
@@ -113,7 +90,7 @@ class _TagSelectionModal extends ConsumerState<TagSelectionModal> {
                           label: Text(tag.tagName),
                           selected: isSelected,
                           onSelected: (selected) =>
-                              _onTagSelected(isSelected, tag.id),
+                              _onTagSelected(selected, tag.id),
                         );
                       }).toList(),
                     ),

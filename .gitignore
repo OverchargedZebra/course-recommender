@@ -1,5 +1,7 @@
 # do not commit the values in these files
 .env
+contabo_login.txt
+
 # do not store the ssl keys in github
 nginx/ssl/*
 

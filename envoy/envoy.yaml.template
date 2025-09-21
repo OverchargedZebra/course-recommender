@@ -24,9 +24,9 @@ static_resources:
               - match: { prefix: "/" }
                 route:
                   cluster: my_grpc_service
-                  timeout: 0s
+                  timeout: 60s
                   max_stream_duration:
-                    grpc_timeout_header_max: 0s
+                    grpc_timeout_header_max: 60s
               cors:
                 allow_origin_string_match:
                 - prefix: "*"
@@ -50,7 +50,7 @@ static_resources:
     connect_timeout: 5s
     type: STRICT_DNS
     http2_protocol_options: {}
-    lb_policy: ROUND_ROBIN
+    lb_policy: LEAST_REQUEST
     load_assignment:
       cluster_name: my_grpc_service
       endpoints:

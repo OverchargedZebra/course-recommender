@@ -52,45 +52,61 @@ class CourseEnrollModal extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final screenSize = MediaQuery.of(context).size;
 
-    return Card(
-      margin: const EdgeInsets.all(24.0),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              course.courseName,
-              style: theme.textTheme.headlineSmall,
-              textAlign: TextAlign.center,
+    // By wrapping the content in a Center widget, we ensure the ConstrainedBox
+    // can enforce its size limits without being stretched by its parent.
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: screenSize.width * 0.5,
+          maxHeight: screenSize.height * 0.5,
+        ),
+        child: Card(
+          margin: const EdgeInsets.all(24.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 24.0,
+              horizontal: 16.0,
             ),
-            const SizedBox(height: 16),
-            Text(
-              "Difficulty: ${course.difficulty}",
-              style: theme.textTheme.bodyLarge,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              "Course ID: ${course.id}",
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: Colors.grey[600],
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    course.courseName,
+                    style: theme.textTheme.headlineSmall,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    "Difficulty: ${course.difficulty}",
+                    style: theme.textTheme.bodyLarge,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "Course ID: ${course.id}",
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  const Divider(height: 32, thickness: 1),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 12,
+                      ),
+                      textStyle: theme.textTheme.labelLarge,
+                    ),
+                    onPressed: () => _enrollCourse(context, ref),
+                    child: const Text('Enroll Now'),
+                  ),
+                ],
               ),
             ),
-            const Divider(height: 32, thickness: 1),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                  vertical: 12,
-                ),
-                textStyle: theme.textTheme.labelLarge,
-              ),
-              onPressed: () => _enrollCourse(context, ref),
-              child: const Text('Enroll Now'),
-            ),
-          ],
+          ),
         ),
       ),
     );

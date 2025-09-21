@@ -14,7 +14,7 @@ webreset:
 	@docker compose restart nginx
 
 flutterweb:
-	@cd ./frontend && flutter build web --release
+	@cd ./frontend && flutter build web --wasm --release
 
 sqlc:
 	@sqlc generate

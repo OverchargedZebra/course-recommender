@@ -57,6 +57,8 @@ services:
         expose:
             - "${ENVOY_PORT}"
             - "${ENVOY_ADMIN_PORT}"
+        ports:
+            - "${ENVOY_PORT}:${ENVOY_PORT}"
         environment:
             - BACKEND_PORT=${BACKEND_PORT}
             - ENVOY_PORT=${ENVOY_PORT}
@@ -77,9 +79,6 @@ services:
         expose:
             - "${NGINX_HTTP_PORT}"
             - "${NGINX_HTTPS_PORT}"
-        ports:
-            - "${NGINX_HTTP_PORT}:${NGINX_HTTP_PORT}"
-            - "${NGINX_HTTPS_PORT}:${NGINX_HTTPS_PORT}"
         environment:
             - BACKEND_PORT=${BACKEND_PORT}
             - ENVOY_PORT=${ENVOY_PORT}
@@ -99,7 +98,7 @@ services:
         image: cloudflare/cloudflared:latest
         depends_on:
             - nginx
-        command: tunnel --no-autoupdate --origin-ca-pool /etc/ssl/cert.pem run
+        command: tunnel --no-autoupdate --origin-ca-pool /etc/ssl/cert.pem --protocol http2 run
         environment:
             - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
         volumes:
