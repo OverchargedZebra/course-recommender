@@ -48,17 +48,41 @@ services:
             - course-recommender-network
         restart: unless-stopped
 
+    envoy:
+        build:
+            context: ./envoy
+        container_name: course_recommender_envoy
+        depends_on:
+            - backend
+        expose:
+            - "${ENVOY_PORT}"
+            - "${ENVOY_ADMIN_PORT}"
+        environment:
+            - BACKEND_PORT=${BACKEND_PORT}
+            - ENVOY_PORT=${ENVOY_PORT}
+            - ENVOY_ADMIN_PORT=${ENVOY_ADMIN_PORT}
+        volumes:
+            - ./envoy/log:/tmp:rw
+        networks:
+            - course-recommender-network
+        restart: unless-stopped
+
     nginx:
         build:
             context: ./nginx
         container_name: course_recommender_nginx
         depends_on:
+            - envoy
             - backend
         expose:
             - "${NGINX_HTTP_PORT}"
             - "${NGINX_HTTPS_PORT}"
+        ports:
+            - "${NGINX_HTTP_PORT}:${NGINX_HTTP_PORT}"
+            - "${NGINX_HTTPS_PORT}:${NGINX_HTTPS_PORT}"
         environment:
             - BACKEND_PORT=${BACKEND_PORT}
+            - ENVOY_PORT=${ENVOY_PORT}
             - NGINX_HTTP_PORT=${NGINX_HTTP_PORT}
             - NGINX_HTTPS_PORT=${NGINX_HTTPS_PORT}
         volumes:
@@ -75,9 +99,11 @@ services:
         image: cloudflare/cloudflared:latest
         depends_on:
             - nginx
-        command: tunnel --no-autoupdate --protocol http2 run
+        command: tunnel --no-autoupdate --origin-ca-pool /etc/ssl/cert.pem run
         environment:
             - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+        volumes:
+            - ./nginx/ssl:/etc/ssl:ro
         networks:
             - course-recommender-network
         restart: unless-stopped
