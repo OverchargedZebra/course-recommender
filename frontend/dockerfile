@@ -2,8 +2,7 @@ FROM ghcr.io/cirruslabs/flutter:latest AS build
 
 WORKDIR /app
 
-COPY pubspec.yaml pubspec.lock ./
+COPY . .
 RUN flutter pub get
 
-COPY . .
 RUN flutter build web --wasm --release
