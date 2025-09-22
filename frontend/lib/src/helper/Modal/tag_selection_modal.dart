@@ -21,7 +21,7 @@ class TagSelectionModal extends ConsumerStatefulWidget {
 
 class _TagSelectionModal extends ConsumerState<TagSelectionModal> {
   final Set<Int64> _selectedTagIds = {};
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   void _onTagSelected(bool isSelected, Int64 tagId) {
     setState(() {
@@ -42,11 +42,11 @@ class _TagSelectionModal extends ConsumerState<TagSelectionModal> {
     }
 
     if (mounted) {
-      var list_as_id = _selectedTagIds.toList();
-      var list_as_string = list_as_id.map((e) => e.toString()).toList();
+      var listAsId = _selectedTagIds.toList();
+      var listAsString = listAsId.map((e) => e.toString()).toList();
 
-      ref.read(authServiceProvider).setInterestTags(list_as_string);
-      Navigator.of(context).pop(list_as_id);
+      ref.read(authServiceProvider).setInterestTags(listAsString);
+      Navigator.of(context).pop(listAsId);
     }
   }
 

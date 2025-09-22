@@ -31,7 +31,7 @@ WHERE
     id @@@ paradedb.match (
         'course_name',
         sqlc.arg ('course_name')::TEXT,
-        distance => 2
+        distance => 1
     )
 ORDER BY
     paradedb.score (id) DESC;
