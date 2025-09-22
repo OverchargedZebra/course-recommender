@@ -48,6 +48,7 @@ class CourseQuizModal extends ConsumerWidget {
                     course.courseName,
                     style: theme.textTheme.headlineSmall,
                     textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 16),
                   Text(
