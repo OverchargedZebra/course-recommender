@@ -13,7 +13,7 @@ services:
             - PGTZ='UTC+5'
         volumes:
             - CRD:/var/lib/postgresql/data
-            - ./database/entrypoint:/docker-entrypoint-initdb.d:ro
+            - ../database/entrypoint:/docker-entrypoint-initdb.d:ro
         networks:
             - course-recommender-network
         restart: unless-stopped
@@ -64,7 +64,7 @@ services:
             - ENVOY_PORT=${ENVOY_PORT}
             - ENVOY_ADMIN_PORT=${ENVOY_ADMIN_PORT}
         volumes:
-            - ./envoy/log:/tmp:rw
+            - ../envoy/log:/tmp:rw
         networks:
             - course-recommender-network
         restart: unless-stopped
@@ -74,7 +74,7 @@ services:
             context: ./frontend
         container_name: course_recommender_frontend
         volumes:
-            - ./frontend/build/web:/app/build/web:rw
+            - ../frontend/build/web:/app/build/web:rw
 
     nginx:
         build:
@@ -93,11 +93,11 @@ services:
             - NGINX_HTTP_PORT=${NGINX_HTTP_PORT}
             - NGINX_HTTPS_PORT=${NGINX_HTTPS_PORT}
         volumes:
-            - ./frontend/build/web:/usr/share/nginx/html:ro
-            - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-            - ./nginx/myapp.conf.template:/etc/nginx/templates/myapp.conf.template:ro
-            - ./nginx/ssl:/etc/ssl:ro
-            - ./nginx/log:/var/log/nginx:rw
+            - ../frontend/build/web:/usr/share/nginx/html:ro
+            - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ../nginx/myapp.conf.template:/etc/nginx/templates/myapp.conf.template:ro
+            - ../nginx/ssl:/etc/ssl:ro
+            - ../nginx/log:/var/log/nginx:rw
         networks:
             - course-recommender-network
         restart: unless-stopped
@@ -110,7 +110,7 @@ services:
         environment:
             - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
         volumes:
-            - ./nginx/ssl:/etc/ssl:ro
+            - ../nginx/ssl:/etc/ssl:ro
         networks:
             - course-recommender-network
         restart: unless-stopped
