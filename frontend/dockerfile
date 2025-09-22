@@ -5,4 +5,4 @@ WORKDIR /app
 COPY . .
 RUN flutter pub get
 
-ENTRYPOINT [ "flutter build web --wasm --release" ]
+ENTRYPOINT [ "flutter", "build", "web", "--wasm", "--release" ]
