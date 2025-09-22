@@ -11,6 +11,16 @@ extension CourseService on ApiService {
     }
   }
 
+  Future<Course> getCourseById(Int64 req) async {
+    try {
+      final request = GetCourseRequest(id: req);
+      final response = await _client.getCourse(request);
+      return response.course;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<Course>> listCourses() async {
     try {
       final request = ListCoursesRequest();

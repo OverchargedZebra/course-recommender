@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/generated/course.pb.dart';
 import 'package:frontend/src/helper/Modal/course_enroll_modal.dart';
+import 'package:frontend/src/helper/Modal/course_quiz_modal.dart';
 
 class CourseBox extends StatelessWidget {
-  const CourseBox({super.key, required this.course});
+  const CourseBox({super.key, required this.course, this.enrolled = false});
 
   final Course course;
+  final bool enrolled;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,10 @@ class CourseBox extends StatelessWidget {
         child: InkWell(
           onTap: () => showDialog(
             context: context,
-            builder: (_) => CourseEnrollModal(course: course),
+            builder: (_) {
+              if (enrolled) return CourseQuizModal(course: course);
+              return CourseEnrollModal(course: course);
+            },
           ),
           child: Padding(
             padding: const EdgeInsets.all(12.0),

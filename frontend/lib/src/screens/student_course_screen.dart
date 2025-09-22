@@ -28,7 +28,10 @@ class StudentCourseScreen extends ConsumerWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Text('Courses for tag id $id', style: theme.textTheme.headlineLarge),
+          Text(
+            'Courses for student id $id',
+            style: theme.textTheme.headlineLarge,
+          ),
           const SizedBox(height: 24.0),
           coursesAsync.when(
             loading: () =>
@@ -52,7 +55,7 @@ class StudentCourseScreen extends ConsumerWidget {
                 itemCount: courses.length,
                 itemBuilder: (context, index) {
                   final course = courses[index];
-                  return CourseBox(course: course);
+                  return CourseBox(course: course, enrolled: true);
                 },
               );
             },

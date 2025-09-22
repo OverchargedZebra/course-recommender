@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:frontend/src/screens/course_quiz_screen.dart';
+import 'package:frontend/src/screens/course_search_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -178,14 +180,25 @@ final routerProvider = Provider<GoRouter>((ref) {
               return StudentCourseScreen(id: id);
             },
           ),
-          // GoRoute(
-          //   path: '/search',
-          //   builder: (context, state) => const CourseSearchPage(),
-          // ),
-          // GoRoute(
-          //   path: '/course/quiz/:id',
-          //   builder: (context, state) => const CourseQuizPage(),
-          // ),
+          GoRoute(
+            path: '/course/search',
+            builder: (context, state) => const CourseSearchScreen(),
+          ),
+          GoRoute(
+            path: '/course/:id/quiz',
+            redirect: (context, state) {
+              final id = state.pathParameters['id'];
+              if (id == null || Int64.tryParseInt(id) == null) {
+                return '/home';
+              }
+              return null;
+            },
+            builder: (context, state) {
+              final idString = state.pathParameters['id'];
+              final id = Int64.parseInt(idString!);
+              return CourseQuizScreen(courseId: id);
+            },
+          ),
           // GoRoute(
           //   path: '/profile',
           //   builder: (context, state) => const ProfilePage(),
