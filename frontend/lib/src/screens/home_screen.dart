@@ -202,7 +202,6 @@ class _RecommendationCarousel extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     // Adjust number of columns based on screen width.
     final crossAxisCount = (screenWidth / 250).floor().clamp(2, 6);
-    final theme = Theme.of(context).colorScheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

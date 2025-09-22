@@ -154,11 +154,13 @@ class _CourseQuizScreenState extends ConsumerState<CourseQuizScreen> {
                 onPressed: () async {
                   final studentId = await _getStudentIdInt64();
                   if (studentId == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Error: Could not verify student.'),
-                      ),
-                    );
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Error: Could not verify student.'),
+                        ),
+                      );
+                    }
                     return;
                   }
 
@@ -223,14 +225,14 @@ class _QuestionCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              color: theme.colorScheme.onSurface,
+              color: theme.colorScheme.surface,
               borderRadius: BorderRadius.circular(12.0),
             ),
             child: Text(
               question.question,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: theme.colorScheme.onSurfaceVariant,
+                color: theme.colorScheme.onSurface,
               ),
             ),
           ),
