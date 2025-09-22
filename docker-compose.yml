@@ -74,7 +74,7 @@ services:
             context: ./frontend
         container_name: course_recommender_frontend
         volumes:
-            - ./frontend/build/web:app/build/web:rw
+            - ./frontend/build/web:/app/build/web:rw
 
     nginx:
         build:
