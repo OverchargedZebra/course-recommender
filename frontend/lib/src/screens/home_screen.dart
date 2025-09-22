@@ -215,7 +215,7 @@ class _RecommendationCarousel extends StatelessWidget {
             crossAxisCount: crossAxisCount,
             crossAxisSpacing: 16.0,
             mainAxisSpacing: 16.0,
-            childAspectRatio: 2.5, // Adjust aspect ratio for card shape
+            childAspectRatio: 2, // Adjust aspect ratio for card shape
           ),
           itemCount: courses.length,
           itemBuilder: (context, index) {
@@ -261,6 +261,7 @@ class _DegreeTypeList extends ConsumerWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     // Adjust number of columns based on screen width.
     final crossAxisCount = (screenWidth / 250).floor().clamp(2, 6);
+    final theme = Theme.of(context);
 
     return degreesAsync.when(
       loading: () => const Center(child: CircularProgressIndicator.adaptive()),
@@ -277,7 +278,7 @@ class _DegreeTypeList extends ConsumerWidget {
             crossAxisCount: crossAxisCount,
             crossAxisSpacing: 16.0,
             mainAxisSpacing: 16.0,
-            childAspectRatio: 2.5, // Adjust aspect ratio for card shape
+            childAspectRatio: 2, // Adjust aspect ratio for card shape
           ),
           itemCount: degrees.length,
           itemBuilder: (context, index) {
@@ -287,7 +288,7 @@ class _DegreeTypeList extends ConsumerWidget {
               borderRadius: BorderRadius.circular(12.0),
               child: Card(
                 elevation: 0,
-                color: Colors.grey.shade200,
+                color: theme.colorScheme.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
                 ),

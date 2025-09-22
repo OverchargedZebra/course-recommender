@@ -15,7 +15,7 @@ class CourseBox extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return AspectRatio(
-      aspectRatio: 1 / 1,
+      aspectRatio: 2 / 1,
       child: Card(
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -36,11 +36,11 @@ class CourseBox extends StatelessWidget {
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
-                  maxLines: 3,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
 
-                const Spacer(),
+                const Divider(),
 
                 Text(
                   "Difficulty: ${course.difficulty}",

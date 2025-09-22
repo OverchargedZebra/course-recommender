@@ -51,7 +51,7 @@ class DegreeCourseScreen extends ConsumerWidget {
                   crossAxisCount: crossAxisCount,
                   crossAxisSpacing: 16.0,
                   mainAxisSpacing: 16.0,
-                  childAspectRatio: 2.5,
+                  childAspectRatio: 2,
                 ),
                 itemCount: courses.length,
                 itemBuilder: (context, index) {

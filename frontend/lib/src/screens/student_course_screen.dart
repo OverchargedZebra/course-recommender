@@ -14,12 +14,25 @@ final studentCourseProvider = FutureProvider.family<List<Course>, Int64>((
   return apiService.getCoursesByStudentId(id);
 });
 
-class StudentCourseScreen extends ConsumerWidget {
+class StudentCourseScreen extends ConsumerStatefulWidget {
   const StudentCourseScreen({super.key, required this.id});
   final Int64 id;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<StudentCourseScreen> createState() =>
+      _StudentCourseScreenState();
+}
+
+class _StudentCourseScreenState extends ConsumerState<StudentCourseScreen> {
+  @override
+  void initState() {
+    super.initState();
+    ref.invalidate(studentCourseProvider(widget.id));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final id = widget.id;
     final coursesAsync = ref.watch(studentCourseProvider(id));
     final screenWidth = MediaQuery.of(context).size.width;
     final crossAxisCount = (screenWidth / 250).floor().clamp(2, 6);
@@ -50,7 +63,7 @@ class StudentCourseScreen extends ConsumerWidget {
                   crossAxisCount: crossAxisCount,
                   crossAxisSpacing: 16.0,
                   mainAxisSpacing: 16.0,
-                  childAspectRatio: 2.5,
+                  childAspectRatio: 2,
                 ),
                 itemCount: courses.length,
                 itemBuilder: (context, index) {
