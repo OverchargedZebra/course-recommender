@@ -69,6 +69,13 @@ services:
             - course-recommender-network
         restart: unless-stopped
 
+    frontend:
+        build:
+            context: ./frontend
+        container_name: course_recommender_frontend
+        volumes:
+            - ./frontend/build/web:app/build/web:rw
+
     nginx:
         build:
             context: ./nginx
@@ -76,6 +83,7 @@ services:
         depends_on:
             - envoy
             - backend
+            - frontend
         expose:
             - "${NGINX_HTTP_PORT}"
             - "${NGINX_HTTPS_PORT}"
