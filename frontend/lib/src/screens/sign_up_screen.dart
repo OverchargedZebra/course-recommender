@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/main.dart';
@@ -114,7 +115,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       isLoading: _isLoading,
                       errorMessage: _errorMessage,
                     ),
-                    _launchUrl(),
+                    _GithubUrl(),
                   ],
                 ),
               ),
@@ -123,12 +124,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             return Row(
               children: [
                 Expanded(
-                  child: Center(
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 400),
-                      child: Column(
-                        children: [
-                          LoginForm(
+                  child: Column(
+                    children: [
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 400),
+                          child: LoginForm(
                             formKey: _formKey,
                             usernameController: _usernameController,
                             passwordController: _passwordController,
@@ -136,10 +137,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             isLoading: _isLoading,
                             errorMessage: _errorMessage,
                           ),
-                          _launchUrl(),
-                        ],
+                        ),
                       ),
-                    ),
+                      _GithubUrl(),
+                    ],
                   ),
                 ),
                 const Expanded(flex: 2, child: BrandLogo()),
@@ -152,11 +153,41 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 }
 
-Widget _launchUrl() {
-  return InkWell(
-    onTap: () => launchUrl(
-      Uri.parse("https://github.com/OverchargedZebra/course-recommender"),
+final _projectGithubUrl = Uri.parse(
+  "https://github.com/OverchargedZebra/course-recommender",
+);
+
+Future<void> _launchUrl() async {
+  if (!await launchUrl(_projectGithubUrl)) {
+    throw Exception('Could not launch $_projectGithubUrl');
+  }
+}
+
+Widget _GithubUrl() {
+  return RichText(
+    text: TextSpan(
+      children: [
+        TextSpan(
+          text: 'You can view this project on the following github page: ',
+          style: const TextStyle(color: Colors.black, fontSize: 18),
+        ),
+        TextSpan(
+          text: 'Project link',
+          style: const TextStyle(
+            color: Colors.blue,
+            fontSize: 18,
+            decoration: TextDecoration.underline,
+          ),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () {
+              _launchUrl();
+            },
+        ),
+        const TextSpan(
+          text: '.',
+          style: TextStyle(color: Colors.black, fontSize: 18),
+        ),
+      ],
     ),
-    child: Text("project github link"),
   );
 }
