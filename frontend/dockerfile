@@ -6,6 +6,10 @@ COPY ./pubspec.lock ./pubspec.yaml /app/
 
 RUN flutter pub get
 
+RUN flutter clean
+
+RUN flutter pub get
+
 COPY . .
 
 ENTRYPOINT ["flutter", "build", "web", "--wasm", "--release"]
