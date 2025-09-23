@@ -88,7 +88,7 @@ services:
         depends_on:
             - envoy
             - backend
-            - frontend
+            # - frontend
         expose:
             - "${NGINX_HTTP_PORT}"
             - "${NGINX_HTTPS_PORT}"
