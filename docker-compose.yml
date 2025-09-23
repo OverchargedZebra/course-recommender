@@ -116,7 +116,7 @@ services:
         environment:
             - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
         volumes:
-            - ./nginx/ssl:/etc/ssl:ro
+            - ../nginx/ssl:/etc/ssl:ro
         networks:
             - course-recommender-network
         restart: unless-stopped
