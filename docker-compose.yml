@@ -1,4 +1,5 @@
 services:
+    # database running postgres/pgvector and paradedb search
     database:
         build:
             context: ./database
@@ -27,6 +28,7 @@ services:
             timeout: 5s
             retries: 5
 
+    # backend running go grpc server and recommendation engine
     backend:
         build:
             context: ./backend
@@ -48,6 +50,7 @@ services:
             - course-recommender-network
         restart: unless-stopped
 
+    # Envoy used to translate grpc to grpc web and vice versa
     envoy:
         build:
             context: ./envoy
@@ -69,6 +72,7 @@ services:
             - course-recommender-network
         restart: unless-stopped
 
+    # flutter used to build the frontend on the web
     frontend:
         build:
             context: ./frontend
@@ -76,6 +80,7 @@ services:
         volumes:
             - ../frontend/build/web:/app/build/web:rw
 
+    # nginx used for reverse proxying
     nginx:
         build:
             context: ./nginx
@@ -102,6 +107,7 @@ services:
             - course-recommender-network
         restart: unless-stopped
 
+    # cloudflare for tunneling for proxy reasons
     cloudflared:
         image: cloudflare/cloudflared:latest
         depends_on:
@@ -115,9 +121,11 @@ services:
             - course-recommender-network
         restart: unless-stopped
 
+# volume storage for postgresql
 volumes:
     CRD:
 
+# Have all these network be on the same network
 networks:
     course-recommender-network:
         driver: bridge

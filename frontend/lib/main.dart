@@ -95,6 +95,7 @@ class MyApp extends ConsumerWidget {
   }
 }
 
+// router that handles all the navigation of the app
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
 
