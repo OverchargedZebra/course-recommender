@@ -7,6 +7,7 @@ import 'package:frontend/src/service/api_service.dart';
 import 'package:frontend/src/service/authentication_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // 1. the responsive the login page
 class LoginPage extends ConsumerStatefulWidget {
@@ -95,6 +96,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomSheet: Center(
+        child: ElevatedButton(
+          onPressed: _launchUrl,
+          child: Text("project github link"),
+        ),
+      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 800) {
@@ -142,5 +149,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         },
       ),
     );
+  }
+}
+
+Future<void> _launchUrl() async {
+  if (!await launchUrl(
+    Uri.dataFromString(
+      "https://github.com/OverchargedZebra/course-recommender",
+    ),
+  )) {
+    throw Exception("Could not launch github page");
   }
 }
