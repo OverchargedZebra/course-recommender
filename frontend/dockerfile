@@ -2,8 +2,6 @@ FROM ghcr.io/cirruslabs/flutter:latest AS build
 
 WORKDIR /app
 
-RUN flutter clean
-
 COPY ./pubspec.lock ./pubspec.yaml /app/
 
 RUN flutter pub get
