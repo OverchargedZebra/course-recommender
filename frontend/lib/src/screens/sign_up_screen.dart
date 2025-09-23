@@ -143,7 +143,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const SizedBox(height: 40),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: _GithubUrl(),
