@@ -73,12 +73,12 @@ services:
         restart: unless-stopped
 
     # flutter used to build the frontend on the web
-    frontend:
-        build:
-            context: ./frontend
-        container_name: course_recommender_frontend
-        volumes:
-            - ../frontend/build/web:/app/build/web:rw
+    # frontend:
+    #     build:
+    #         context: ./frontend
+    #     container_name: course_recommender_frontend
+    #     volumes:
+    #         - ../frontend/build/web:/app/build/web:rw
 
     # nginx used for reverse proxying
     nginx:
