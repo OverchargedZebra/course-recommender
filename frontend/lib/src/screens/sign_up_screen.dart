@@ -96,12 +96,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: Center(
-        child: ElevatedButton(
-          onPressed: _launchUrl,
-          child: Text("project github link"),
-        ),
-      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 800) {
@@ -120,6 +114,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       isLoading: _isLoading,
                       errorMessage: _errorMessage,
                     ),
+                    _launchUrl(),
                   ],
                 ),
               ),
@@ -131,13 +126,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   child: Center(
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 400),
-                      child: LoginForm(
-                        formKey: _formKey,
-                        usernameController: _usernameController,
-                        passwordController: _passwordController,
-                        onLogin: _login,
-                        isLoading: _isLoading,
-                        errorMessage: _errorMessage,
+                      child: Column(
+                        children: [
+                          LoginForm(
+                            formKey: _formKey,
+                            usernameController: _usernameController,
+                            passwordController: _passwordController,
+                            onLogin: _login,
+                            isLoading: _isLoading,
+                            errorMessage: _errorMessage,
+                          ),
+                          _launchUrl(),
+                        ],
                       ),
                     ),
                   ),
@@ -152,12 +152,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 }
 
-Future<void> _launchUrl() async {
-  if (!await launchUrl(
-    Uri.dataFromString(
-      "https://github.com/OverchargedZebra/course-recommender",
+Widget _launchUrl() {
+  return InkWell(
+    onTap: () => launchUrl(
+      Uri.parse("https://github.com/OverchargedZebra/course-recommender"),
     ),
-  )) {
-    throw Exception("Could not launch github page");
-  }
+    child: Text("project github link"),
+  );
 }
